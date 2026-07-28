@@ -1,0 +1,8 @@
+sample_idx: 203
+mask_sha256: 5302034f8a698e885fab74638cee0fabdd98bd1f50a11f42b522efedafe8304f
+raw_class_0_pixels: 7158
+raw_class_3_pixels: 490506
+dominant_class: 3
+dominant_fraction: 0.9856
+manual_assessment: visually sand-dominated dune scene
+audit_status: confirmed_semantic_contradiction

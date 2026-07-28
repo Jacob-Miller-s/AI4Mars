@@ -406,15 +406,46 @@ def _assert_zero_overlap(split_rows: Dict[str, List[Dict[str, str]]]) -> None:
                 raise RuntimeError(f"Sequence overlap detected between {left} and {right}.")
 
 
+def _row_matches_scope(
+        row: Dict[str, str],
+        mission_filter: Optional[str] = None,
+        camera_filter: Optional[str] = None,
+        ) -> bool:
+        if (
+            mission_filter is not None
+            and row.get("mission") != mission_filter
+        ):
+            return False
+        if (
+            camera_filter is not None
+            and row.get("camera") != camera_filter
+        ):
+            return False
+
+        return True
+
+
 def build_split_manifests(
     dataset_manifest_path: Path,
     output_dir: Path,
     train_ratio: float = 0.8,
     seed: int = 42,
     label_scheme: str = "NAV",
+    mission_filter: Optional[str] = None,
+    camera_filter: Optional[str] = None,
 ) -> Dict[str, Path]:
     rows = read_manifest_rows(dataset_manifest_path)
-    included_rows = [row for row in rows if not (row.get("exclusion_reason") or "").strip()]
+
+
+    included_rows = [
+        row
+        for row in rows
+        if not (row.get("exclusion_reason") or "").strip()
+        and _row_matches_scope(row,
+                               mission_filter=mission_filter,
+                               camera_filter=camera_filter,
+            )
+        ]
 
     expert_rows = [
         row

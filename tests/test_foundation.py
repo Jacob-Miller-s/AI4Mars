@@ -6,8 +6,43 @@ from pathlib import Path
 from PIL import Image
 
 from src.dataset import load_pairs_from_manifest
-from src.foundation import build_split_manifests, write_dataset_manifest, write_run_record
+from src.foundation import build_split_manifests, write_dataset_manifest, write_run_record, _row_matches_scope
 
+
+class DatasetScopeFilterTests(unittest.TestCase):
+    def setUp(self):
+        self.msl_navcam_row = {
+            "mission": "msl",
+            "camera": "ncam",
+            "Label_scheme": "NAV",
+        }
+
+        self.msl_navcam_row = {
+            "mission": "msl",
+            "camera": "ncam",
+            "Label_scheme": "NAV",
+        }
+
+        self.mer_navcam_row = {
+            "mission": "mer",
+            "camera": "navcam",
+            "Label_scheme": "NAV",
+        }
+
+        def test_matching_msl_navcam_row_in_scope(self):
+            result = _row_matches_scope(self.msl_navcam_row, mission_filter="msl", camera_filter="ncam")
+
+            self.assertTrue(result)
+
+        def test_non_matching_mission_row_out_of_scope(self):
+            result = _row_matches_scope(self.mer_navcam_row, mission_filter="msl", camera_filter="ncam")
+
+            self.assertFalse(result)
+
+        def test_none_filters(self):
+            result = _row_matches_scope(self.msl_navcam_row, mission_filter=None, camera_filter=None)
+
+            self.assertTrue(result)
 
 class FoundationTests(unittest.TestCase):
     def setUp(self) -> None:
