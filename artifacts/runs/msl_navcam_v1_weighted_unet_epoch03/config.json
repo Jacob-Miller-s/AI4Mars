@@ -1,0 +1,22 @@
+{
+  "batch_size": 4,
+  "epochs": 3,
+  "learning_rate": 0.001,
+  "loss_name": "CrossEntropyLoss",
+  "loss_weights": [
+    0.08865173906087875,
+    0.06842251121997833,
+    0.28028181195259094,
+    3.5626440048217773
+  ],
+  "model_name": "Unet/resnet34",
+  "preprocessing": {
+    "image_size": [
+      256,
+      256
+    ],
+    "label_scheme": "NAV",
+    "require_original_shape_match": true
+  },
+  "seed": 42
+}

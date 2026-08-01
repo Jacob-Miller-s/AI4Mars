@@ -1,0 +1,7 @@
+{
+  "test_min1_100agree": "c642548ff6fd161b59795c0ffb99431c71bd44e325dbd03dd3dfdcb4f8ea3c17",
+  "test_min2_100agree": "71f334b6bff939df0d92580eadccd3f69884c43c1173464f414f73f6abf6f5f8",
+  "test_min3_100agree": "0d15979cc8feb104f3e624921fe3f539432c7ed2458e9fdb190908aadaf66e22",
+  "train": "d2935b7cade46c323cde19c9ba7d84cc120e8bfb43c185bb5c7ea7b3d1c0a3d5",
+  "val": "296c098ee70c62b409d5808f4db012bc5abe5ca5a16098e3f52ea3268255668f"
+}
