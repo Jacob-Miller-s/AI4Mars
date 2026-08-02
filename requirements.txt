@@ -14,3 +14,8 @@ segmentation-models-pytorch
 openai-agents
 python-dotenv
 httpx[socks]
+fastapi
+uvicorn[standard]
+pydantic
+psutil
+nvidia-ml-py

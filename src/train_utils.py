@@ -16,12 +16,16 @@ Loss function:
     pixels labelled 255 (unlabeled / out-of-scope regions in AI4Mars masks).
 """
 
+from datetime import datetime, timezone
 from pathlib import Path
+from time import perf_counter
 from typing import Any, Dict, Optional
 
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
+
+from src.metrics import segmentation_confusion_matrix, segmentation_metrics_from_confusion_matrix
 
 # ---------------------------------------------------------------------------
 # Device helper
@@ -169,6 +173,19 @@ def _validate_checkpoint_metadata(
         print(f"WARNING: {message}")
 
 
+def _cuda_allocator_metrics(device: torch.device) -> Dict[str, int]:
+    """Return allocator metrics only when the training process already uses CUDA."""
+    if device.type != "cuda" or not torch.cuda.is_initialized():
+        return {}
+    try:
+        return {
+            "gpu_memory_allocated_bytes": int(torch.cuda.memory_allocated(device)),
+            "gpu_memory_reserved_bytes": int(torch.cuda.memory_reserved(device)),
+        }
+    except RuntimeError:
+        return {}
+
+
 # ---------------------------------------------------------------------------
 # Training loop
 # ---------------------------------------------------------------------------
@@ -179,6 +196,10 @@ def train_one_epoch(
     optimizer: torch.optim.Optimizer,
     loss_fn: nn.Module,
     device: torch.device,
+    *,
+    epoch: Optional[int] = None,
+    run_logger: Optional[Any] = None,
+    batch_log_interval: int = 10,
 ) -> float:
     """Run one full training epoch.
 
@@ -201,8 +222,19 @@ def train_one_epoch(
     float
         Mean training loss over all batches in this epoch.
     """
+    if batch_log_interval < 1:
+        raise ValueError("batch_log_interval must be at least 1.")
+    if run_logger is not None and epoch is None:
+        raise ValueError("epoch is required when run_logger is provided.")
+
     model.train()
     total_loss = 0.0
+    total_batches = len(dataloader)
+    if total_batches == 0:
+        raise ValueError("Training dataloader contains no batches.")
+    rolling_loss: Optional[float] = None
+    samples_seen = 0
+    started_at = perf_counter()
 
     for batch_idx, (images, masks) in enumerate(dataloader):
         images = images.to(device)  # [B, 3, H, W]
@@ -219,12 +251,37 @@ def train_one_epoch(
         loss.backward()
         optimizer.step()
 
-        total_loss += loss.item()
+        loss_value = loss.item()
+        total_loss += loss_value
+        rolling_loss = loss_value if rolling_loss is None else 0.9 * rolling_loss + 0.1 * loss_value
+        samples_seen += int(images.shape[0])
 
-        if (batch_idx + 1) % 10 == 0:
-            print(f"  Batch {batch_idx + 1}/{len(dataloader)}  loss={loss.item():.4f}")
+        completed_batches = batch_idx + 1
+        elapsed_seconds = perf_counter() - started_at
+        throughput = samples_seen / elapsed_seconds if elapsed_seconds > 0 else None
+        eta_seconds = (
+            (elapsed_seconds / completed_batches) * (total_batches - completed_batches)
+            if completed_batches
+            else None
+        )
+        if run_logger is not None and (
+            completed_batches % batch_log_interval == 0 or completed_batches == total_batches
+        ):
+            run_logger.log_batch(
+                epoch=epoch,
+                batch=completed_batches,
+                total_batches=total_batches,
+                loss=loss_value,
+                smoothed_loss=rolling_loss,
+                throughput_samples_per_second=throughput,
+                eta_seconds=eta_seconds,
+                **_cuda_allocator_metrics(device),
+            )
 
-    return total_loss / len(dataloader)
+        if completed_batches % 10 == 0:
+            print(f"  Batch {completed_batches}/{total_batches}  loss={loss_value:.4f}")
+
+    return total_loss / total_batches
 
 
 # ---------------------------------------------------------------------------
@@ -239,6 +296,13 @@ def evaluate(
     num_classes: int = 4,
     ignore_index: int = 255,
     return_per_class_iou: bool = False,
+    return_detailed_metrics: bool = False,
+    *,
+    epoch: Optional[int] = None,
+    train_loss: Optional[float] = None,
+    learning_rate: Optional[float] = None,
+    epoch_duration_seconds: Optional[float] = None,
+    run_logger: Optional[Any] = None,
 ) -> dict:
     """Evaluate the model on a validation or test DataLoader.
 
@@ -267,6 +331,9 @@ def evaluate(
         ``"mean_iou"`` (float), ``"finite_loss_batches"`` (int), and
         ``"skipped_all_ignore_loss_batches"`` (int).
     """
+    if run_logger is not None and epoch is None:
+        raise ValueError("epoch is required when run_logger is provided.")
+
     model.eval()
     total_loss = 0.0
     finite_loss_batches = 0
@@ -275,6 +342,7 @@ def evaluate(
     total_valid = 0
     class_intersections = torch.zeros(num_classes, dtype=torch.long)
     class_unions = torch.zeros(num_classes, dtype=torch.long)
+    confusion_matrix = torch.zeros((num_classes, num_classes), dtype=torch.long)
 
     with torch.no_grad():
         for images, masks in dataloader:
@@ -296,6 +364,13 @@ def evaluate(
 
             # Convert logits to predicted class IDs
             preds = logits.argmax(dim=1)        # [B, H, W]
+
+            confusion_matrix += segmentation_confusion_matrix(
+                preds.detach().cpu(),
+                masks.detach().cpu(),
+                num_classes=num_classes,
+                ignore_index=ignore_index,
+            )
 
             total_correct += ((preds == masks) & valid).sum().item()
             total_valid += valid.sum().item()
@@ -333,5 +408,34 @@ def evaluate(
 
     if return_per_class_iou:
         results["per_class_iou"] = per_class_iou
+
+    detailed_metrics = segmentation_metrics_from_confusion_matrix(confusion_matrix)
+    if return_detailed_metrics:
+        results.update(detailed_metrics)
+
+    if run_logger is not None:
+        from src.research_console.schema import ClassMetrics, EpochMetrics
+
+        class_names = ("soil", "bedrock", "sand", "big_rock")
+        per_class = {
+            class_names[index] if index < len(class_names) else f"class_{index}": ClassMetrics(
+                **{key: value for key, value in metrics.items() if key != "class_index"}
+            )
+            for index, metrics in enumerate(detailed_metrics["per_class"])
+        }
+        run_logger.log_epoch(
+            EpochMetrics(
+                timestamp=datetime.now(timezone.utc),
+                epoch=epoch,
+                train_loss=train_loss,
+                val_loss=results["val_loss"],
+                pixel_accuracy=results["pixel_acc"],
+                mean_iou=results["mean_iou"],
+                per_class=per_class,
+                learning_rate=learning_rate,
+                epoch_duration_seconds=epoch_duration_seconds,
+                confusion_matrix=detailed_metrics["confusion_matrix"],
+            )
+        )
 
     return results

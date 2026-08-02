@@ -96,6 +96,74 @@ def segmentation_confusion_matrix(
     ).reshape(num_classes, num_classes)
 
 
+def segmentation_metrics_from_confusion_matrix(
+    confusion_matrix: torch.Tensor,
+) -> dict:
+    """Derive globally aggregated segmentation metrics from a count matrix.
+
+    Rows are ground-truth classes and columns are predicted classes.  This
+    function operates on accumulated counts, so it does not average per-batch
+    or per-image scores.
+    """
+    if confusion_matrix.ndim != 2 or confusion_matrix.shape[0] != confusion_matrix.shape[1]:
+        raise ValueError("confusion_matrix must be a non-empty square matrix.")
+    if confusion_matrix.shape[0] == 0:
+        raise ValueError("confusion_matrix must be a non-empty square matrix.")
+    if (confusion_matrix < 0).any():
+        raise ValueError("confusion_matrix cannot contain negative counts.")
+
+    counts = confusion_matrix.to(dtype=torch.long, device="cpu")
+    total = int(counts.sum().item())
+    true_positives = counts.diag()
+    supports = counts.sum(dim=1)
+    predicted = counts.sum(dim=0)
+    per_class = []
+    valid_ious = []
+
+    for class_index in range(counts.shape[0]):
+        true_positive = int(true_positives[class_index].item())
+        support = int(supports[class_index].item())
+        predicted_count = int(predicted[class_index].item())
+        false_negative = support - true_positive
+        false_positive = predicted_count - true_positive
+        union = true_positive + false_positive + false_negative
+        iou = true_positive / union if union else None
+        precision = true_positive / predicted_count if predicted_count else None
+        recall = true_positive / support if support else None
+        dice_denominator = 2 * true_positive + false_positive + false_negative
+        dice_f1 = 2 * true_positive / dice_denominator if dice_denominator else None
+        if iou is not None:
+            valid_ious.append(iou)
+        per_class.append(
+            {
+                "class_index": class_index,
+                "support": support,
+                "predicted": predicted_count,
+                "true_positive": true_positive,
+                "false_positive": false_positive,
+                "false_negative": false_negative,
+                "iou": iou,
+                "dice_f1": dice_f1,
+                "precision": precision,
+                "recall": recall,
+            }
+        )
+
+    normalized = torch.zeros_like(counts, dtype=torch.float64)
+    non_empty_rows = supports > 0
+    normalized[non_empty_rows] = (
+        counts[non_empty_rows].to(torch.float64)
+        / supports[non_empty_rows].unsqueeze(1).to(torch.float64)
+    )
+    return {
+        "pixel_accuracy": int(true_positives.sum().item()) / total if total else 0.0,
+        "mean_iou": sum(valid_ious) / len(valid_ious) if valid_ious else 0.0,
+        "per_class": per_class,
+        "confusion_matrix": counts.tolist(),
+        "normalized_confusion_matrix": normalized.tolist(),
+    }
+
+
 def intersection_over_union(
     preds: torch.Tensor,
     targets: torch.Tensor,

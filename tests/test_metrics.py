@@ -2,7 +2,7 @@ import unittest
 
 import torch
 
-from src.metrics import segmentation_confusion_matrix
+from src.metrics import segmentation_confusion_matrix, segmentation_metrics_from_confusion_matrix
 
 
 class SegmentationConfusionMatrixTests(unittest.TestCase):
@@ -36,6 +36,22 @@ class SegmentationConfusionMatrixTests(unittest.TestCase):
 
         with self.assertRaisesRegex(ValueError, "must be in"):
             segmentation_confusion_matrix(predictions, targets, num_classes=4)
+
+    def test_derives_global_metrics_from_raw_counts(self) -> None:
+        confusion_matrix = torch.tensor(
+            [
+                [8, 2],
+                [1, 9],
+            ]
+        )
+
+        metrics = segmentation_metrics_from_confusion_matrix(confusion_matrix)
+
+        self.assertEqual(metrics["confusion_matrix"], [[8, 2], [1, 9]])
+        self.assertAlmostEqual(metrics["pixel_accuracy"], 17 / 20)
+        self.assertAlmostEqual(metrics["per_class"][0]["iou"], 8 / 11)
+        self.assertAlmostEqual(metrics["per_class"][1]["precision"], 9 / 11)
+        self.assertEqual(metrics["normalized_confusion_matrix"], [[0.8, 0.2], [0.1, 0.9]])
 
 
 if __name__ == "__main__":
