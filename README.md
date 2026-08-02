@@ -149,3 +149,61 @@ python -m research_agent --ask "What is the highest-value experiment to run next
 ```
 
 Conversation history is stored locally under `.research_agent/` and is not committed.
+
+---
+
+## AI4Mars Research Console
+
+The local Research Console reads durable run records, manifest evidence, and
+safe artifact references. It is observational: it does not launch, stop, or
+modify training jobs. Training launch control remains intentionally deferred.
+
+Build the frontend once after installing the Python requirements:
+
+```powershell
+cd web
+npm install
+npm run build
+cd ..
+```
+
+Start the console on loopback only:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.research_console --host 127.0.0.1 --port 8000
+```
+
+On macOS or Linux, use:
+
+```bash
+python -m src.research_console --host 127.0.0.1 --port 8000
+```
+
+Open `http://127.0.0.1:8000`. The console deliberately keeps the expert test
+set locked during iterative training and excludes protocol-invalid, legacy,
+and sealed-test records from its default best-run ranking.
+
+Create a clearly labeled CPU-only smoke record for local UI verification:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.research_console.demo --runs-root outputs/runs --run-id synthetic-smoke
+```
+
+Synthetic runs carry `demo`, `synthetic`, and `non-benchmark` tags. Their
+metrics are not AI4Mars research results and must not be compared as a
+benchmark.
+
+Run the repository tests with the supported test runner:
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+cd web
+npm test
+npm run build
+```
+
+`pytest` is not a project dependency. See [docs/dashboard.md](docs/dashboard.md)
+for operation and instrumentation, [docs/run-schema.md](docs/run-schema.md)
+for the portable record contract, and
+[docs/adr/0001-research-console-architecture.md](docs/adr/0001-research-console-architecture.md)
+for the architecture decision.

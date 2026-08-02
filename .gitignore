@@ -242,3 +242,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# AI4Mars Research Console local outputs
+outputs/runs/
+web/node_modules/
+web/dist/
+*.ckpt
+*.safetensors
+artifacts/runs/**/checkpoints/
