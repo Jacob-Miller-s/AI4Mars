@@ -32,6 +32,8 @@ Rows of confusion matrices are ground truth and columns are predictions. Their d
 
 Comparability is threatened by the unresolved expert-count discrepancy, unreported original hyperparameters, dataset archive/version differences, preprocessing-library behavior, hardware scale, and any difference in split construction. A local smoke run proves wiring only, never paper performance.
 
+The local smoke configuration caps every split at two samples. It is intentionally not paper-comparable and exists only to test paths, preprocessing, logging, checkpointing, and evaluation serialization on CPU.
+
 ## Remote Workflows
 
 For local VS Code plus Kaggle: edit and run CPU checks locally, push the approved branch, update the Kaggle notebook with the API or browser, version its `/kaggle/working` outputs, then import the resulting run directory into the local dashboard. For Remote-SSH: provision an SSH-accessible Linux GPU host, clone the repository, create the environment, configure dataset/output roots, open the host in VS Code Remote-SSH, and run the same command. A remote Jupyter server may be reached through a secure SSH tunnel; no provider credentials belong in this repository.

@@ -82,6 +82,8 @@ def load_and_validate_config(path: Path, args: argparse.Namespace | None = None)
     for name in ("batch_size", "gradient_accumulation_steps", "epochs", "checkpoint_interval", "validation_interval", "batch_log_interval"):
         if int(training.get(name, 0)) < 1:
             raise ValueError(f"training.{name} must be at least 1.")
+    if training.get("max_samples_per_split") is not None and int(training["max_samples_per_split"]) < 1:
+        raise ValueError("training.max_samples_per_split must be at least 1 when configured.")
     if float(training.get("learning_rate", 0)) <= 0 or float(training.get("weight_decay", 0)) < 0:
         raise ValueError("learning_rate must be positive and weight_decay cannot be negative.")
     config["paper_model_spec"] = spec
@@ -131,6 +133,9 @@ def main() -> None:
         print(json.dumps(audit, indent=2, sort_keys=True)); return
     _seed(int(training["seed"]))
     pairs = {name: load_pairs_from_manifest(path, dataset_root=paths.dataset_root, required_label_scheme="NAV", require_shape_match=True) for name, path in manifests.items()}
+    if training.get("max_samples_per_split") is not None:
+        sample_limit = int(training["max_samples_per_split"])
+        pairs = {name: values[:sample_limit] for name, values in pairs.items()}
     options = {"image_size": spec.input_size, "require_original_shape_match": True, "normalization_mean": spec.normalization_mean, "normalization_std": spec.normalization_std}
     datasets = {name: AI4MarsDataset(value, **options) for name, value in pairs.items()}
     loader_options = {"batch_size": int(training["batch_size"]), "num_workers": int(training["num_workers"]), "pin_memory": device.type == "cuda", "persistent_workers": int(training["num_workers"]) > 0}
