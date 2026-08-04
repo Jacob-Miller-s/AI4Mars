@@ -37,6 +37,21 @@ def require_writable_path(path: Path) -> Path:
     return resolved
 
 
+def reject_local_kaggle_mount(path: Path | str, *, kaggle: bool) -> None:
+    """Fail fast when a Kaggle-only path is passed to native local Python.
+
+    Git Bash rewrites ``/kaggle/...`` to ``C:/Program Files/Git/kaggle/...``
+    before invoking Python on Windows. That path must never be created locally.
+    """
+    normalized = str(path).replace("\\", "/").lower()
+    kaggle_mount = normalized.startswith("/kaggle/") or "/program files/git/kaggle/" in normalized
+    if kaggle_mount and not kaggle:
+        raise ValueError(
+            "Kaggle paths are valid only inside a Kaggle runtime. Git Bash converted "
+            f"the supplied path to {path!s}. Run this command in Kaggle, not Windows."
+        )
+
+
 def locate_dataset_root(candidate_root: Path) -> Path:
     """Resolve an extracted AI4Mars root from a configured dataset mount."""
     candidate_root = Path(candidate_root).expanduser()
@@ -125,6 +140,8 @@ def resolve_runtime_paths(
     resolved_cache_root = require_writable_path(
         Path(cache_root or environment.get("AI4MARS_CACHE_ROOT") or default_cache_root)
     )
+    for path in (resolved_output_root, resolved_event_root, resolved_checkpoint_root, resolved_cache_root):
+        reject_local_kaggle_mount(path, kaggle=kaggle)
     resolved_run_id = run_id or environment.get("AI4MARS_RUN_ID") or "ai4mars-baseline"
     if not RUN_ID_PATTERN.fullmatch(resolved_run_id):
         raise ValueError(f"Invalid run id: {resolved_run_id!r}")

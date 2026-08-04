@@ -66,6 +66,15 @@ class RuntimePathTests(unittest.TestCase):
             )
         self.assertTrue(is_kaggle_input_path(Path("/kaggle/input/example")))
 
+    def test_rejects_git_bash_converted_kaggle_output_outside_kaggle(self) -> None:
+        with self.assertRaisesRegex(ValueError, "Kaggle paths are valid only"):
+            resolve_runtime_paths(
+                project_root=self.root,
+                dataset_root=self.dataset_root,
+                output_root=Path("C:/Program Files/Git/kaggle/working/ai4mars"),
+                environ={},
+            )
+
     def test_explicit_paths_override_environment_and_kaggle_defaults(self) -> None:
         paths = resolve_runtime_paths(
             project_root=self.root,
