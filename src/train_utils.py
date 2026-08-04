@@ -17,9 +17,15 @@ Loss function:
 """
 
 from datetime import datetime, timezone
+import os
 from pathlib import Path
 from time import perf_counter
 from typing import Any, Dict, Optional
+import tempfile
+import warnings
+
+import random
+import numpy as np
 
 import torch
 import torch.nn as nn
@@ -60,6 +66,11 @@ def save_checkpoint(
     epoch: int,
     path: Path,
     metadata: Optional[Dict[str, Any]] = None,
+    scheduler: Optional[Any] = None,
+    scaler: Optional[Any] = None,
+    global_step: int = 0,
+    best_validation_metric: Optional[float] = None,
+    include_rng_state: bool = True,
 ) -> None:
     """Save model and optimizer state to disk.
 
@@ -83,8 +94,21 @@ def save_checkpoint(
     }
     if metadata is not None:
         payload["metadata"] = metadata
+    payload["global_step"] = global_step
+    payload["best_validation_metric"] = best_validation_metric
+    if scheduler is not None:
+        payload["scheduler_state_dict"] = scheduler.state_dict()
+    if scaler is not None:
+        payload["scaler_state_dict"] = scaler.state_dict()
+    if include_rng_state:
+        payload["rng_state"] = capture_rng_state()
 
-    torch.save(payload, path)
+    with tempfile.NamedTemporaryFile(dir=path.parent, suffix=".tmp", delete=False) as stream:
+        temp_path = Path(stream.name)
+        torch.save(payload, stream)
+        stream.flush()
+        os.fsync(stream.fileno())
+    os.replace(temp_path, path)
     print(f"Checkpoint saved -> {path}")
 
 
@@ -118,7 +142,7 @@ def load_checkpoint(
     if not path.exists():
         raise FileNotFoundError(f"Checkpoint not found: {path}")
 
-    checkpoint = torch.load(path, map_location=device)
+    checkpoint = torch.load(path, map_location=device, weights_only=False)
     model.load_state_dict(checkpoint["model_state_dict"])
     optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
 
@@ -133,6 +157,83 @@ def load_checkpoint(
     epoch = checkpoint.get("epoch", 0)
     print(f"Checkpoint loaded from {path}  (epoch {epoch})")
     return epoch
+
+
+def capture_rng_state() -> Dict[str, Any]:
+    """Capture RNG state needed to resume a single-process training run."""
+    state: Dict[str, Any] = {
+        "python": random.getstate(),
+        "numpy": np.random.get_state(),
+        "torch": torch.get_rng_state(),
+    }
+    if torch.cuda.is_available() and torch.cuda.is_initialized():
+        state["cuda"] = torch.cuda.get_rng_state_all()
+    return state
+
+
+def restore_rng_state(state: Dict[str, Any]) -> None:
+    """Restore previously captured single-process RNG state."""
+    if not state:
+        return
+    if "python" in state:
+        random.setstate(state["python"])
+    if "numpy" in state:
+        np.random.set_state(state["numpy"])
+    if "torch" in state:
+        torch.set_rng_state(state["torch"])
+    if "cuda" in state and torch.cuda.is_available():
+        torch.cuda.set_rng_state_all(state["cuda"])
+
+
+def validate_resume_metadata(checkpoint_metadata: Dict[str, Any], expected_metadata: Dict[str, Any]) -> None:
+    """Reject changed experiment definitions while allowing a source SHA change."""
+    mismatches = []
+    for key, expected_value in expected_metadata.items():
+        actual_value = checkpoint_metadata.get(key)
+        if actual_value == expected_value:
+            continue
+        if key == "git_commit_sha":
+            warnings.warn(
+                f"Checkpoint source commit differs: expected={expected_value!r}, actual={actual_value!r}",
+                stacklevel=2,
+            )
+            continue
+        mismatches.append((key, expected_value, actual_value))
+    if mismatches:
+        details = "; ".join(f"{key}: expected={expected!r}, actual={actual!r}" for key, expected, actual in mismatches)
+        raise RuntimeError(f"Checkpoint is incompatible with this experiment: {details}")
+
+
+def load_training_checkpoint(
+    model: nn.Module,
+    optimizer: torch.optim.Optimizer,
+    path: Path,
+    device: torch.device,
+    *,
+    scheduler: Optional[Any] = None,
+    scaler: Optional[Any] = None,
+    expected_metadata: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
+    """Restore all resumable state and return completed-epoch metadata."""
+    checkpoint = torch.load(Path(path), map_location=device, weights_only=False)
+    if expected_metadata is not None:
+        metadata = checkpoint.get("metadata")
+        if metadata is None:
+            raise RuntimeError("Checkpoint metadata missing; refusing an unsafe resume.")
+        validate_resume_metadata(metadata, expected_metadata)
+    model.load_state_dict(checkpoint["model_state_dict"])
+    optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+    if scheduler is not None and checkpoint.get("scheduler_state_dict") is not None:
+        scheduler.load_state_dict(checkpoint["scheduler_state_dict"])
+    if scaler is not None and checkpoint.get("scaler_state_dict") is not None:
+        scaler.load_state_dict(checkpoint["scaler_state_dict"])
+    restore_rng_state(checkpoint.get("rng_state", {}))
+    return {
+        "epoch": int(checkpoint.get("epoch", 0)),
+        "global_step": int(checkpoint.get("global_step", 0)),
+        "best_validation_metric": checkpoint.get("best_validation_metric"),
+        "metadata": checkpoint.get("metadata", {}),
+    }
 
 
 def _validate_checkpoint_metadata(
@@ -200,6 +301,8 @@ def train_one_epoch(
     epoch: Optional[int] = None,
     run_logger: Optional[Any] = None,
     batch_log_interval: int = 10,
+    amp_enabled: bool = False,
+    scaler: Optional[Any] = None,
 ) -> float:
     """Run one full training epoch.
 
@@ -226,6 +329,10 @@ def train_one_epoch(
         raise ValueError("batch_log_interval must be at least 1.")
     if run_logger is not None and epoch is None:
         raise ValueError("epoch is required when run_logger is provided.")
+    if amp_enabled and device.type != "cuda":
+        raise ValueError("AMP is supported only for CUDA training.")
+    if amp_enabled and scaler is None:
+        raise ValueError("A CUDA GradScaler is required when AMP is enabled.")
 
     model.train()
     total_loss = 0.0
@@ -240,16 +347,19 @@ def train_one_epoch(
         images = images.to(device)  # [B, 3, H, W]
         masks = masks.to(device)    # [B, H, W]
 
-        # Forward pass
-        logits = model(images)      # [B, num_classes, H, W]
-
-        # Compute loss
-        loss = loss_fn(logits, masks)
-
-        # Backward pass and parameter update
+        with torch.amp.autocast(device_type="cuda", enabled=amp_enabled):
+            logits = model(images)
+            loss = loss_fn(logits, masks)
+        if not torch.isfinite(loss):
+            raise RuntimeError("Training loss is non-finite; stopping before an optimizer update.")
         optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+        if amp_enabled:
+            scaler.scale(loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
+        else:
+            loss.backward()
+            optimizer.step()
 
         loss_value = loss.item()
         total_loss += loss_value
