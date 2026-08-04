@@ -105,12 +105,23 @@ class AI4MarsDataset(Dataset):
         image_size: Tuple[int, int] = (256, 256),
         transform=None,
         require_original_shape_match: bool = False,
+        normalization_mean: Optional[Tuple[float, float, float]] = None,
+        normalization_std: Optional[Tuple[float, float, float]] = None,
     ):
         # Ensure all paths are proper Path objects so that we can call
         # .exists(), .stem, etc. safely later.
         self.pairs = [(Path(img), Path(mask)) for img, mask in pairs]
         self.image_size = image_size  # (width, height)
         self.transform = transform
+        if (normalization_mean is None) != (normalization_std is None):
+            raise ValueError("normalization_mean and normalization_std must be provided together.")
+        if normalization_mean is not None:
+            if len(normalization_mean) != 3 or len(normalization_std) != 3:
+                raise ValueError("Image normalization requires three channel means and standard deviations.")
+            if any(value <= 0 for value in normalization_std):
+                raise ValueError("Image normalization standard deviations must be positive.")
+        self.normalization_mean = normalization_mean
+        self.normalization_std = normalization_std
         if require_original_shape_match:
             mismatches = find_shape_mismatches(self.pairs)
             if mismatches:
@@ -142,7 +153,7 @@ class AI4MarsDataset(Dataset):
         # Resize
         # ------------------------------------------------------------------
         # Standard BILINEAR resampling (PIL default) is fine for color images.
-        image = image.resize(self.image_size)
+        image = image.resize(self.image_size, resample=Image.BILINEAR)
 
         # NEAREST-NEIGHBOUR is *required* for masks because the pixel values
         # are discrete class IDs (0, 1, 2, 3, 255).  Interpolating them would
@@ -170,6 +181,11 @@ class AI4MarsDataset(Dataset):
         # Conv2d layers.
         image = torch.from_numpy(image).permute(2, 0, 1)  # [3, H, W]
         mask = torch.from_numpy(mask).long()               # [H, W]
+
+        if self.normalization_mean is not None and self.normalization_std is not None:
+            mean = torch.tensor(self.normalization_mean, dtype=image.dtype).view(3, 1, 1)
+            std = torch.tensor(self.normalization_std, dtype=image.dtype).view(3, 1, 1)
+            image = (image - mean) / std
 
         # ------------------------------------------------------------------
         # Optional extra transforms

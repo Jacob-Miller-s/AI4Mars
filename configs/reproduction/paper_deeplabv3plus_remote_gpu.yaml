@@ -1,0 +1,37 @@
+experiment_name: paper_deeplabv3plus_msl_navcam_remote_gpu
+runtime:
+  run_id: paper-deeplabv3plus-remote-gpu
+  accelerator: cuda
+  output_root: outputs/paper_reproduction_remote
+data:
+  dataset_manifest: ai4mars_dataset_manifest.csv
+  train_manifest: splits/msl_navcam_v1/train_nav.csv
+  val_manifest: splits/msl_navcam_v1/val_nav.csv
+  expert_min1_manifest: splits/msl_navcam_v1/test_min1_100agree_nav.csv
+  expert_min2_manifest: splits/msl_navcam_v1/test_min2_100agree_nav.csv
+  expert_min3_manifest: splits/msl_navcam_v1/test_min3_100agree_nav.csv
+model:
+  architecture: DeepLabV3Plus
+  backbone: resnet101
+  pretrained_weights: imagenet
+  output_stride: 16
+  input_size: [513, 513]
+  num_classes: 4
+training:
+  seed: 42
+  batch_size: 1
+  gradient_accumulation_steps: 1
+  epochs: 40
+  optimizer: adamw
+  learning_rate: 0.0001
+  scheduler: cosine
+  weight_decay: 0.0001
+  class_weighting: paper_complement_composition
+  ignore_index: 255
+  num_workers: 4
+  mixed_precision: true
+  checkpoint_interval: 1
+  validation_interval: 1
+  early_stopping_patience: 8
+  batch_log_interval: 50
+logging: {}
