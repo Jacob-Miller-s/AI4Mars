@@ -26,7 +26,7 @@ Usage
     image, mask = dataset[0]  # image: [3, H, W] float32, mask: [H, W] int64
 """
 
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import Dict, List, Optional, Tuple
 
 import csv
@@ -411,6 +411,28 @@ def find_shape_mismatches(
     return mismatches
 
 
+def resolve_dataset_relative_path(dataset_root: Path, stored_path: str) -> Path:
+    """Resolve a canonical manifest path while preventing dataset-root escape."""
+    value = (stored_path or "").strip()
+    if not value:
+        raise ValueError("Manifest path cannot be empty.")
+
+    posix_path = PurePosixPath(value.replace("\\", "/"))
+    windows_path = PureWindowsPath(value)
+    if posix_path.is_absolute() or windows_path.is_absolute() or windows_path.drive:
+        raise ValueError(f"Manifest path must be dataset-relative, not absolute: {value!r}")
+    if any(part in {"", ".", ".."} for part in posix_path.parts):
+        raise ValueError(f"Manifest path cannot traverse outside the dataset root: {value!r}")
+
+    root = Path(dataset_root).resolve()
+    resolved = (root / Path(*posix_path.parts)).resolve()
+    try:
+        resolved.relative_to(root)
+    except ValueError as error:
+        raise ValueError(f"Manifest path escapes dataset root: {value!r}") from error
+    return resolved
+
+
 def load_pairs_from_manifest(
     manifest_path: Path,
     require_existing_files: bool = True,
@@ -479,11 +501,10 @@ def load_pairs_from_manifest(
         image_path = Path(image_text)
         mask_path = Path(mask_text)
         if dataset_root is not None:
-            dataset_root = Path(dataset_root)
-            if image_text and not image_path.is_absolute():
-                image_path = dataset_root / image_text
-            if mask_text and not mask_path.is_absolute():
-                mask_path = dataset_root / mask_text
+            if image_text:
+                image_path = resolve_dataset_relative_path(dataset_root, image_text)
+            if mask_text:
+                mask_path = resolve_dataset_relative_path(dataset_root, mask_text)
         if not image_path or not mask_path:
             continue
         if require_existing_files and (not image_path.exists() or not mask_path.exists()):
