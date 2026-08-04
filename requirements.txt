@@ -13,6 +13,7 @@ torchvision
 segmentation-models-pytorch
 pydantic
 psutil
+PyYAML
 openai-agents
 python-dotenv
 httpx[socks]
