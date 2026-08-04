@@ -11,6 +11,8 @@ scikit-learn
 torch
 torchvision
 segmentation-models-pytorch
+pydantic
+psutil
 openai-agents
 python-dotenv
 httpx[socks]
