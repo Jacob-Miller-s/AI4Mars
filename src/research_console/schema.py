@@ -90,6 +90,10 @@ class TrainingRecord(BaseModel):
     class_weights: list[float] | None = None
     loss: str
     batch_size: int | None = Field(default=None, ge=1)
+    physical_batch_size: int | None = Field(default=None, ge=1)
+    gradient_accumulation_steps: int = Field(default=1, ge=1)
+    effective_batch_size: int | None = Field(default=None, ge=1)
+    class_weighting_strategy: str | None = None
     epochs: int | None = Field(default=None, ge=1)
     augmentation: dict[str, Any] = Field(default_factory=dict)
     precision_mode: str | None = None
@@ -113,6 +117,9 @@ class RunMetadata(BaseModel):
     schema_version: Literal[SCHEMA_VERSION] = SCHEMA_VERSION
     run_id: str = Field(pattern=r"^[A-Za-z0-9][A-Za-z0-9._-]{2,127}$")
     experiment_name: str
+    experiment_family: str | None = None
+    paper_reproduction: bool = False
+    dataset_scope: str | None = None
     hypothesis: str | None = None
     tags: list[str] = Field(default_factory=list)
     researcher_notes: str | None = None
@@ -149,6 +156,8 @@ class EpochMetrics(BaseModel):
     epoch: int = Field(ge=1)
     train_loss: float | None = None
     val_loss: float | None = None
+    unweighted_val_loss: float | None = None
+    evaluation_split: str = "val"
     pixel_accuracy: float | None = Field(default=None, ge=0, le=1)
     mean_iou: float | None = Field(default=None, ge=0, le=1)
     per_class: dict[str, ClassMetrics] = Field(default_factory=dict)

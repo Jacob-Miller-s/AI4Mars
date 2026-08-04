@@ -39,6 +39,11 @@ def seed_everything(seed: int) -> None:
 
 
 def main() -> None:
+    from src.paper_train import main as paper_main
+
+    paper_main()
+    return
+
     args = parse_args()
     config = yaml.safe_load(Path(args.config).read_text(encoding="utf-8"))
     runtime_config, data, model_config, training, logging = (config.get(key, {}) for key in ("runtime", "data", "model", "training", "logging"))

@@ -11,6 +11,7 @@ scikit-learn
 torch
 torchvision
 segmentation-models-pytorch
+PyYAML
 pydantic
 psutil
 PyYAML

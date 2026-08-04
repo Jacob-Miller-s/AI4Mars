@@ -303,6 +303,7 @@ def train_one_epoch(
     batch_log_interval: int = 10,
     amp_enabled: bool = False,
     scaler: Optional[Any] = None,
+    gradient_accumulation_steps: int = 1,
 ) -> float:
     """Run one full training epoch.
 
@@ -333,6 +334,8 @@ def train_one_epoch(
         raise ValueError("AMP is supported only for CUDA training.")
     if amp_enabled and scaler is None:
         raise ValueError("A CUDA GradScaler is required when AMP is enabled.")
+    if gradient_accumulation_steps < 1:
+        raise ValueError("gradient_accumulation_steps must be at least 1.")
 
     model.train()
     total_loss = 0.0
@@ -342,6 +345,7 @@ def train_one_epoch(
     rolling_loss: Optional[float] = None
     samples_seen = 0
     started_at = perf_counter()
+    optimizer.zero_grad()
 
     for batch_idx, (images, masks) in enumerate(dataloader):
         images = images.to(device)  # [B, 3, H, W]
@@ -352,21 +356,27 @@ def train_one_epoch(
             loss = loss_fn(logits, masks)
         if not torch.isfinite(loss):
             raise RuntimeError("Training loss is non-finite; stopping before an optimizer update.")
-        optimizer.zero_grad()
+        scaled_loss = loss / gradient_accumulation_steps
         if amp_enabled:
-            scaler.scale(loss).backward()
-            scaler.step(optimizer)
-            scaler.update()
+            scaler.scale(scaled_loss).backward()
         else:
-            loss.backward()
-            optimizer.step()
+            scaled_loss.backward()
+
+        completed_batches = batch_idx + 1
+        should_step = completed_batches % gradient_accumulation_steps == 0 or completed_batches == total_batches
+        if should_step:
+            if amp_enabled:
+                scaler.step(optimizer)
+                scaler.update()
+            else:
+                optimizer.step()
+            optimizer.zero_grad()
 
         loss_value = loss.item()
         total_loss += loss_value
         rolling_loss = loss_value if rolling_loss is None else 0.9 * rolling_loss + 0.1 * loss_value
         samples_seen += int(images.shape[0])
 
-        completed_batches = batch_idx + 1
         elapsed_seconds = perf_counter() - started_at
         throughput = samples_seen / elapsed_seconds if elapsed_seconds > 0 else None
         eta_seconds = (elapsed_seconds / completed_batches) * (total_batches - completed_batches)
@@ -409,6 +419,7 @@ def evaluate(
     learning_rate: Optional[float] = None,
     epoch_duration_seconds: Optional[float] = None,
     run_logger: Optional[Any] = None,
+    unweighted_loss_fn: Optional[nn.Module] = None,
 ) -> dict:
     """Evaluate the model on a validation or test DataLoader.
 
@@ -442,6 +453,7 @@ def evaluate(
 
     model.eval()
     total_loss = 0.0
+    total_unweighted_loss = 0.0
     finite_loss_batches = 0
     skipped_all_ignore_loss_batches = 0
     total_correct = 0
@@ -464,6 +476,11 @@ def evaluate(
                         "Evaluation loss is non-finite for a batch containing valid target pixels."
                     )
                 total_loss += loss.item()
+                if unweighted_loss_fn is not None:
+                    unweighted_loss = unweighted_loss_fn(logits, masks)
+                    if not torch.isfinite(unweighted_loss):
+                        raise RuntimeError("Unweighted evaluation loss is non-finite for valid target pixels.")
+                    total_unweighted_loss += unweighted_loss.item()
                 finite_loss_batches += 1
             else:
                 skipped_all_ignore_loss_batches += 1
@@ -511,6 +528,8 @@ def evaluate(
         "finite_loss_batches": finite_loss_batches,
         "skipped_all_ignore_loss_batches": skipped_all_ignore_loss_batches,
     }
+    if unweighted_loss_fn is not None:
+        results["unweighted_val_loss"] = total_unweighted_loss / finite_loss_batches
 
     if return_per_class_iou:
         results["per_class_iou"] = per_class_iou
