@@ -304,7 +304,7 @@ def train_one_epoch(
     amp_enabled: bool = False,
     scaler: Optional[Any] = None,
     gradient_accumulation_steps: int = 1,
-) -> float:
+) -> Dict[str, Any]:
     """Run one full training epoch.
 
     Parameters
@@ -323,8 +323,12 @@ def train_one_epoch(
 
     Returns
     -------
-    float
-        Mean training loss over all batches in this epoch.
+    dict
+        ``{"mean_loss": float, "optimizer_steps": int}``. ``optimizer_steps``
+        is the number of actual ``optimizer.step()`` calls taken this epoch
+        (equal to the batch count only when ``gradient_accumulation_steps``
+        is 1), and is the correct quantity to accumulate into a global
+        optimizer-step counter across epochs.
     """
     if batch_log_interval < 1:
         raise ValueError("batch_log_interval must be at least 1.")
@@ -344,6 +348,7 @@ def train_one_epoch(
         raise ValueError("Training dataloader contains no batches.")
     rolling_loss: Optional[float] = None
     samples_seen = 0
+    optimizer_steps = 0
     started_at = perf_counter()
     optimizer.zero_grad()
 
@@ -371,6 +376,7 @@ def train_one_epoch(
             else:
                 optimizer.step()
             optimizer.zero_grad()
+            optimizer_steps += 1
 
         loss_value = loss.item()
         total_loss += loss_value
@@ -397,7 +403,7 @@ def train_one_epoch(
         if completed_batches % 10 == 0:
             print(f"  Batch {completed_batches}/{total_batches}  loss={loss_value:.4f}")
 
-    return total_loss / total_batches
+    return {"mean_loss": total_loss / total_batches, "optimizer_steps": optimizer_steps}
 
 
 # ---------------------------------------------------------------------------
@@ -444,7 +450,7 @@ def evaluate(
     Returns
     -------
     dict
-        Keys: ``"val_loss"`` (float), ``"pixel_acc"`` (float),
+        Keys: ``"val_loss"`` (float), ``"pixel_accuracy"`` (float),
         ``"mean_iou"`` (float), ``"finite_loss_batches"`` (int), and
         ``"skipped_all_ignore_loss_batches"`` (int).
     """
@@ -523,7 +529,7 @@ def evaluate(
 
     results = {
         "val_loss": total_loss / finite_loss_batches,
-        "pixel_acc": acc,
+        "pixel_accuracy": acc,
         "mean_iou": miou,
         "finite_loss_batches": finite_loss_batches,
         "skipped_all_ignore_loss_batches": skipped_all_ignore_loss_batches,
@@ -554,7 +560,7 @@ def evaluate(
                 epoch=epoch,
                 train_loss=train_loss,
                 val_loss=results["val_loss"],
-                pixel_accuracy=results["pixel_acc"],
+                pixel_accuracy=results["pixel_accuracy"],
                 mean_iou=results["mean_iou"],
                 per_class=per_class,
                 learning_rate=learning_rate,

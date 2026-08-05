@@ -36,7 +36,7 @@ class EvaluateTests(unittest.TestCase):
         self.assertTrue(torch.isfinite(torch.tensor(results["val_loss"])))
         self.assertEqual(results["finite_loss_batches"], 1)
         self.assertEqual(results["skipped_all_ignore_loss_batches"], 1)
-        self.assertEqual(results["pixel_acc"], 1.0)
+        self.assertEqual(results["pixel_accuracy"], 1.0)
 
     def test_rejects_evaluation_split_without_valid_target_pixels(self) -> None:
         images = torch.zeros((1, 3, 2, 2))

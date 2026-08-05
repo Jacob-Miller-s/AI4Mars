@@ -40,6 +40,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", choices=("auto", "cuda", "cpu"))
     parser.add_argument("--amp", action=argparse.BooleanOptionalAction, default=None)
     parser.add_argument("--validate-only", action="store_true")
+    parser.add_argument("--validation-level", choices=("metadata", "full"), default="metadata")
     return parser.parse_args()
 
 
@@ -72,7 +73,7 @@ def load_and_validate_config(path: Path, args: argparse.Namespace | None = None)
             model["input_size"] = [args.resolution, args.resolution]
     spec = DeepLabV3PlusSpec(architecture=model.get("architecture", ""), backbone=model.get("backbone", ""), pretrained_weights=model.get("pretrained_weights", ""), output_stride=int(model.get("output_stride", 16)), input_size=tuple(model.get("input_size", ())), num_classes=int(model.get("num_classes", 4)), ignore_index=int(training.get("ignore_index", 255)))
     validate_deeplabv3plus_spec(spec)
-    required = {"dataset_manifest", "train_manifest", "val_manifest", "expert_min1_manifest", "expert_min2_manifest", "expert_min3_manifest"}
+    required = {"dataset_manifest", "train_manifest", "val_manifest"}
     if missing := sorted(name for name in required if not data.get(name)):
         raise ValueError(f"Missing required reproduction manifests: {missing}")
     if training.get("class_weighting") not in WEIGHTING_STRATEGIES:
@@ -125,10 +126,14 @@ def main() -> None:
     device = torch.device("cuda" if paths.accelerator == "cuda" or (paths.accelerator == "auto" and torch.cuda.is_available()) else "cpu")
     if paths.accelerator == "cuda" and device.type != "cuda": raise RuntimeError("CUDA was requested but is unavailable.")
     if training["mixed_precision"] and device.type != "cuda": raise ValueError("mixed_precision requires CUDA.")
-    manifests = {"train": paths.manifest_root / data["train_manifest"], "val": paths.manifest_root / data["val_manifest"], "expert_min1_100agree": paths.manifest_root / data["expert_min1_manifest"], "expert_min2_100agree": paths.manifest_root / data["expert_min2_manifest"], "expert_min3_100agree": paths.manifest_root / data["expert_min3_manifest"]}
-    assert_no_reproduction_leakage(manifests)
-    for name, path in manifests.items(): validate_manifest_files(path, paths.dataset_root, split_name=name)
-    audit = summarize_reproduction_manifests(manifests)
+    manifests = {"train": paths.manifest_root / data["train_manifest"], "val": paths.manifest_root / data["val_manifest"]}
+    expert_manifest_keys = {"expert_min1_100agree": "expert_min1_manifest", "expert_min2_100agree": "expert_min2_manifest", "expert_min3_100agree": "expert_min3_manifest"}
+    expert_manifests = {name: paths.manifest_root / data[key] for name, key in expert_manifest_keys.items() if data.get(key)}
+    audit_manifests = {**manifests, **expert_manifests}
+    assert_no_reproduction_leakage(audit_manifests)
+    if args.validate_only and args.validation_level == "full":
+        for name, path in audit_manifests.items(): validate_manifest_files(path, paths.dataset_root, split_name=name)
+    audit = summarize_reproduction_manifests(audit_manifests)
     if args.validate_only:
         print(json.dumps(audit, indent=2, sort_keys=True)); return
     _seed(int(training["seed"]))
@@ -144,28 +149,30 @@ def main() -> None:
     weighted_loss, unweighted_loss = nn.CrossEntropyLoss(weight=weights, ignore_index=spec.ignore_index), nn.CrossEntropyLoss(ignore_index=spec.ignore_index)
     optimizer, scheduler, scaler = _optimizer(model, training), None, torch.amp.GradScaler("cuda", enabled=bool(training["mixed_precision"]))
     scheduler = _scheduler(optimizer, training)
-    metadata = build_checkpoint_metadata(project_root=paths.project_root, dataset_manifest_path=paths.manifest_root / data["dataset_manifest"], split_manifest_paths=manifests, active_split_name="val", preprocessing={"input_size": list(spec.input_size), "normalization_mean": list(spec.normalization_mean), "normalization_std": list(spec.normalization_std), "mask_interpolation": "nearest"}, loss_name="CrossEntropyLoss", loss_weights=weights.tolist(), model_name=f"{spec.architecture}/{spec.backbone}", seed=int(training["seed"]))
+    physical_batch_size, gradient_accumulation_steps = int(training["batch_size"]), int(training["gradient_accumulation_steps"])
+    metadata = build_checkpoint_metadata(project_root=paths.project_root, dataset_manifest_path=paths.manifest_root / data["dataset_manifest"], split_manifest_paths=audit_manifests, active_split_name="val", preprocessing={"input_size": list(spec.input_size), "normalization_mean": list(spec.normalization_mean), "normalization_std": list(spec.normalization_std), "mask_interpolation": "nearest"}, loss_name="CrossEntropyLoss", loss_weights=weights.tolist(), model_name=f"{spec.architecture}/{spec.backbone}", seed=int(training["seed"]))
     snapshot = config | {"paper_model_spec": spec.metadata()}; metadata.update({"paper_reproduction": True, "model": spec.metadata(), "class_weighting": weighting, "configuration": snapshot})
-    logger = RunLogger(paths.event_root, RunMetadata(run_id=paths.run_id, experiment_name=config.get("experiment_name", paths.run_id), tags=["paper-reproduction", "msl", "navcam", "deeplabv3plus"], provenance=ProvenanceRecord(dataset_name="AI4Mars", dataset_version="ai4mars-dataset-merged-0.6", dataset_manifest_sha256=sha256_file(paths.manifest_root / data["dataset_manifest"]), split_manifest_hashes={name: sha256_file(path) for name, path in manifests.items()}, split_role=SplitRole.CROWDSOURCED_VALIDATION, protocol=ProtocolRecord(valid=True, notes=["Expert masks are final evaluation only."]), git_commit=current_git_commit(paths.project_root), random_seeds={"training": int(training["seed"])}), model=ModelRecord(name=spec.architecture, encoder=spec.backbone, pretrained_weights=spec.pretrained_weights, parameter_count=sum(item.numel() for item in model.parameters()), input_resolution=spec.input_size), training=TrainingRecord(optimizer=training["optimizer"], scheduler=training["scheduler"], learning_rate=float(training["learning_rate"]), class_weights=weights.tolist(), loss="CrossEntropyLoss", batch_size=int(training["batch_size"]), epochs=int(training["epochs"]), precision_mode="amp" if training["mixed_precision"] else "float32"), environment=EnvironmentRecord(python=platform.python_version(), pytorch=torch.__version__, cuda=torch.version.cuda, gpu=torch.cuda.get_device_name(0) if device.type == "cuda" else None)))
+    logger = RunLogger(paths.event_root, RunMetadata(run_id=paths.run_id, experiment_name=config.get("experiment_name", paths.run_id), paper_reproduction=True, tags=["paper-reproduction", "msl", "navcam", "deeplabv3plus"], provenance=ProvenanceRecord(dataset_name="AI4Mars", dataset_version="ai4mars-dataset-merged-0.6", dataset_manifest_sha256=sha256_file(paths.manifest_root / data["dataset_manifest"]), split_manifest_hashes={name: sha256_file(path) for name, path in audit_manifests.items()}, split_role=SplitRole.CROWDSOURCED_VALIDATION, protocol=ProtocolRecord(valid=True, notes=["Expert masks are evaluated only by src.paper_evaluate against a frozen checkpoint, never during training."]), git_commit=current_git_commit(paths.project_root), random_seeds={"training": int(training["seed"])}), model=ModelRecord(name=spec.architecture, encoder=spec.backbone, pretrained_weights=spec.pretrained_weights, parameter_count=sum(item.numel() for item in model.parameters()), input_resolution=spec.input_size), training=TrainingRecord(optimizer=training["optimizer"], scheduler=training["scheduler"], learning_rate=float(training["learning_rate"]), class_weights=weights.tolist(), loss="CrossEntropyLoss", batch_size=physical_batch_size, physical_batch_size=physical_batch_size, gradient_accumulation_steps=gradient_accumulation_steps, effective_batch_size=physical_batch_size * gradient_accumulation_steps, class_weighting_strategy=training["class_weighting"], epochs=int(training["epochs"]), precision_mode="amp" if training["mixed_precision"] else "float32"), environment=EnvironmentRecord(python=platform.python_version(), pytorch=torch.__version__, cuda=torch.version.cuda, gpu=torch.cuda.get_device_name(0) if device.type == "cuda" else None)))
     logger.start(); atomic_write_json(logger.run_dir / "config.json", snapshot); atomic_write_json(logger.run_dir / "artifacts" / "manifest_audit.json", audit)
     start_epoch, global_step, best, stale = 1, 0, None, 0
     if training.get("resume_checkpoint"):
         state = load_training_checkpoint(model, optimizer, training["resume_checkpoint"], device, scheduler=scheduler, scaler=scaler, expected_metadata=metadata); start_epoch, global_step, best = state["epoch"] + 1, state["global_step"], state["best_validation_metric"]
     try:
         for epoch in range(start_epoch, int(training["epochs"]) + 1):
-            started = perf_counter(); train_loss = train_one_epoch(model, loaders["train"], optimizer, weighted_loss, device, epoch=epoch, run_logger=logger, batch_log_interval=int(training["batch_log_interval"]), amp_enabled=bool(training["mixed_precision"]), scaler=scaler, gradient_accumulation_steps=int(training["gradient_accumulation_steps"])); global_step += len(loaders["train"])
+            started = perf_counter(); train_result = train_one_epoch(model, loaders["train"], optimizer, weighted_loss, device, epoch=epoch, run_logger=logger, batch_log_interval=int(training["batch_log_interval"]), amp_enabled=bool(training["mixed_precision"]), scaler=scaler, gradient_accumulation_steps=gradient_accumulation_steps); train_loss = train_result["mean_loss"]; global_step += train_result["optimizer_steps"]
             if epoch % int(training["validation_interval"]): continue
             metrics = evaluate(model, loaders["val"], weighted_loss, device, return_detailed_metrics=True, unweighted_loss_fn=unweighted_loss); improved = best is None or metrics["mean_iou"] > best; best = max(best or 0.0, metrics["mean_iou"]); stale = 0 if improved else stale + 1
             if scheduler is not None: scheduler.step(metrics["mean_iou"]) if training["scheduler"] == "plateau" else scheduler.step()
-            checkpoint = logger.run_dir / "checkpoints" / ("best_val_miou.pth" if improved else "last.pth")
-            if improved or epoch % int(training["checkpoint_interval"]) == 0: save_checkpoint(model, optimizer, epoch, checkpoint, metadata, scheduler=scheduler, scaler=scaler, global_step=global_step, best_validation_metric=best)
+            last_checkpoint = logger.run_dir / "checkpoints" / "last.pth"
+            save_checkpoint(model, optimizer, epoch, last_checkpoint, metadata, scheduler=scheduler, scaler=scaler, global_step=global_step, best_validation_metric=best)
+            checkpoint = last_checkpoint
+            if improved:
+                best_checkpoint = logger.run_dir / "checkpoints" / "best_val_miou.pth"
+                save_checkpoint(model, optimizer, epoch, best_checkpoint, metadata, scheduler=scheduler, scaler=scaler, global_step=global_step, best_validation_metric=best)
+                checkpoint = best_checkpoint
             per_class = {name: ClassMetrics(**{key: value for key, value in row.items() if key != "class_index"}) for name, row in zip(CLASS_NAMES, metrics["per_class"])}
             logger.log_epoch(EpochMetrics(timestamp=datetime.now(timezone.utc), epoch=epoch, train_loss=train_loss, val_loss=metrics["val_loss"], pixel_accuracy=metrics["pixel_accuracy"], mean_iou=metrics["mean_iou"], per_class=per_class, learning_rate=optimizer.param_groups[0]["lr"], epoch_duration_seconds=perf_counter() - started, confusion_matrix=metrics["confusion_matrix"], checkpoint=ArtifactRef(path=f"checkpoints/{checkpoint.name}", kind="checkpoint")))
             if training.get("early_stopping_patience") is not None and stale >= int(training["early_stopping_patience"]): break
-        best_path = logger.run_dir / "checkpoints" / "best_val_miou.pth"
-        if best_path.exists(): load_training_checkpoint(model, optimizer, best_path, device, scheduler=scheduler, scaler=scaler, expected_metadata=metadata)
-        expert = {name: evaluate(model, loaders[name], weighted_loss, device, return_detailed_metrics=True, unweighted_loss_fn=unweighted_loss) for name in manifests if name.startswith("expert_")}
-        atomic_write_json(logger.run_dir / "artifacts" / "expert_evaluation.json", expert)
     except BaseException as error:
         logger.fail(error); raise
     logger.finish(status=RunStatus.COMPLETED)

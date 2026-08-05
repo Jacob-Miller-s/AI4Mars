@@ -1,0 +1,21 @@
+# Dependencies for running this repository on Kaggle.
+#
+# Kaggle's Python images already ship a working, GPU-matched torch/torchvision
+# build (CUDA wheels selected for the notebook's attached accelerator). This
+# file intentionally excludes torch, torchvision, and torchaudio so that
+# `pip install -r requirements-kaggle.txt` never reinstalls or downgrades the
+# CUDA-enabled build already present in the Kaggle runtime. Use
+# requirements.txt only for local development environments that manage their
+# own PyTorch install.
+numpy
+pandas
+matplotlib
+pillow
+requests
+tqdm
+opencv-python
+scikit-learn
+segmentation-models-pytorch
+PyYAML
+pydantic
+psutil

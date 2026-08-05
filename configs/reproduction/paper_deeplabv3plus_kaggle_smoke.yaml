@@ -1,8 +1,8 @@
-experiment_name: paper_deeplabv3plus_msl_navcam_kaggle_p100
+experiment_name: paper_deeplabv3plus_msl_navcam_kaggle_smoke
 runtime:
-  run_id: paper-deeplabv3plus-kaggle-p100
+  run_id: paper-deeplabv3plus-kaggle-smoke
   accelerator: cuda
-  output_root: /kaggle/working/ai4mars-paper-reproduction
+  output_root: /kaggle/working/ai4mars-paper-reproduction/smoke
 data:
   dataset_manifest: ai4mars_dataset_manifest.csv
   train_manifest: splits/msl_navcam_v1/train_nav.csv
@@ -21,17 +21,18 @@ training:
   seed: 42
   batch_size: 1
   gradient_accumulation_steps: 1
-  epochs: 40
+  epochs: 1
   optimizer: adamw
   learning_rate: 0.0001
-  scheduler: cosine
+  scheduler: none
   weight_decay: 0.0001
   class_weighting: paper_complement_composition
   ignore_index: 255
-  num_workers: 4
+  num_workers: 2
   mixed_precision: true
   checkpoint_interval: 1
   validation_interval: 1
   early_stopping_patience: null
-  batch_log_interval: 50
+  batch_log_interval: 1
+  max_samples_per_split: 4
 logging: {}
