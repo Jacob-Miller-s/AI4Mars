@@ -171,11 +171,10 @@ class ValidateOnlyWorkflowTests(_ManifestFixtureMixin, unittest.TestCase):
 class ExpertManifestDecouplingRegressionTest(unittest.TestCase):
     def test_training_pairs_are_built_only_from_train_and_val_manifests(self) -> None:
         source = inspect.getsource(paper_train.main)
-        pairs_line = next(
-            line for line in source.splitlines() if "pairs = {name: load_pairs_from_manifest" in line
-        )
-        self.assertIn("manifests.items()", pairs_line)
-        self.assertNotIn("audit_manifests.items()", pairs_line)
+        self.assertIn("train_pairs_all = load_pairs_from_manifest(", source)
+        self.assertIn("manifests[\"train\"]", source)
+        self.assertIn("val_pairs = load_pairs_from_manifest(", source)
+        self.assertIn("manifests[\"val\"]", source)
 
 
 class TinyModel(torch.nn.Module):

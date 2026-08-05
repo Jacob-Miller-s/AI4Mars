@@ -92,6 +92,19 @@ class RunLogger:
         append_jsonl(self.run_dir / "metrics.jsonl", BatchMetrics(timestamp=utc_now(), epoch=epoch, batch=batch, total_batches=total_batches, loss=loss, smoothed_loss=smoothed_loss, throughput_samples_per_second=throughput_samples_per_second, eta_seconds=eta_seconds).model_dump(mode="json", exclude_none=True))
         self.maybe_log_system(gpu_memory_allocated_bytes=gpu_memory_allocated_bytes, gpu_memory_reserved_bytes=gpu_memory_reserved_bytes)
 
+    def log_training_diagnostic(self, *, event_type: str, **payload: Any) -> None:
+        """Append structured training diagnostics to metrics.jsonl."""
+        append_jsonl(
+            self.run_dir / "metrics.jsonl",
+            {
+                "schema_version": 1,
+                "event_type": event_type,
+                "timestamp": utc_now().isoformat(),
+                **payload,
+            },
+        )
+        self.maybe_log_system()
+
     def log_epoch(self, event: EpochMetrics) -> None:
         append_jsonl(self.run_dir / "metrics.jsonl", event.model_dump(mode="json", exclude_none=True))
         if self._metadata.provenance.protocol.valid and self._metadata.provenance.split_role.value == "crowdsourced_validation" and event.mean_iou is not None and (self._best_validation_mean_iou is None or event.mean_iou > self._best_validation_mean_iou):
