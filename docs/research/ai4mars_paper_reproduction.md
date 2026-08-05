@@ -10,7 +10,11 @@ The paper supports these claims: DeepLabv3+ with a ResNet-101 backbone initializ
 
 The paper omits optimizer, learning rate, schedule, weight decay, epochs, augmentation, exact batch size, seed, output stride, framework versions, early stopping, and checkpoint policy. This implementation records those values as configuration choices, not paper facts. Defaults are AdamW, 1e-4 learning rate, cosine schedule, 1e-4 weight decay, seed 42, output stride 16, no augmentation, 40 epochs, and validation-mIoU checkpoint selection. These choices may be changed only through a saved configuration.
 
-For a P100, begin with the configured physical batch size of one, run a short validation or one-epoch smoke command, increase only after observing stable memory headroom, and set gradient accumulation explicitly when a larger effective batch is required. Record both physical batch size and accumulation steps; never silently change the effective batch size between runs.
+For a P100, begin with physical training batch size two, run a short validation or one-epoch smoke command, and increase only after observing stable memory headroom. Record both physical batch size and accumulation steps explicitly; never silently change the effective batch size between runs.
+
+Canonical DeepLabv3+ training keeps train-mode BatchNorm enabled. In SMP's ASPP pooled branch, BatchNorm receives tensors shaped `[N, C, 1, 1]`, so physical `N=1` is invalid (`Expected more than 1 value per channel when training`). Gradient accumulation does not fix this because it changes effective optimizer batch size, not per-forward BatchNorm statistics. Therefore `src.paper_train` rejects `training.batch_size < 2` for training runs.
+
+Validation and final expert evaluation may still use batch size 1 because eval mode uses stored BatchNorm running statistics. To prevent accidental singleton tail batches when train-set size is not divisible by physical batch size, the training DataLoader uses `drop_last=True`; validation and expert evaluation loaders keep `drop_last=False` so every sample is scored.
 
 The current U-Net baseline uses a different architecture, 256x256 inputs, inverse-frequency normalized weighting, and notebook-led execution. The reproduction uses SMP DeepLabV3Plus, ResNet-101/ImageNet, 513x513 inputs, ImageNet normalization, and the paper complement-composition weighting. Both weighting strategies remain separately selectable.
 
@@ -46,7 +50,7 @@ Every command below assumes execution from the repository root with the paper-re
    ```
    python -m src.train --config configs/reproduction/paper_deeplabv3plus_kaggle_calibration.yaml --dataset-root <DATASET_ROOT> --output-root /kaggle/working/ai4mars-paper-reproduction/calibration
    ```
-5. Fixed full reproduction run (40 epochs, batch size 1, no early stopping -- the run whose checkpoints are candidates for expert evaluation):
+5. Fixed full reproduction run (40 epochs, physical batch size 2, no early stopping -- the run whose checkpoints are candidates for expert evaluation):
    ```
    python -m src.train --config configs/reproduction/paper_deeplabv3plus_kaggle_p100.yaml --dataset-root <DATASET_ROOT> --output-root /kaggle/working/ai4mars-paper-reproduction
    ```
