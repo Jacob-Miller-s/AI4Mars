@@ -1,4 +1,6 @@
 import unittest
+from contextlib import contextmanager
+from unittest.mock import patch
 
 import torch
 import torch.nn as nn
@@ -52,6 +54,68 @@ class _NanLoss(nn.Module):
     def forward(self, logits: torch.Tensor, masks: torch.Tensor) -> torch.Tensor:
         del logits, masks
         return torch.tensor(float("nan"))
+
+
+class _NanLogitModel(nn.Module):
+    def forward(self, images: torch.Tensor) -> torch.Tensor:
+        batch_size, _, height, width = images.shape
+        del images
+        return torch.full((batch_size, 4, height, width), float("nan"))
+
+
+class _FakeScaledLoss:
+    def __init__(self, loss: torch.Tensor, scale: float) -> None:
+        self.loss = loss
+        self.scale = float(scale)
+
+    def backward(self) -> None:
+        (self.loss * self.scale).backward()
+
+
+class _FakeGradScaler:
+    def __init__(self, *, initial_scale: float = 8.0, overflow_unscale_calls: set[int] | None = None) -> None:
+        self.current_scale = float(initial_scale)
+        self.overflow_unscale_calls = set() if overflow_unscale_calls is None else set(overflow_unscale_calls)
+        self.unscale_calls = 0
+        self.step_calls = 0
+        self.update_calls = 0
+        self._overflow_active = False
+
+    def get_scale(self) -> float:
+        return self.current_scale
+
+    def scale(self, loss: torch.Tensor) -> _FakeScaledLoss:
+        return _FakeScaledLoss(loss, self.current_scale)
+
+    def unscale_(self, optimizer) -> None:
+        self.unscale_calls += 1
+        overflow_now = self.unscale_calls in self.overflow_unscale_calls
+        self._overflow_active = overflow_now
+        for group in optimizer.param_groups:
+            for parameter in group["params"]:
+                if parameter.grad is None:
+                    continue
+                parameter.grad.data = parameter.grad.data / self.current_scale
+                if overflow_now:
+                    parameter.grad.data.fill_(float("inf"))
+
+    def step(self, optimizer) -> None:
+        self.step_calls += 1
+        if self._overflow_active:
+            return
+        optimizer.step()
+
+    def update(self) -> None:
+        self.update_calls += 1
+        if self._overflow_active:
+            self.current_scale = max(self.current_scale / 2.0, 1e-20)
+        self._overflow_active = False
+
+
+@contextmanager
+def _cpu_amp_patch():
+    with patch("torch.Tensor.to", new=lambda self, *args, **kwargs: self):
+        yield
 
 
 class EvaluateTests(unittest.TestCase):
@@ -270,6 +334,168 @@ class TrainBatchContractTests(unittest.TestCase):
 
         self.assertEqual(result["processed_batches"], 1)
         self.assertEqual(result["skipped_all_ignore_batches"], 0)
+
+
+class TrainAmpOverflowBehaviorTests(unittest.TestCase):
+    def test_amp_unscales_only_at_accumulation_boundary(self) -> None:
+        model = nn.Conv2d(3, 4, kernel_size=1)
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+        scaler = _FakeGradScaler(initial_scale=16.0)
+        loss_fn = nn.CrossEntropyLoss(ignore_index=255)
+        images = torch.randn((2, 3, 4, 4), dtype=torch.float32)
+        masks = torch.zeros((2, 4, 4), dtype=torch.long)
+        loader = DataLoader(TensorDataset(images, masks), batch_size=1, shuffle=False)
+
+        with _cpu_amp_patch():
+            result = train_one_epoch(
+                model,
+                loader,
+                optimizer,
+                loss_fn,
+                torch.device("cuda"),
+                amp_enabled=True,
+                scaler=scaler,
+                gradient_accumulation_steps=2,
+            )
+
+        self.assertEqual(result["processed_batches"], 2)
+        self.assertEqual(scaler.unscale_calls, 1)
+        self.assertEqual(scaler.step_calls, 1)
+        self.assertEqual(scaler.update_calls, 1)
+
+    def test_recoverable_amp_overflow_skips_optimizer_update(self) -> None:
+        model = nn.Conv2d(3, 4, kernel_size=1)
+        initial = model.weight.detach().clone()
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+        scaler = _FakeGradScaler(initial_scale=8.0, overflow_unscale_calls={1})
+        loss_fn = nn.CrossEntropyLoss(ignore_index=255)
+        images = torch.randn((1, 3, 4, 4), dtype=torch.float32)
+        masks = torch.zeros((1, 4, 4), dtype=torch.long)
+        loader = DataLoader(TensorDataset(images, masks), batch_size=1, shuffle=False)
+
+        with _cpu_amp_patch():
+            result = train_one_epoch(
+                model,
+                loader,
+                optimizer,
+                loss_fn,
+                torch.device("cuda"),
+                amp_enabled=True,
+                scaler=scaler,
+                max_consecutive_amp_overflow_steps=4,
+            )
+
+        self.assertEqual(result["optimizer_steps"], 0)
+        self.assertEqual(result["skipped_amp_overflow_steps"], 1)
+        self.assertAlmostEqual(result["minimum_amp_scale"], 4.0)
+        self.assertTrue(torch.equal(initial, model.weight.detach()))
+        self.assertEqual(scaler.update_calls, 1)
+
+    def test_training_continues_after_single_overflow(self) -> None:
+        model = nn.Conv2d(3, 4, kernel_size=1)
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+        scaler = _FakeGradScaler(initial_scale=8.0, overflow_unscale_calls={1})
+        loss_fn = nn.CrossEntropyLoss(ignore_index=255)
+        images = torch.randn((3, 3, 4, 4), dtype=torch.float32)
+        masks = torch.zeros((3, 4, 4), dtype=torch.long)
+        loader = DataLoader(TensorDataset(images, masks), batch_size=1, shuffle=False)
+
+        with _cpu_amp_patch():
+            result = train_one_epoch(
+                model,
+                loader,
+                optimizer,
+                loss_fn,
+                torch.device("cuda"),
+                amp_enabled=True,
+                scaler=scaler,
+            )
+
+        self.assertEqual(result["processed_batches"], 3)
+        self.assertEqual(result["skipped_amp_overflow_steps"], 1)
+        self.assertEqual(result["optimizer_steps"], 2)
+
+    def test_final_partial_accumulation_uses_same_amp_finalize_logic(self) -> None:
+        model = nn.Conv2d(3, 4, kernel_size=1)
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+        scaler = _FakeGradScaler(initial_scale=8.0, overflow_unscale_calls={2})
+        loss_fn = nn.CrossEntropyLoss(ignore_index=255)
+        images = torch.randn((3, 3, 4, 4), dtype=torch.float32)
+        masks = torch.zeros((3, 4, 4), dtype=torch.long)
+        loader = DataLoader(TensorDataset(images, masks), batch_size=1, shuffle=False)
+
+        with _cpu_amp_patch():
+            result = train_one_epoch(
+                model,
+                loader,
+                optimizer,
+                loss_fn,
+                torch.device("cuda"),
+                amp_enabled=True,
+                scaler=scaler,
+                gradient_accumulation_steps=2,
+            )
+
+        self.assertEqual(result["processed_batches"], 3)
+        self.assertEqual(result["optimizer_steps"], 1)
+        self.assertEqual(result["skipped_amp_overflow_steps"], 1)
+        self.assertEqual(scaler.unscale_calls, 2)
+
+    def test_repeated_overflow_protection_fails_clearly(self) -> None:
+        model = nn.Conv2d(3, 4, kernel_size=1)
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+        scaler = _FakeGradScaler(initial_scale=8.0, overflow_unscale_calls={1, 2})
+        loss_fn = nn.CrossEntropyLoss(ignore_index=255)
+        images = torch.randn((2, 3, 4, 4), dtype=torch.float32)
+        masks = torch.zeros((2, 4, 4), dtype=torch.long)
+        loader = DataLoader(TensorDataset(images, masks), batch_size=1, shuffle=False)
+
+        with _cpu_amp_patch():
+            with self.assertRaisesRegex(RuntimeError, "AMP overflow skipped too many consecutive optimizer steps"):
+                train_one_epoch(
+                    model,
+                    loader,
+                    optimizer,
+                    loss_fn,
+                    torch.device("cuda"),
+                    amp_enabled=True,
+                    scaler=scaler,
+                    max_consecutive_amp_overflow_steps=2,
+                )
+
+    def test_non_finite_gradients_without_amp_remain_fatal(self) -> None:
+        model = nn.Conv2d(3, 4, kernel_size=1)
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+        loss_fn = nn.CrossEntropyLoss(ignore_index=255)
+        images = torch.randn((1, 3, 4, 4), dtype=torch.float32)
+        masks = torch.zeros((1, 4, 4), dtype=torch.long)
+        loader = DataLoader(TensorDataset(images, masks), batch_size=1, shuffle=False)
+
+        with patch("src.train_utils._gradients_are_finite", return_value=False):
+            with self.assertRaisesRegex(RuntimeError, "Training gradients became non-finite"):
+                train_one_epoch(model, loader, optimizer, loss_fn, torch.device("cpu"))
+
+    def test_non_finite_inputs_and_logits_remain_fatal(self) -> None:
+        model = nn.Conv2d(3, 4, kernel_size=1)
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+        loss_fn = nn.CrossEntropyLoss(ignore_index=255)
+
+        images = torch.full((1, 3, 4, 4), float("nan"), dtype=torch.float32)
+        masks = torch.zeros((1, 4, 4), dtype=torch.long)
+        loader_inputs = DataLoader(TensorDataset(images, masks), batch_size=1, shuffle=False)
+        with self.assertRaisesRegex(RuntimeError, "inputs are non-finite"):
+            train_one_epoch(model, loader_inputs, optimizer, loss_fn, torch.device("cpu"))
+
+        clean_images = torch.zeros((1, 3, 4, 4), dtype=torch.float32)
+        loader_logits = DataLoader(TensorDataset(clean_images, masks), batch_size=1, shuffle=False)
+        with self.assertRaisesRegex(RuntimeError, "logits are non-finite"):
+            train_one_epoch(
+                _NanLogitModel(),
+                dataloader=loader_logits,
+                optimizer=optimizer,
+                loss_fn=loss_fn,
+                device=torch.device("cpu"),
+            )
 
 
 if __name__ == "__main__":

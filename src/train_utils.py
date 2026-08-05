@@ -341,6 +341,77 @@ def _gradients_are_finite(model: nn.Module) -> bool:
     return True
 
 
+def _finalize_optimizer_step(
+    *,
+    model: nn.Module,
+    optimizer: torch.optim.Optimizer,
+    amp_enabled: bool,
+    scaler: Optional[Any],
+    run_logger: Optional[Any],
+    epoch: Optional[int],
+    accumulation_end_batch: int,
+    accumulation_sample_ids: list[str],
+    accumulation_supervised_batches: int,
+) -> Dict[str, Any]:
+    if amp_enabled:
+        if scaler is None:
+            raise ValueError("A CUDA GradScaler is required when AMP is enabled.")
+        old_scale = float(scaler.get_scale())
+        scaler.unscale_(optimizer)
+        gradients_finite = _gradients_are_finite(model)
+        scaler.step(optimizer)
+        scaler.update()
+        new_scale = float(scaler.get_scale())
+        optimizer.zero_grad()
+        if gradients_finite:
+            return {
+                "optimizer_step_taken": True,
+                "amp_overflow_skipped": False,
+                "old_scale": old_scale,
+                "new_scale": new_scale,
+            }
+        _emit_training_diagnostic(
+            run_logger,
+            event_type="amp_overflow_step_skipped",
+            payload={
+                "epoch": epoch,
+                "batch": accumulation_end_batch,
+                "sample_ids": accumulation_sample_ids,
+                "supervised_batches_in_window": accumulation_supervised_batches,
+                "old_scale": old_scale,
+                "new_scale": new_scale,
+            },
+        )
+        return {
+            "optimizer_step_taken": False,
+            "amp_overflow_skipped": True,
+            "old_scale": old_scale,
+            "new_scale": new_scale,
+        }
+
+    if not _gradients_are_finite(model):
+        diagnostic = {
+            "epoch": epoch,
+            "batch": accumulation_end_batch,
+            "sample_ids": accumulation_sample_ids,
+            "supervised_batches_in_window": accumulation_supervised_batches,
+            "amp_enabled": False,
+        }
+        _emit_training_diagnostic(run_logger, event_type="non_finite_gradients", payload=diagnostic)
+        raise RuntimeError(
+            "Training gradients became non-finite for a batch with valid target pixels "
+            f"(epoch={epoch}, batch={accumulation_end_batch}, sample_ids={accumulation_sample_ids})."
+        )
+    optimizer.step()
+    optimizer.zero_grad()
+    return {
+        "optimizer_step_taken": True,
+        "amp_overflow_skipped": False,
+        "old_scale": None,
+        "new_scale": None,
+    }
+
+
 def train_one_epoch(
     model: nn.Module,
     dataloader: DataLoader,
@@ -355,6 +426,8 @@ def train_one_epoch(
     scaler: Optional[Any] = None,
     gradient_accumulation_steps: int = 1,
     ignore_index: Optional[int] = None,
+    max_consecutive_amp_overflow_steps: int = 16,
+    minimum_amp_scale_floor: float = 1e-12,
 ) -> Dict[str, Any]:
     """Run one full training epoch."""
     if batch_log_interval < 1:
@@ -367,6 +440,10 @@ def train_one_epoch(
         raise ValueError("A CUDA GradScaler is required when AMP is enabled.")
     if gradient_accumulation_steps < 1:
         raise ValueError("gradient_accumulation_steps must be at least 1.")
+    if max_consecutive_amp_overflow_steps < 1:
+        raise ValueError("max_consecutive_amp_overflow_steps must be at least 1.")
+    if minimum_amp_scale_floor <= 0:
+        raise ValueError("minimum_amp_scale_floor must be positive.")
     if ignore_index is None:
         ignore_index = int(getattr(loss_fn, "ignore_index", 255))
     else:
@@ -382,7 +459,11 @@ def train_one_epoch(
     optimizer_steps = 0
     processed_batches = 0
     skipped_all_ignore_batches = 0
+    skipped_amp_overflow_steps = 0
+    consecutive_amp_overflow_steps = 0
     pending_supervised_batches = 0
+    accumulation_sample_ids: list[str] = []
+    minimum_amp_scale: Optional[float] = float(scaler.get_scale()) if amp_enabled and scaler is not None else None
     started_at = perf_counter()
     optimizer.zero_grad()
 
@@ -478,35 +559,41 @@ def train_one_epoch(
         else:
             scaled_loss.backward()
 
-        if not _gradients_are_finite(model):
-            diagnostic = {
-                "epoch": epoch,
-                "batch": batch_idx,
-                "sample_ids": sample_ids,
-                "valid_pixel_count": valid_pixel_count,
-                "unique_target_ids": unique_target_ids,
-                "images_finite": images_finite,
-                "logits_finite": True,
-                "loss_finite": True,
-                "amp_enabled": bool(amp_enabled),
-                "grad_scaler_scale": float(scaler.get_scale()) if scaler is not None else None,
-            }
-            _emit_training_diagnostic(run_logger, event_type="non_finite_gradients", payload=diagnostic)
-            raise RuntimeError(
-                "Training gradients became non-finite for a batch with valid target pixels "
-                f"(epoch={epoch}, batch={batch_idx}, sample_ids={sample_ids})."
-            )
-
         pending_supervised_batches += 1
+        if sample_ids is not None:
+            accumulation_sample_ids.extend(sample_ids)
         if pending_supervised_batches >= gradient_accumulation_steps:
-            if amp_enabled:
-                scaler.step(optimizer)
-                scaler.update()
+            finalize_result = _finalize_optimizer_step(
+                model=model,
+                optimizer=optimizer,
+                amp_enabled=amp_enabled,
+                scaler=scaler,
+                run_logger=run_logger,
+                epoch=epoch,
+                accumulation_end_batch=batch_idx,
+                accumulation_sample_ids=accumulation_sample_ids,
+                accumulation_supervised_batches=pending_supervised_batches,
+            )
+            if finalize_result["optimizer_step_taken"]:
+                optimizer_steps += 1
+                consecutive_amp_overflow_steps = 0
             else:
-                optimizer.step()
-            optimizer.zero_grad()
-            optimizer_steps += 1
+                skipped_amp_overflow_steps += 1
+                consecutive_amp_overflow_steps += 1
+                if consecutive_amp_overflow_steps >= max_consecutive_amp_overflow_steps:
+                    raise RuntimeError(
+                        "AMP overflow skipped too many consecutive optimizer steps; "
+                        f"epoch={epoch}, batch={batch_idx}, consecutive_skips={consecutive_amp_overflow_steps}."
+                    )
+                if finalize_result["new_scale"] is not None and float(finalize_result["new_scale"]) <= minimum_amp_scale_floor:
+                    raise RuntimeError(
+                        "AMP GradScaler scale reached configured floor after overflow; "
+                        f"epoch={epoch}, batch={batch_idx}, scale={float(finalize_result[new_scale])}."
+                    )
+            if minimum_amp_scale is not None and finalize_result["new_scale"] is not None:
+                minimum_amp_scale = min(minimum_amp_scale, float(finalize_result["new_scale"]))
             pending_supervised_batches = 0
+            accumulation_sample_ids = []
 
         loss_value = float(loss.item())
         total_loss += loss_value
@@ -533,13 +620,28 @@ def train_one_epoch(
             print(f"  Batch {batch_idx}/{total_batches}  loss={loss_value:.4f}")
 
     if pending_supervised_batches > 0:
-        if amp_enabled:
-            scaler.step(optimizer)
-            scaler.update()
+        finalize_result = _finalize_optimizer_step(
+            model=model,
+            optimizer=optimizer,
+            amp_enabled=amp_enabled,
+            scaler=scaler,
+            run_logger=run_logger,
+            epoch=epoch,
+            accumulation_end_batch=total_batches,
+            accumulation_sample_ids=accumulation_sample_ids,
+            accumulation_supervised_batches=pending_supervised_batches,
+        )
+        if finalize_result["optimizer_step_taken"]:
+            optimizer_steps += 1
         else:
-            optimizer.step()
-        optimizer.zero_grad()
-        optimizer_steps += 1
+            skipped_amp_overflow_steps += 1
+            if finalize_result["new_scale"] is not None and float(finalize_result["new_scale"]) <= minimum_amp_scale_floor:
+                raise RuntimeError(
+                    "AMP GradScaler scale reached configured floor after overflow at epoch end; "
+                    f"epoch={epoch}, scale={float(finalize_result[new_scale])}."
+                )
+        if minimum_amp_scale is not None and finalize_result["new_scale"] is not None:
+            minimum_amp_scale = min(minimum_amp_scale, float(finalize_result["new_scale"]))
 
     if processed_batches == 0:
         raise RuntimeError(
@@ -552,6 +654,8 @@ def train_one_epoch(
         "optimizer_steps": optimizer_steps,
         "processed_batches": processed_batches,
         "skipped_all_ignore_batches": skipped_all_ignore_batches,
+        "skipped_amp_overflow_steps": skipped_amp_overflow_steps,
+        "minimum_amp_scale": minimum_amp_scale,
     }
 
 
