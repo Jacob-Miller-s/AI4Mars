@@ -56,7 +56,12 @@ def _override(section: dict[str, Any], key: str, value: Any) -> None:
         section[key] = value
 
 
-def load_and_validate_config(path: Path, args: argparse.Namespace | None = None) -> dict[str, Any]:
+def load_and_validate_config(
+    path: Path,
+    args: argparse.Namespace | None = None,
+    *,
+    enforce_training_batch_size: bool = True,
+) -> dict[str, Any]:
     config = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
     if not isinstance(config, dict):
         raise ValueError("Configuration must be a YAML mapping.")
@@ -83,6 +88,13 @@ def load_and_validate_config(path: Path, args: argparse.Namespace | None = None)
     for name in ("batch_size", "gradient_accumulation_steps", "epochs", "checkpoint_interval", "validation_interval", "batch_log_interval"):
         if int(training.get(name, 0)) < 1:
             raise ValueError(f"training.{name} must be at least 1.")
+    if enforce_training_batch_size and int(training.get("batch_size", 0)) < 2:
+        raise ValueError(
+            "training.batch_size must be at least 2 for canonical DeepLabV3Plus training. "
+            "With train-mode BatchNorm, the ASPP global-pooling branch emits [N, C, 1, 1], "
+            "so physical N=1 is invalid. Gradient accumulation changes effective batch size "
+            "but does not change per-forward-pass BatchNorm statistics."
+        )
     if training.get("max_samples_per_split") is not None and int(training["max_samples_per_split"]) < 1:
         raise ValueError("training.max_samples_per_split must be at least 1 when configured.")
     if float(training.get("learning_rate", 0)) <= 0 or float(training.get("weight_decay", 0)) < 0:
@@ -118,6 +130,40 @@ def _scheduler(optimizer: torch.optim.Optimizer, training: dict[str, Any]):
     return torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode="max")
 
 
+def _build_dataloaders(
+    datasets: dict[str, AI4MarsDataset],
+    *,
+    batch_size: int,
+    num_workers: int,
+    pin_memory: bool,
+) -> dict[str, DataLoader]:
+    """Build split-aware loaders for training/validation/evaluation.
+
+    Training uses drop_last=True to avoid singleton tail batches that can fail
+    train-mode BatchNorm in DeepLab's ASPP pooled branch. Validation and expert
+    evaluation keep drop_last=False so all samples are scored.
+    """
+    if batch_size < 1:
+        raise ValueError("batch_size must be at least 1.")
+    if num_workers < 0:
+        raise ValueError("num_workers cannot be negative.")
+
+    loaders: dict[str, DataLoader] = {}
+    persistent_workers = num_workers > 0
+    for name, dataset in datasets.items():
+        is_train = name == "train"
+        loaders[name] = DataLoader(
+            dataset,
+            batch_size=batch_size,
+            shuffle=is_train,
+            drop_last=is_train,
+            num_workers=num_workers,
+            pin_memory=pin_memory,
+            persistent_workers=persistent_workers,
+        )
+    return loaders
+
+
 def main() -> None:
     args = parse_args(); config = load_and_validate_config(Path(args.config), args)
     runtime, data, training, logging, spec = config["runtime"], config["data"], config["training"], config["logging"], config["paper_model_spec"]
@@ -143,8 +189,12 @@ def main() -> None:
         pairs = {name: values[:sample_limit] for name, values in pairs.items()}
     options = {"image_size": spec.input_size, "require_original_shape_match": True, "normalization_mean": spec.normalization_mean, "normalization_std": spec.normalization_std}
     datasets = {name: AI4MarsDataset(value, **options) for name, value in pairs.items()}
-    loader_options = {"batch_size": int(training["batch_size"]), "num_workers": int(training["num_workers"]), "pin_memory": device.type == "cuda", "persistent_workers": int(training["num_workers"]) > 0}
-    loaders = {name: DataLoader(dataset, shuffle=name == "train", **loader_options) for name, dataset in datasets.items()}
+    loaders = _build_dataloaders(
+        datasets,
+        batch_size=int(training["batch_size"]),
+        num_workers=int(training["num_workers"]),
+        pin_memory=device.type == "cuda",
+    )
     model = build_deeplabv3plus(spec).to(device); weights, weighting = _weights(manifests["train"], training["class_weighting"]); weights = weights.to(device)
     weighted_loss, unweighted_loss = nn.CrossEntropyLoss(weight=weights, ignore_index=spec.ignore_index), nn.CrossEntropyLoss(ignore_index=spec.ignore_index)
     optimizer, scheduler, scaler = _optimizer(model, training), None, torch.amp.GradScaler("cuda", enabled=bool(training["mixed_precision"]))

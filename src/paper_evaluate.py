@@ -135,7 +135,7 @@ def _write_confusion_matrix_figure(path: Path, normalized_confusion_matrix: list
 
 def main() -> None:
     args = parse_args()
-    config = load_and_validate_config(Path(args.config))
+    config = load_and_validate_config(Path(args.config), enforce_training_batch_size=False)
     runtime, data, training, spec = config["runtime"], config["data"], config["training"], config["paper_model_spec"]
     paths = resolve_runtime_paths(
         project_root=Path(__file__).parent.parent,

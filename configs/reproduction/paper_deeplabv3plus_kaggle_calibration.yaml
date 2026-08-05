@@ -23,7 +23,7 @@ training:
   # 40-epoch run in paper_deeplabv3plus_kaggle_p100.yaml. Epoch count, not
   # data scope, is what is bounded here: no max_samples_per_split is set.
   seed: 42
-  batch_size: 1
+  batch_size: 2
   gradient_accumulation_steps: 1
   epochs: 3
   optimizer: adamw

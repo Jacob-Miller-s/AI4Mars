@@ -19,7 +19,7 @@ model:
   num_classes: 4
 training:
   seed: 42
-  batch_size: 1
+  batch_size: 2
   gradient_accumulation_steps: 1
   epochs: 1
   optimizer: adamw

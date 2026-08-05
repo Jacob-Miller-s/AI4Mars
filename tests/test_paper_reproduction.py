@@ -180,7 +180,7 @@ class PaperReproductionTests(unittest.TestCase):
     def test_configuration_validation_rejects_nonpaper_backbone(self) -> None:
         config = self.root / "config.yaml"
         config.write_text(
-            """runtime: {}\ndata:\n  dataset_manifest: manifest.csv\n  train_manifest: train.csv\n  val_manifest: val.csv\n  expert_min1_manifest: min1.csv\n  expert_min2_manifest: min2.csv\n  expert_min3_manifest: min3.csv\nmodel:\n  architecture: DeepLabV3Plus\n  backbone: resnet34\n  pretrained_weights: imagenet\n  input_size: [513, 513]\ntraining:\n  ignore_index: 255\n  class_weighting: paper_complement_composition\n  optimizer: adamw\n  scheduler: none\n  batch_size: 1\n  gradient_accumulation_steps: 1\n  epochs: 1\n  checkpoint_interval: 1\n  validation_interval: 1\n  batch_log_interval: 1\n  learning_rate: 0.0001\n  weight_decay: 0.0\nlogging: {}\n""",
+            """runtime: {}\ndata:\n  dataset_manifest: manifest.csv\n  train_manifest: train.csv\n  val_manifest: val.csv\n  expert_min1_manifest: min1.csv\n  expert_min2_manifest: min2.csv\n  expert_min3_manifest: min3.csv\nmodel:\n  architecture: DeepLabV3Plus\n  backbone: resnet34\n  pretrained_weights: imagenet\n  input_size: [513, 513]\ntraining:\n  ignore_index: 255\n  class_weighting: paper_complement_composition\n  optimizer: adamw\n  scheduler: none\n  batch_size: 2\n  gradient_accumulation_steps: 1\n  epochs: 1\n  checkpoint_interval: 1\n  validation_interval: 1\n  batch_log_interval: 1\n  learning_rate: 0.0001\n  weight_decay: 0.0\nlogging: {}\n""",
             encoding="utf-8",
         )
 
