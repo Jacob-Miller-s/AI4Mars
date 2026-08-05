@@ -291,6 +291,56 @@ def _cuda_allocator_metrics(device: torch.device) -> Dict[str, int]:
 # Training loop
 # ---------------------------------------------------------------------------
 
+def _normalize_sample_ids(sample_ids: Any) -> Optional[list[str]]:
+    if sample_ids is None:
+        return None
+    if isinstance(sample_ids, str):
+        return [sample_ids]
+    if isinstance(sample_ids, (list, tuple)):
+        return [str(item) for item in sample_ids]
+    return [str(sample_ids)]
+
+
+def _unpack_training_batch(batch: Any) -> tuple[torch.Tensor, torch.Tensor, Optional[list[str]]]:
+    if not isinstance(batch, (tuple, list)):
+        raise TypeError(
+            "Training dataloader must yield a tuple/list batch with 2 items "
+            "(images, masks) or 3 items (images, masks, sample_ids)."
+        )
+    if len(batch) == 2:
+        images, masks = batch
+        sample_ids = None
+    elif len(batch) == 3:
+        images, masks, sample_ids = batch
+    else:
+        raise ValueError(
+            "Training dataloader batch must contain exactly 2 or 3 items: "
+            f"received {len(batch)} items."
+        )
+    if not isinstance(images, torch.Tensor):
+        raise TypeError(f"Batch images must be a torch.Tensor, got {type(images).__name__}.")
+    if not isinstance(masks, torch.Tensor):
+        raise TypeError(f"Batch masks must be a torch.Tensor, got {type(masks).__name__}.")
+    return images, masks, _normalize_sample_ids(sample_ids)
+
+
+def _emit_training_diagnostic(run_logger: Optional[Any], *, event_type: str, payload: Dict[str, Any]) -> None:
+    if run_logger is None:
+        return
+    method = getattr(run_logger, "log_training_diagnostic", None)
+    if callable(method):
+        method(event_type=event_type, **payload)
+
+
+def _gradients_are_finite(model: nn.Module) -> bool:
+    for parameter in model.parameters():
+        if parameter.grad is None:
+            continue
+        if not torch.isfinite(parameter.grad).all():
+            return False
+    return True
+
+
 def train_one_epoch(
     model: nn.Module,
     dataloader: DataLoader,
@@ -304,32 +354,9 @@ def train_one_epoch(
     amp_enabled: bool = False,
     scaler: Optional[Any] = None,
     gradient_accumulation_steps: int = 1,
+    ignore_index: Optional[int] = None,
 ) -> Dict[str, Any]:
-    """Run one full training epoch.
-
-    Parameters
-    ----------
-    model : nn.Module
-        Segmentation model.  Expected input ``[B, 3, H, W]``, output
-        ``[B, num_classes, H, W]``.
-    dataloader : DataLoader
-        Training data loader yielding ``(images, masks)`` batches.
-    optimizer : torch.optim.Optimizer
-        Optimiser (e.g. ``torch.optim.Adam``).
-    loss_fn : nn.Module
-        Loss function (e.g. ``CrossEntropyLoss(ignore_index=255)``).
-    device : torch.device
-        Device to run computations on.
-
-    Returns
-    -------
-    dict
-        ``{"mean_loss": float, "optimizer_steps": int}``. ``optimizer_steps``
-        is the number of actual ``optimizer.step()`` calls taken this epoch
-        (equal to the batch count only when ``gradient_accumulation_steps``
-        is 1), and is the correct quantity to accumulate into a global
-        optimizer-step counter across epochs.
-    """
+    """Run one full training epoch."""
     if batch_log_interval < 1:
         raise ValueError("batch_log_interval must be at least 1.")
     if run_logger is not None and epoch is None:
@@ -340,6 +367,10 @@ def train_one_epoch(
         raise ValueError("A CUDA GradScaler is required when AMP is enabled.")
     if gradient_accumulation_steps < 1:
         raise ValueError("gradient_accumulation_steps must be at least 1.")
+    if ignore_index is None:
+        ignore_index = int(getattr(loss_fn, "ignore_index", 255))
+    else:
+        ignore_index = int(ignore_index)
 
     model.train()
     total_loss = 0.0
@@ -349,27 +380,125 @@ def train_one_epoch(
     rolling_loss: Optional[float] = None
     samples_seen = 0
     optimizer_steps = 0
+    processed_batches = 0
+    skipped_all_ignore_batches = 0
+    pending_supervised_batches = 0
     started_at = perf_counter()
     optimizer.zero_grad()
 
-    for batch_idx, (images, masks) in enumerate(dataloader):
-        images = images.to(device)  # [B, 3, H, W]
-        masks = masks.to(device)    # [B, H, W]
+    for batch_idx, batch in enumerate(dataloader, start=1):
+        images, masks, sample_ids = _unpack_training_batch(batch)
+        images = images.to(device)
+        masks = masks.to(device)
+        batch_size = int(images.shape[0])
+
+        valid_pixel_count = int((masks != ignore_index).sum().item())
+        if valid_pixel_count == 0:
+            skipped_all_ignore_batches += 1
+            _emit_training_diagnostic(
+                run_logger,
+                event_type="all_ignore_batch",
+                payload={
+                    "epoch": epoch,
+                    "batch": batch_idx,
+                    "batch_size": batch_size,
+                    "sample_ids": sample_ids,
+                    "valid_pixel_count": 0,
+                },
+            )
+            continue
+
+        unique_target_ids = sorted(int(value) for value in torch.unique(masks).tolist())
+        images_finite = bool(torch.isfinite(images).all().item())
+        if not images_finite:
+            diagnostic = {
+                "epoch": epoch,
+                "batch": batch_idx,
+                "sample_ids": sample_ids,
+                "valid_pixel_count": valid_pixel_count,
+                "unique_target_ids": unique_target_ids,
+                "images_finite": False,
+                "logits_finite": False,
+                "loss_finite": False,
+                "amp_enabled": bool(amp_enabled),
+                "grad_scaler_scale": float(scaler.get_scale()) if scaler is not None else None,
+            }
+            _emit_training_diagnostic(run_logger, event_type="non_finite_inputs", payload=diagnostic)
+            raise RuntimeError(
+                "Training inputs are non-finite for a batch with valid target pixels "
+                f"(epoch={epoch}, batch={batch_idx}, sample_ids={sample_ids})."
+            )
 
         with torch.amp.autocast(device_type="cuda", enabled=amp_enabled):
             logits = model(images)
+            logits_finite = bool(torch.isfinite(logits).all().item())
+            if not logits_finite:
+                diagnostic = {
+                    "epoch": epoch,
+                    "batch": batch_idx,
+                    "sample_ids": sample_ids,
+                    "valid_pixel_count": valid_pixel_count,
+                    "unique_target_ids": unique_target_ids,
+                    "images_finite": images_finite,
+                    "logits_finite": False,
+                    "loss_finite": False,
+                    "amp_enabled": bool(amp_enabled),
+                    "grad_scaler_scale": float(scaler.get_scale()) if scaler is not None else None,
+                }
+                _emit_training_diagnostic(run_logger, event_type="non_finite_logits", payload=diagnostic)
+                raise RuntimeError(
+                    "Training logits are non-finite for a batch with valid target pixels "
+                    f"(epoch={epoch}, batch={batch_idx}, sample_ids={sample_ids})."
+                )
             loss = loss_fn(logits, masks)
-        if not torch.isfinite(loss):
-            raise RuntimeError("Training loss is non-finite; stopping before an optimizer update.")
+
+        loss_finite = bool(torch.isfinite(loss).item())
+        if not loss_finite:
+            diagnostic = {
+                "epoch": epoch,
+                "batch": batch_idx,
+                "sample_ids": sample_ids,
+                "valid_pixel_count": valid_pixel_count,
+                "unique_target_ids": unique_target_ids,
+                "images_finite": images_finite,
+                "logits_finite": True,
+                "loss_finite": False,
+                "amp_enabled": bool(amp_enabled),
+                "grad_scaler_scale": float(scaler.get_scale()) if scaler is not None else None,
+            }
+            _emit_training_diagnostic(run_logger, event_type="non_finite_loss", payload=diagnostic)
+            raise RuntimeError(
+                "Training loss is non-finite for a batch with valid target pixels "
+                f"(epoch={epoch}, batch={batch_idx}, sample_ids={sample_ids})."
+            )
+
         scaled_loss = loss / gradient_accumulation_steps
         if amp_enabled:
             scaler.scale(scaled_loss).backward()
         else:
             scaled_loss.backward()
 
-        completed_batches = batch_idx + 1
-        should_step = completed_batches % gradient_accumulation_steps == 0 or completed_batches == total_batches
-        if should_step:
+        if not _gradients_are_finite(model):
+            diagnostic = {
+                "epoch": epoch,
+                "batch": batch_idx,
+                "sample_ids": sample_ids,
+                "valid_pixel_count": valid_pixel_count,
+                "unique_target_ids": unique_target_ids,
+                "images_finite": images_finite,
+                "logits_finite": True,
+                "loss_finite": True,
+                "amp_enabled": bool(amp_enabled),
+                "grad_scaler_scale": float(scaler.get_scale()) if scaler is not None else None,
+            }
+            _emit_training_diagnostic(run_logger, event_type="non_finite_gradients", payload=diagnostic)
+            raise RuntimeError(
+                "Training gradients became non-finite for a batch with valid target pixels "
+                f"(epoch={epoch}, batch={batch_idx}, sample_ids={sample_ids})."
+            )
+
+        pending_supervised_batches += 1
+        if pending_supervised_batches >= gradient_accumulation_steps:
             if amp_enabled:
                 scaler.step(optimizer)
                 scaler.update()
@@ -377,21 +506,21 @@ def train_one_epoch(
                 optimizer.step()
             optimizer.zero_grad()
             optimizer_steps += 1
+            pending_supervised_batches = 0
 
-        loss_value = loss.item()
+        loss_value = float(loss.item())
         total_loss += loss_value
         rolling_loss = loss_value if rolling_loss is None else 0.9 * rolling_loss + 0.1 * loss_value
-        samples_seen += int(images.shape[0])
+        samples_seen += batch_size
+        processed_batches += 1
 
         elapsed_seconds = perf_counter() - started_at
         throughput = samples_seen / elapsed_seconds if elapsed_seconds > 0 else None
-        eta_seconds = (elapsed_seconds / completed_batches) * (total_batches - completed_batches)
-        if run_logger is not None and (
-            completed_batches % batch_log_interval == 0 or completed_batches == total_batches
-        ):
+        eta_seconds = (elapsed_seconds / batch_idx) * (total_batches - batch_idx)
+        if run_logger is not None and (batch_idx % batch_log_interval == 0 or batch_idx == total_batches):
             run_logger.log_batch(
                 epoch=epoch,
-                batch=completed_batches,
+                batch=batch_idx,
                 total_batches=total_batches,
                 loss=loss_value,
                 smoothed_loss=rolling_loss,
@@ -400,10 +529,30 @@ def train_one_epoch(
                 **_cuda_allocator_metrics(device),
             )
 
-        if completed_batches % 10 == 0:
-            print(f"  Batch {completed_batches}/{total_batches}  loss={loss_value:.4f}")
+        if batch_idx % 10 == 0:
+            print(f"  Batch {batch_idx}/{total_batches}  loss={loss_value:.4f}")
 
-    return {"mean_loss": total_loss / total_batches, "optimizer_steps": optimizer_steps}
+    if pending_supervised_batches > 0:
+        if amp_enabled:
+            scaler.step(optimizer)
+            scaler.update()
+        else:
+            optimizer.step()
+        optimizer.zero_grad()
+        optimizer_steps += 1
+
+    if processed_batches == 0:
+        raise RuntimeError(
+            "Training epoch contains no supervised batches with valid target pixels; "
+            "all batches were all-ignore and skipped."
+        )
+
+    return {
+        "mean_loss": total_loss / processed_batches,
+        "optimizer_steps": optimizer_steps,
+        "processed_batches": processed_batches,
+        "skipped_all_ignore_batches": skipped_all_ignore_batches,
+    }
 
 
 # ---------------------------------------------------------------------------
