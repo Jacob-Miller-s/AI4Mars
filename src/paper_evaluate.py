@@ -32,7 +32,7 @@ from torch.utils.data import DataLoader
 
 from src.dataset import AI4MarsDataset, load_pairs_from_manifest
 from src.foundation import current_git_commit, sha256_file
-from src.paper_model import build_deeplabv3plus
+from src.paper_model import build_deeplabv3plus, paper_padding_metadata
 from src.paper_reproduction import CLASS_NAMES, assert_no_reproduction_leakage, validate_manifest_files
 from src.paper_train import load_and_validate_config
 from src.research_console.run_store import RunLogger, atomic_write_json
@@ -167,6 +167,7 @@ def main() -> None:
         raise FileNotFoundError(f"Checkpoint not found: {checkpoint_path}")
 
     model = build_deeplabv3plus(spec).to(device)
+    padding_metadata = paper_padding_metadata(spec)
     checkpoint_provenance = load_frozen_checkpoint(model, checkpoint_path, device)
 
     pairs = {
@@ -214,6 +215,13 @@ def main() -> None:
                 pretrained_weights=spec.pretrained_weights,
                 parameter_count=sum(item.numel() for item in model.parameters()),
                 input_resolution=spec.input_size,
+                requested_input_size=tuple(padding_metadata["requested_input_size"]),
+                internal_padding_multiple=padding_metadata["internal_padding_multiple"],
+                internal_padded_size_for_513=tuple(padding_metadata["internal_padded_size_for_513"]),
+                input_padding_policy=padding_metadata["input_padding_policy"],
+                input_padding_mode=padding_metadata["input_padding_mode"],
+                normalized_padding_value=padding_metadata["normalized_padding_value"],
+                output_crop_policy=padding_metadata["output_crop_policy"],
             ),
             training=TrainingRecord(optimizer=training.get("optimizer", "none"), scheduler=training.get("scheduler"), loss="CrossEntropyLoss", batch_size=int(training["batch_size"])),
             environment=EnvironmentRecord(python=platform.python_version(), pytorch=torch.__version__, cuda=torch.version.cuda, gpu=torch.cuda.get_device_name(0) if device.type == "cuda" else None),

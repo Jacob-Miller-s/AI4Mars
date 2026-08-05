@@ -78,7 +78,22 @@ class ModelRecord(BaseModel):
     encoder: str | None = None
     pretrained_weights: str | None = None
     parameter_count: int | None = Field(default=None, ge=0)
+    # The scientifically reported model input resolution (e.g. 513x513 for the
+    # paper reproduction). This is the only field consumers should treat as the
+    # experimental image resolution.
     input_resolution: tuple[int, int] | None = None
+    # The following fields describe an internal, non-scientific implementation
+    # detail: some encoders require spatial dimensions divisible by their
+    # output stride, so PaperAlignedDeepLabV3Plus pads/crops around the
+    # unmodified input_resolution above. None of these fields should ever be
+    # read as the experimental input resolution.
+    requested_input_size: tuple[int, int] | None = None
+    internal_padding_multiple: int | None = Field(default=None, ge=1)
+    internal_padded_size_for_513: tuple[int, int] | None = None
+    input_padding_policy: str | None = None
+    input_padding_mode: str | None = None
+    normalized_padding_value: float | None = None
+    output_crop_policy: str | None = None
 
 
 class TrainingRecord(BaseModel):
