@@ -1,151 +1,46 @@
-# Mars Terrain Segmentation for Rover Navigation
+# AI4Mars Rock Perception
 
-A computer vision project using NASA's AI4Mars dataset to train a semantic segmentation model that classifies Martian terrain in rover images. The pipeline covers data preprocessing, PyTorch model training, IoU evaluation, visual error analysis, and lays the groundwork for uncertainty-aware navigation support.
+Martian terrain segmentation and instance-level rock detection from rover imagery.
 
----
+## Introduction
 
-## What is Semantic Segmentation?
+This project uses semantic segmentation as a controlled baseline for development of a separate rock-instance classifier. The baseline is intended to characterize the limitations of pixel-wise `big_rock` classification and provide a reference for object-level rock detection.
 
-Semantic segmentation is a computer vision task where every pixel in an image is assigned a class label. Unlike object detection (which draws bounding boxes), segmentation produces a pixel-level map — useful for understanding _where_ each terrain type is in a Mars rover image.
+The planned system separates broad terrain context from discrete rock hazards:
 
-## About the AI4Mars Dataset
+- semantic segmentation: `soil`, `bedrock`, and `sand`;
+- instance-level detection or segmentation: individual rocks;
+- stereo geometry: rock distance and physical dimensions.
 
-The [AI4Mars terrain-segmentation dataset](https://zenodo.org/records/15995036) is the correct per-pixel segmentation release for this project. It contains Mars rover images and crowd-sourced terrain masks for navigation-oriented classes such as **soil**, **bedrock**, **sand**, and **big_rock**.
+## Dataset
 
-The older Zenodo record [4033453](https://zenodo.org/record/4033453) is a different MSL image-classification dataset and should not be used here.
+Experiments use the merged AI4Mars 0.6 release and are currently restricted to the Mars Science Laboratory NAVCAM subset.
 
-### Research Question
+| Value | Class |
+|---:|---|
+| 0 | Soil |
+| 1 | Bedrock |
+| 2 | Sand |
+| 3 | Big Rock |
+| 255 | Ignore |
 
-How effectively can pretrained encoder-decoder segmentation models classify navigational terrain classes in AI4Mars under local hardware constraints, and which terrain classes remain failure modes?
+Dataset files are not included in this repository.
 
-> **Note:** You must download the dataset manually. See setup instructions below.
+Inputs are padded internally to satisfy encoder stride requirements and cropped back to `513 × 513` before loss and metric computation.
 
----
+## Preliminary Results
 
-## Repository Structure
+A three-epoch development run reached a mean IoU of `0.7837`.
 
-```
-mars-terrain-segmentation/
-│
-├── notebooks/
-│   ├── 00_nasa_api_discovery.ipynb      # Discover dataset metadata via NASA/Zenodo APIs
-│   ├── 01_dataset_inspection.ipynb      # Inspect extracted files and verify structure
-│   ├── 02_dataset_viewer.ipynb          # Visualize image/mask pairs and overlays
-│   ├── 03_baseline_training.ipynb       # Train a minimal segmentation model
-│   └── 04_evaluation_error_analysis.ipynb  # Evaluate predictions and analyse errors
-│
-├── src/
-│   ├── data_paths.py     # Path constants and directory helpers
-│   ├── nasa_catalog.py   # NASA/Zenodo API functions
-│   ├── dataset.py        # PyTorch Dataset class and file helpers
-│   ├── transforms.py     # Image/mask preprocessing utilities
-│   ├── visualize.py      # Matplotlib visualization helpers
-│   ├── metrics.py        # Pixel accuracy and IoU metrics
-│   └── train_utils.py    # Training loop, checkpointing, evaluation
-│
-├── data/
-│   ├── raw/              # Raw downloads (git-ignored)
-│   ├── processed/        # Processed data (git-ignored)
-│   └── samples/          # Small samples for quick testing (git-ignored)
-│
-├── models/               # Saved checkpoints (git-ignored)
-│
-├── outputs/
-│   ├── figures/          # Saved plots (committed)
-│   ├── predictions/      # Model predictions (git-ignored)
-│   └── logs/             # Training logs (git-ignored)
-│
-├── requirements.txt
-├── README.md
-└── .gitignore
-```
+| Class | IoU |
+|---|---:|
+| Soil | 0.9256 |
+| Bedrock | 0.9359 |
+| Sand | 0.8822 |
+| Big Rock | 0.3911 |
 
----
+Big Rock remains the principal failure mode and is predominantly confused with Bedrock. These are development-validation results, not final expert-test results.
 
-## Setup Instructions (VS Code + Jupyter)
+### Reference
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/mandevautospa/AI4Mars.git
-cd AI4Mars
-```
-
-### 2. Create and Activate a Virtual Environment (Windows PowerShell)
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-```
-
-> If you get a script execution error, run:
-> ```powershell
-> Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
-> ```
-
-### 3. Install Dependencies
-
-```powershell
-pip install --upgrade pip
-pip install -r requirements.txt
-```
-
-### 4. Register the Kernel with Jupyter
-
-```powershell
-python -m ipykernel install --user --name mars-seg --display-name "Python (mars-seg)"
-```
-
-### 5. Open in VS Code
-
-Open the repository folder in VS Code, then open any notebook. Select the **Python (mars-seg)** kernel when prompted.
-
----
-
-## Notebook Workflow
-
-| # | Notebook | Goal |
-|---|----------|------|
-| 00 | `00_nasa_api_discovery.ipynb` | Use NASA CKAN and Zenodo APIs to locate the correct terrain-segmentation record and download links |
-| 01 | `01_dataset_inspection.ipynb` | Inspect extracted files, count images/masks, verify pairing logic |
-| 02 | `02_dataset_viewer.ipynb` | Visualise NAV and M2020_GEO pairs, overlays, and class distributions |
-| 03 | `03_baseline_training.ipynb` | Train a baseline pretrained U-Net and record reproducible settings |
-| 04 | `04_evaluation_error_analysis.ipynb` | Evaluate predictions with pixel accuracy, per-class IoU, and error analysis |
-
----
-
-## Current Milestone
-
-> **Load Mars rover image/mask pairs, visualise overlays, verify class labels, and benchmark pretrained segmentation models under local hardware constraints.**
-
-Start with `00_nasa_api_discovery.ipynb` to find the correct Zenodo record and download links, then manually download and extract the AI4Mars dataset into `data/raw/`. Then run `01_dataset_inspection.ipynb` to verify the structure before proceeding.
-
----
-
-## Future Work
-
-- **Per-class IoU reporting** — detailed breakdown by terrain class and failure mode
-- **Uncertainty-aware segmentation** — predict confidence alongside class labels for safer navigation
-- **Rover-to-rover generalisation** — transfer between Curiosity, Opportunity, and Spirit data
-- **Hazard / traversability maps** — convert class predictions into actionable navigation masks
-- **Cleaner experiment series** — compare pretrained U-Net, EfficientNet encoders, DeepLabV3+, and Dice/Focal/CE hybrids
-
----
-
-## AI4Mars Senior Research Agent
-
-The repository includes a persistent, read-only research advisor in `research_agent/`. It can inspect project files and notebooks, check segmentation metrics, estimate tensor memory, search current literature, critique experimental reasoning, and explain the mathematics behind recommendations.
-
-After installing the requirements, start an ongoing conversation with:
-
-```powershell
-python -m research_agent
-```
-
-Ask one question non-interactively with:
-
-```powershell
-python -m research_agent --ask "What is the highest-value experiment to run next?"
-```
-
-Conversation history is stored locally under `.research_agent/` and is not committed.
+R. M. Swan et al., “AI4MARS: A Dataset for Terrain-Aware Autonomous Driving on Mars,” CVPR Workshops, 2021.
