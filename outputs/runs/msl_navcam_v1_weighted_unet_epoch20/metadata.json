@@ -1,0 +1,75 @@
+{
+  "artifact_refs": [
+    {
+      "description": "Terminal run traceback",
+      "kind": "traceback",
+      "path": "artifacts/failure_traceback.txt"
+    }
+  ],
+  "ended_at": "2026-08-04T21:45:14.810157Z",
+  "environment": {},
+  "experiment_name": "MSL NavCam weighted U-Net baseline",
+  "model": {
+    "encoder": "resnet34",
+    "input_resolution": [
+      256,
+      256
+    ],
+    "name": "Unet",
+    "parameter_count": 24436804,
+    "pretrained_weights": "imagenet"
+  },
+  "provenance": {
+    "dataset_manifest_sha256": "d7eb2acef0b1b148047329acc1c47ffd379486936efabed3d932221e8155b07b",
+    "dataset_name": "AI4Mars",
+    "dataset_version": "ai4mars-dataset-merged-0.6",
+    "determinism": {},
+    "git_dirty": false,
+    "protocol": {
+      "failed_gates": [],
+      "notes": [
+        "MSL NavCam NAV scope is fixed by canonical manifests.",
+        "Expert gold test splits remain sealed during iterative selection."
+      ],
+      "valid": true
+    },
+    "random_seeds": {
+      "split": 42
+    },
+    "split_manifest_hashes": {
+      "test_min1_100agree": "e7d678a972e73ebebe97fe27f06112f49b98e6e51cac2c8d408870b69f2dda03",
+      "test_min2_100agree": "cce5bc6081c4cd7e1d41871abc64d4b39978d2d44dd2e442a8526ccdc9536af0",
+      "test_min3_100agree": "5dc7486be51e35ae87e2c8d13ad5a8265c5a7dcc4bb7b84836b6930907ae6531",
+      "train": "f3e5e8d2b196baa1424e30cfd73c1984f5a00cb77294e76d8443d8834d16ab9e",
+      "val": "8000de430defd21aa19f043c17c979d648a567995344cc84f60880fb4b32bc23"
+    },
+    "split_role": "crowdsourced_validation"
+  },
+  "researcher_notes": "Iterative model selection uses only the crowdsourced validation split.",
+  "run_id": "msl_navcam_v1_weighted_unet_epoch20",
+  "schema_version": 1,
+  "started_at": "2026-08-04T18:02:10.995865Z",
+  "status": "failed",
+  "tags": [
+    "ai4mars",
+    "msl",
+    "navcam",
+    "baseline",
+    "weighted-loss"
+  ],
+  "training": {
+    "augmentation": {},
+    "batch_size": 4,
+    "class_weights": [
+      0.08865173906087875,
+      0.06842251121997833,
+      0.28028181195259094,
+      3.5626440048217773
+    ],
+    "epochs": 20,
+    "learning_rate": 0.001,
+    "loss": "CrossEntropyLoss",
+    "optimizer": "Adam",
+    "precision_mode": "float32"
+  }
+}

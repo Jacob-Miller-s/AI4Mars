@@ -1,0 +1,2841 @@
+{
+  "expert_splits_excluded": true,
+  "images": {
+    "NLA_401492610EDR_F0042100NCAM00306M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLA_401492610EDR_F0042100NCAM00306M1",
+      "image_path": "msl/ncam/images/edr/NLA_401492610EDR_F0042100NCAM00306M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLA_401492610EDR_F0042100NCAM00306M1.png",
+      "pilot_rank": 121,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0042100NCAM00306M1",
+      "split": "val"
+    },
+    "NLA_408507666EDR_F0051216NCAM00219M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLA_408507666EDR_F0051216NCAM00219M1",
+      "image_path": "msl/ncam/images/edr/NLA_408507666EDR_F0051216NCAM00219M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLA_408507666EDR_F0051216NCAM00219M1.png",
+      "pilot_rank": 66,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0051216NCAM00219M1",
+      "split": "train"
+    },
+    "NLA_411521115EDR_F0051954NCAM00320M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLA_411521115EDR_F0051954NCAM00320M1",
+      "image_path": "msl/ncam/images/edr/NLA_411521115EDR_F0051954NCAM00320M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLA_411521115EDR_F0051954NCAM00320M1.png",
+      "pilot_rank": 30,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0051954NCAM00320M1",
+      "split": "val"
+    },
+    "NLA_413665900EDR_F0060000NCAM00368M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLA_413665900EDR_F0060000NCAM00368M1",
+      "image_path": "msl/ncam/images/edr/NLA_413665900EDR_F0060000NCAM00368M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLA_413665900EDR_F0060000NCAM00368M1.png",
+      "pilot_rank": 105,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0060000NCAM00368M1",
+      "split": "train"
+    },
+    "NLB_421445249EDR_F0060000NCAM12754M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_421445249EDR_F0060000NCAM12754M1",
+      "image_path": "msl/ncam/images/edr/NLB_421445249EDR_F0060000NCAM12754M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_421445249EDR_F0060000NCAM12754M1.png",
+      "pilot_rank": 135,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0060000NCAM12754M1",
+      "split": "train"
+    },
+    "NLB_424219126EDR_F0060410NCAM00245M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_424219126EDR_F0060410NCAM00245M1",
+      "image_path": "msl/ncam/images/edr/NLB_424219126EDR_F0060410NCAM00245M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_424219126EDR_F0060410NCAM00245M1.png",
+      "pilot_rank": 111,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0060410NCAM00245M1",
+      "split": "val"
+    },
+    "NLB_424307612EDR_F0060450NCAM00350M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_424307612EDR_F0060450NCAM00350M1",
+      "image_path": "msl/ncam/images/edr/NLB_424307612EDR_F0060450NCAM00350M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_424307612EDR_F0060450NCAM00350M1.png",
+      "pilot_rank": 95,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0060450NCAM00350M1",
+      "split": "val"
+    },
+    "NLB_424835216EDR_F0060646NCAM00246M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_424835216EDR_F0060646NCAM00246M1",
+      "image_path": "msl/ncam/images/edr/NLB_424835216EDR_F0060646NCAM00246M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_424835216EDR_F0060646NCAM00246M1.png",
+      "pilot_rank": 75,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0060646NCAM00246M1",
+      "split": "train"
+    },
+    "NLB_436473759EDR_F0211572NCAM00464M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_436473759EDR_F0211572NCAM00464M1",
+      "image_path": "msl/ncam/images/edr/NLB_436473759EDR_F0211572NCAM00464M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_436473759EDR_F0211572NCAM00464M1.png",
+      "pilot_rank": 85,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "very_large_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0211572NCAM00464M1",
+      "split": "train"
+    },
+    "NLB_436560164EDR_F0220000NCAM00259M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_436560164EDR_F0220000NCAM00259M1",
+      "image_path": "msl/ncam/images/edr/NLB_436560164EDR_F0220000NCAM00259M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_436560164EDR_F0220000NCAM00259M1.png",
+      "pilot_rank": 146,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0220000NCAM00259M1",
+      "split": "train"
+    },
+    "NLB_436560597EDR_F0220000NCAM00354M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_436560597EDR_F0220000NCAM00354M1",
+      "image_path": "msl/ncam/images/edr/NLB_436560597EDR_F0220000NCAM00354M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_436560597EDR_F0220000NCAM00354M1.png",
+      "pilot_rank": 64,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0220000NCAM00354M1",
+      "split": "train"
+    },
+    "NLB_444368643EDR_F0260168NCAM00253M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_444368643EDR_F0260168NCAM00253M1",
+      "image_path": "msl/ncam/images/edr/NLB_444368643EDR_F0260168NCAM00253M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_444368643EDR_F0260168NCAM00253M1.png",
+      "pilot_rank": 43,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0260168NCAM00253M1",
+      "split": "train"
+    },
+    "NLB_444808777EDR_F0260292NCAM00258M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_444808777EDR_F0260292NCAM00258M1",
+      "image_path": "msl/ncam/images/edr/NLB_444808777EDR_F0260292NCAM00258M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_444808777EDR_F0260292NCAM00258M1.png",
+      "pilot_rank": 45,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0260292NCAM00258M1",
+      "split": "train"
+    },
+    "NLB_446501152EDR_F0280000NCAM00279M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_446501152EDR_F0280000NCAM00279M1",
+      "image_path": "msl/ncam/images/edr/NLB_446501152EDR_F0280000NCAM00279M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_446501152EDR_F0280000NCAM00279M1.png",
+      "pilot_rank": 46,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0280000NCAM00279M1",
+      "split": "train"
+    },
+    "NLB_448457285EDR_F0300740NCAM00251M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_448457285EDR_F0300740NCAM00251M1",
+      "image_path": "msl/ncam/images/edr/NLB_448457285EDR_F0300740NCAM00251M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_448457285EDR_F0300740NCAM00251M1.png",
+      "pilot_rank": 108,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0300740NCAM00251M1",
+      "split": "train"
+    },
+    "NLB_449075739EDR_F0300786NCAM00254M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_449075739EDR_F0300786NCAM00254M1",
+      "image_path": "msl/ncam/images/edr/NLB_449075739EDR_F0300786NCAM00254M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_449075739EDR_F0300786NCAM00254M1.png",
+      "pilot_rank": 110,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0300786NCAM00254M1",
+      "split": "train"
+    },
+    "NLB_449076088EDR_F0300786NCAM00256M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_449076088EDR_F0300786NCAM00256M1",
+      "image_path": "msl/ncam/images/edr/NLB_449076088EDR_F0300786NCAM00256M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_449076088EDR_F0300786NCAM00256M1.png",
+      "pilot_rank": 44,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0300786NCAM00256M1",
+      "split": "train"
+    },
+    "NLB_449520568EDR_F0300820NCAM00257M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_449520568EDR_F0300820NCAM00257M1",
+      "image_path": "msl/ncam/images/edr/NLB_449520568EDR_F0300820NCAM00257M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_449520568EDR_F0300820NCAM00257M1.png",
+      "pilot_rank": 145,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0300820NCAM00257M1",
+      "split": "train"
+    },
+    "NLB_450501721EDR_F0310724NCAM00268M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_450501721EDR_F0310724NCAM00268M1",
+      "image_path": "msl/ncam/images/edr/NLB_450501721EDR_F0310724NCAM00268M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_450501721EDR_F0310724NCAM00268M1.png",
+      "pilot_rank": 138,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0310724NCAM00268M1",
+      "split": "train"
+    },
+    "NLB_451922085EDR_F0311330NCAM00364M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_451922085EDR_F0311330NCAM00364M1",
+      "image_path": "msl/ncam/images/edr/NLB_451922085EDR_F0311330NCAM00364M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_451922085EDR_F0311330NCAM00364M1.png",
+      "pilot_rank": 23,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0311330NCAM00364M1",
+      "split": "val"
+    },
+    "NLB_458749903EDR_F0390726NCAM00264M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_458749903EDR_F0390726NCAM00264M1",
+      "image_path": "msl/ncam/images/edr/NLB_458749903EDR_F0390726NCAM00264M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_458749903EDR_F0390726NCAM00264M1.png",
+      "pilot_rank": 15,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0390726NCAM00264M1",
+      "split": "train"
+    },
+    "NLB_460085123EDR_F0400000NCAM00353M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_460085123EDR_F0400000NCAM00353M1",
+      "image_path": "msl/ncam/images/edr/NLB_460085123EDR_F0400000NCAM00353M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_460085123EDR_F0400000NCAM00353M1.png",
+      "pilot_rank": 26,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0400000NCAM00353M1",
+      "split": "train"
+    },
+    "NLB_460794047EDR_F0400660NCAM00262M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_460794047EDR_F0400660NCAM00262M1",
+      "image_path": "msl/ncam/images/edr/NLB_460794047EDR_F0400660NCAM00262M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_460794047EDR_F0400660NCAM00262M1.png",
+      "pilot_rank": 14,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0400660NCAM00262M1",
+      "split": "train"
+    },
+    "NLB_461148082EDR_F0401286NCAM00265M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_461148082EDR_F0401286NCAM00265M1",
+      "image_path": "msl/ncam/images/edr/NLB_461148082EDR_F0401286NCAM00265M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_461148082EDR_F0401286NCAM00265M1.png",
+      "pilot_rank": 2,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0401286NCAM00265M1",
+      "split": "train"
+    },
+    "NLB_463189610EDR_F0410802NCAM00385M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_463189610EDR_F0410802NCAM00385M1",
+      "image_path": "msl/ncam/images/edr/NLB_463189610EDR_F0410802NCAM00385M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_463189610EDR_F0410802NCAM00385M1.png",
+      "pilot_rank": 102,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0410802NCAM00385M1",
+      "split": "train"
+    },
+    "NLB_463190517EDR_F0410838NCAM00275M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_463190517EDR_F0410838NCAM00275M1",
+      "image_path": "msl/ncam/images/edr/NLB_463190517EDR_F0410838NCAM00275M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_463190517EDR_F0410838NCAM00275M1.png",
+      "pilot_rank": 131,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0410838NCAM00275M1",
+      "split": "train"
+    },
+    "NLB_463190860EDR_F0410838NCAM00350M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_463190860EDR_F0410838NCAM00350M1",
+      "image_path": "msl/ncam/images/edr/NLB_463190860EDR_F0410838NCAM00350M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_463190860EDR_F0410838NCAM00350M1.png",
+      "pilot_rank": 17,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0410838NCAM00350M1",
+      "split": "val"
+    },
+    "NLB_463551084EDR_F0411534NCAM00385M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+      "image_path": "msl/ncam/images/edr/NLB_463551084EDR_F0411534NCAM00385M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_463551084EDR_F0411534NCAM00385M1.png",
+      "pilot_rank": 34,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0411534NCAM00385M1",
+      "split": "train"
+    },
+    "NLB_463552100EDR_F0411570NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_463552100EDR_F0411570NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_463552100EDR_F0411570NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_463552100EDR_F0411570NCAM07753M1.png",
+      "pilot_rank": 104,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0411570NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_463898490EDR_F0420186NCAM00280M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_463898490EDR_F0420186NCAM00280M1",
+      "image_path": "msl/ncam/images/edr/NLB_463898490EDR_F0420186NCAM00280M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_463898490EDR_F0420186NCAM00280M1.png",
+      "pilot_rank": 47,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0420186NCAM00280M1",
+      "split": "train"
+    },
+    "NLB_467991018EDR_F0440568NCAM00298M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_467991018EDR_F0440568NCAM00298M1",
+      "image_path": "msl/ncam/images/edr/NLB_467991018EDR_F0440568NCAM00298M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_467991018EDR_F0440568NCAM00298M1.png",
+      "pilot_rank": 91,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "border_truncation_candidate",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0440568NCAM00298M1",
+      "split": "val"
+    },
+    "NLB_467991308EDR_F0440568NCAM00297M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_467991308EDR_F0440568NCAM00297M1",
+      "image_path": "msl/ncam/images/edr/NLB_467991308EDR_F0440568NCAM00297M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_467991308EDR_F0440568NCAM00297M1.png",
+      "pilot_rank": 125,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0440568NCAM00297M1",
+      "split": "train"
+    },
+    "NLB_471625465EDR_F0442336NCAM00261M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_471625465EDR_F0442336NCAM00261M1",
+      "image_path": "msl/ncam/images/edr/NLB_471625465EDR_F0442336NCAM00261M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_471625465EDR_F0442336NCAM00261M1.png",
+      "pilot_rank": 40,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0442336NCAM00261M1",
+      "split": "val"
+    },
+    "NLB_471799347EDR_F0442396NCAM00393M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_471799347EDR_F0442396NCAM00393M1",
+      "image_path": "msl/ncam/images/edr/NLB_471799347EDR_F0442396NCAM00393M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_471799347EDR_F0442396NCAM00393M1.png",
+      "pilot_rank": 73,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0442396NCAM00393M1",
+      "split": "train"
+    },
+    "NLB_471806967EDR_F0442414NCAM00262M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_471806967EDR_F0442414NCAM00262M1",
+      "image_path": "msl/ncam/images/edr/NLB_471806967EDR_F0442414NCAM00262M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_471806967EDR_F0442414NCAM00262M1.png",
+      "pilot_rank": 61,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0442414NCAM00262M1",
+      "split": "val"
+    },
+    "NLB_473841214EDR_F0442414NCAM00207M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_473841214EDR_F0442414NCAM00207M1",
+      "image_path": "msl/ncam/images/edr/NLB_473841214EDR_F0442414NCAM00207M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_473841214EDR_F0442414NCAM00207M1.png",
+      "pilot_rank": 67,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0442414NCAM00207M1",
+      "split": "train"
+    },
+    "NLB_477482823EDR_F0450366NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_477482823EDR_F0450366NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_477482823EDR_F0450366NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_477482823EDR_F0450366NCAM07753M1.png",
+      "pilot_rank": 82,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0450366NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_477665507EDR_F0450450NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_477665507EDR_F0450450NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_477665507EDR_F0450450NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_477665507EDR_F0450450NCAM07753M1.png",
+      "pilot_rank": 71,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0450450NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_478895963EDR_F0450450NCAM00372M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_478895963EDR_F0450450NCAM00372M1",
+      "image_path": "msl/ncam/images/edr/NLB_478895963EDR_F0450450NCAM00372M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_478895963EDR_F0450450NCAM00372M1.png",
+      "pilot_rank": 62,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0450450NCAM00372M1",
+      "split": "train"
+    },
+    "NLB_482013579EDR_F0460000NCAM05113M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_482013579EDR_F0460000NCAM05113M1",
+      "image_path": "msl/ncam/images/edr/NLB_482013579EDR_F0460000NCAM05113M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_482013579EDR_F0460000NCAM05113M1.png",
+      "pilot_rank": 18,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0460000NCAM05113M1",
+      "split": "train"
+    },
+    "NLB_483340393EDR_F0470522NCAM00253M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_483340393EDR_F0470522NCAM00253M1",
+      "image_path": "msl/ncam/images/edr/NLB_483340393EDR_F0470522NCAM00253M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_483340393EDR_F0470522NCAM00253M1.png",
+      "pilot_rank": 123,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0470522NCAM00253M1",
+      "split": "train"
+    },
+    "NLB_483696930EDR_F0470598NCAM00255M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_483696930EDR_F0470598NCAM00255M1",
+      "image_path": "msl/ncam/images/edr/NLB_483696930EDR_F0470598NCAM00255M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_483696930EDR_F0470598NCAM00255M1.png",
+      "pilot_rank": 142,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0470598NCAM00255M1",
+      "split": "train"
+    },
+    "NLB_483955685EDR_F0470598NCAM00320M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "image_path": "msl/ncam/images/edr/NLB_483955685EDR_F0470598NCAM00320M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_483955685EDR_F0470598NCAM00320M1.png",
+      "pilot_rank": 38,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0470598NCAM00320M1",
+      "split": "train"
+    },
+    "NLB_484059426EDR_F0470598NCAM00223M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_484059426EDR_F0470598NCAM00223M1",
+      "image_path": "msl/ncam/images/edr/NLB_484059426EDR_F0470598NCAM00223M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_484059426EDR_F0470598NCAM00223M1.png",
+      "pilot_rank": 140,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0470598NCAM00223M1",
+      "split": "train"
+    },
+    "NLB_484061303EDR_F0470598NCAM00207M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_484061303EDR_F0470598NCAM00207M1",
+      "image_path": "msl/ncam/images/edr/NLB_484061303EDR_F0470598NCAM00207M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_484061303EDR_F0470598NCAM00207M1.png",
+      "pilot_rank": 115,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0470598NCAM00207M1",
+      "split": "train"
+    },
+    "NLB_485122672EDR_F0480458NCAM12753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_485122672EDR_F0480458NCAM12753M1",
+      "image_path": "msl/ncam/images/edr/NLB_485122672EDR_F0480458NCAM12753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_485122672EDR_F0480458NCAM12753M1.png",
+      "pilot_rank": 1,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0480458NCAM12753M1",
+      "split": "train"
+    },
+    "NLB_485383863EDR_F0480680NCAM00266M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_485383863EDR_F0480680NCAM00266M1",
+      "image_path": "msl/ncam/images/edr/NLB_485383863EDR_F0480680NCAM00266M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_485383863EDR_F0480680NCAM00266M1.png",
+      "pilot_rank": 11,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0480680NCAM00266M1",
+      "split": "train"
+    },
+    "NLB_485469909EDR_F0481032NCAM00412M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_485469909EDR_F0481032NCAM00412M1",
+      "image_path": "msl/ncam/images/edr/NLB_485469909EDR_F0481032NCAM00412M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_485469909EDR_F0481032NCAM00412M1.png",
+      "pilot_rank": 78,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0481032NCAM00412M1",
+      "split": "train"
+    },
+    "NLB_485828325EDR_F0481530NCAM00274M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_485828325EDR_F0481530NCAM00274M1",
+      "image_path": "msl/ncam/images/edr/NLB_485828325EDR_F0481530NCAM00274M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_485828325EDR_F0481530NCAM00274M1.png",
+      "pilot_rank": 106,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0481530NCAM00274M1",
+      "split": "train"
+    },
+    "NLB_486003341EDR_F0481570NCAM05694M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_486003341EDR_F0481570NCAM05694M1",
+      "image_path": "msl/ncam/images/edr/NLB_486003341EDR_F0481570NCAM05694M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_486003341EDR_F0481570NCAM05694M1.png",
+      "pilot_rank": 127,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0481570NCAM05694M1",
+      "split": "train"
+    },
+    "NLB_486005519EDR_F0481570NCAM07813M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_486005519EDR_F0481570NCAM07813M1",
+      "image_path": "msl/ncam/images/edr/NLB_486005519EDR_F0481570NCAM07813M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_486005519EDR_F0481570NCAM07813M1.png",
+      "pilot_rank": 119,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0481570NCAM07813M1",
+      "split": "train"
+    },
+    "NLB_489385753EDR_F0481906NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_489385753EDR_F0481906NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_489385753EDR_F0481906NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_489385753EDR_F0481906NCAM07753M1.png",
+      "pilot_rank": 48,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0481906NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_489742424EDR_F0481970NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_489742424EDR_F0481970NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_489742424EDR_F0481970NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_489742424EDR_F0481970NCAM07753M1.png",
+      "pilot_rank": 144,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0481970NCAM07753M1",
+      "split": "val"
+    },
+    "NLB_489995169EDR_F0482118NCAM00249M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_489995169EDR_F0482118NCAM00249M1",
+      "image_path": "msl/ncam/images/edr/NLB_489995169EDR_F0482118NCAM00249M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_489995169EDR_F0482118NCAM00249M1.png",
+      "pilot_rank": 39,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0482118NCAM00249M1",
+      "split": "train"
+    },
+    "NLB_490004046EDR_F0482122NCAM00281M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+      "image_path": "msl/ncam/images/edr/NLB_490004046EDR_F0482122NCAM00281M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_490004046EDR_F0482122NCAM00281M1.png",
+      "pilot_rank": 93,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0482122NCAM00281M1",
+      "split": "train"
+    },
+    "NLB_490189395EDR_F0482200NCAM07752M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_490189395EDR_F0482200NCAM07752M1",
+      "image_path": "msl/ncam/images/edr/NLB_490189395EDR_F0482200NCAM07752M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_490189395EDR_F0482200NCAM07752M1.png",
+      "pilot_rank": 143,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0482200NCAM07752M1",
+      "split": "train"
+    },
+    "NLB_490361091EDR_F0482224NCAM00355M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_490361091EDR_F0482224NCAM00355M1",
+      "image_path": "msl/ncam/images/edr/NLB_490361091EDR_F0482224NCAM00355M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_490361091EDR_F0482224NCAM00355M1.png",
+      "pilot_rank": 42,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0482224NCAM00355M1",
+      "split": "train"
+    },
+    "NLB_490622774EDR_F0482422NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_490622774EDR_F0482422NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_490622774EDR_F0482422NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_490622774EDR_F0482422NCAM07753M1.png",
+      "pilot_rank": 130,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0482422NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_490799942EDR_F0482470NCAM00284M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_490799942EDR_F0482470NCAM00284M1",
+      "image_path": "msl/ncam/images/edr/NLB_490799942EDR_F0482470NCAM00284M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_490799942EDR_F0482470NCAM00284M1.png",
+      "pilot_rank": 133,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0482470NCAM00284M1",
+      "split": "train"
+    },
+    "NLB_490974656EDR_F0482518NCAM00353M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_490974656EDR_F0482518NCAM00353M1",
+      "image_path": "msl/ncam/images/edr/NLB_490974656EDR_F0482518NCAM00353M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_490974656EDR_F0482518NCAM00353M1.png",
+      "pilot_rank": 57,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0482518NCAM00353M1",
+      "split": "train"
+    },
+    "NLB_490975308EDR_F0482518NCAM00287M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_490975308EDR_F0482518NCAM00287M1",
+      "image_path": "msl/ncam/images/edr/NLB_490975308EDR_F0482518NCAM00287M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_490975308EDR_F0482518NCAM00287M1.png",
+      "pilot_rank": 150,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0482518NCAM00287M1",
+      "split": "train"
+    },
+    "NLB_490980444EDR_F0482518NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_490980444EDR_F0482518NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_490980444EDR_F0482518NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_490980444EDR_F0482518NCAM07753M1.png",
+      "pilot_rank": 101,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0482518NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_492131456EDR_F0482794NCAM00292M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_492131456EDR_F0482794NCAM00292M1",
+      "image_path": "msl/ncam/images/edr/NLB_492131456EDR_F0482794NCAM00292M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_492131456EDR_F0482794NCAM00292M1.png",
+      "pilot_rank": 120,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0482794NCAM00292M1",
+      "split": "train"
+    },
+    "NLB_492840274EDR_F0490814NCAM07813M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_492840274EDR_F0490814NCAM07813M1",
+      "image_path": "msl/ncam/images/edr/NLB_492840274EDR_F0490814NCAM07813M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_492840274EDR_F0490814NCAM07813M1.png",
+      "pilot_rank": 100,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0490814NCAM07813M1",
+      "split": "train"
+    },
+    "NLB_493826864EDR_F0491798NCAM00255M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_493826864EDR_F0491798NCAM00255M1",
+      "image_path": "msl/ncam/images/edr/NLB_493826864EDR_F0491798NCAM00255M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_493826864EDR_F0491798NCAM00255M1.png",
+      "pilot_rank": 90,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0491798NCAM00255M1",
+      "split": "train"
+    },
+    "NLB_495061490EDR_F0492626NCAM00269M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_495061490EDR_F0492626NCAM00269M1",
+      "image_path": "msl/ncam/images/edr/NLB_495061490EDR_F0492626NCAM00269M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_495061490EDR_F0492626NCAM00269M1.png",
+      "pilot_rank": 94,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0492626NCAM00269M1",
+      "split": "train"
+    },
+    "NLB_495506569EDR_F0500000NCAM00273M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_495506569EDR_F0500000NCAM00273M1",
+      "image_path": "msl/ncam/images/edr/NLB_495506569EDR_F0500000NCAM00273M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_495506569EDR_F0500000NCAM00273M1.png",
+      "pilot_rank": 20,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "bedrock_big_rock_boundary",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0500000NCAM00273M1",
+      "split": "val"
+    },
+    "NLB_499059390EDR_F0500848NCAM00287M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_499059390EDR_F0500848NCAM00287M1",
+      "image_path": "msl/ncam/images/edr/NLB_499059390EDR_F0500848NCAM00287M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_499059390EDR_F0500848NCAM00287M1.png",
+      "pilot_rank": 97,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0500848NCAM00287M1",
+      "split": "train"
+    },
+    "NLB_499861525EDR_F0501624NCAM00292M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_499861525EDR_F0501624NCAM00292M1",
+      "image_path": "msl/ncam/images/edr/NLB_499861525EDR_F0501624NCAM00292M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_499861525EDR_F0501624NCAM00292M1.png",
+      "pilot_rank": 60,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0501624NCAM00292M1",
+      "split": "train"
+    },
+    "NLB_500298474EDR_F0502396NCAM00385M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_500298474EDR_F0502396NCAM00385M1",
+      "image_path": "msl/ncam/images/edr/NLB_500298474EDR_F0502396NCAM00385M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_500298474EDR_F0502396NCAM00385M1.png",
+      "pilot_rank": 24,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "bedrock_big_rock_boundary",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0502396NCAM00385M1",
+      "split": "train"
+    },
+    "NLB_501719801EDR_F0511102NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_501719801EDR_F0511102NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_501719801EDR_F0511102NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_501719801EDR_F0511102NCAM07753M1.png",
+      "pilot_rank": 6,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0511102NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_508376918EDR_F0522262NCAM00283M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_508376918EDR_F0522262NCAM00283M1",
+      "image_path": "msl/ncam/images/edr/NLB_508376918EDR_F0522262NCAM00283M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_508376918EDR_F0522262NCAM00283M1.png",
+      "pilot_rank": 21,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0522262NCAM00283M1",
+      "split": "val"
+    },
+    "NLB_510778866EDR_F0531182NCAM00299M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_510778866EDR_F0531182NCAM00299M1",
+      "image_path": "msl/ncam/images/edr/NLB_510778866EDR_F0531182NCAM00299M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_510778866EDR_F0531182NCAM00299M1.png",
+      "pilot_rank": 56,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0531182NCAM00299M1",
+      "split": "train"
+    },
+    "NLB_511216545EDR_F0531284NCAM00250M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_511216545EDR_F0531284NCAM00250M1",
+      "image_path": "msl/ncam/images/edr/NLB_511216545EDR_F0531284NCAM00250M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_511216545EDR_F0531284NCAM00250M1.png",
+      "pilot_rank": 87,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0531284NCAM00250M1",
+      "split": "train"
+    },
+    "NLB_511834377EDR_F0531994NCAM00256M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_511834377EDR_F0531994NCAM00256M1",
+      "image_path": "msl/ncam/images/edr/NLB_511834377EDR_F0531994NCAM00256M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_511834377EDR_F0531994NCAM00256M1.png",
+      "pilot_rank": 122,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0531994NCAM00256M1",
+      "split": "train"
+    },
+    "NLB_511929687EDR_F0532138NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_511929687EDR_F0532138NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_511929687EDR_F0532138NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_511929687EDR_F0532138NCAM07753M1.png",
+      "pilot_rank": 29,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0532138NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_512191282EDR_F0532406NCAM00262M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_512191282EDR_F0532406NCAM00262M1",
+      "image_path": "msl/ncam/images/edr/NLB_512191282EDR_F0532406NCAM00262M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_512191282EDR_F0532406NCAM00262M1.png",
+      "pilot_rank": 99,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0532406NCAM00262M1",
+      "split": "val"
+    },
+    "NLB_512192902EDR_F0532406NCAM00354M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_512192902EDR_F0532406NCAM00354M1",
+      "image_path": "msl/ncam/images/edr/NLB_512192902EDR_F0532406NCAM00354M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_512192902EDR_F0532406NCAM00354M1.png",
+      "pilot_rank": 59,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0532406NCAM00354M1",
+      "split": "train"
+    },
+    "NLB_512730161EDR_F0532980NCAM00265M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_512730161EDR_F0532980NCAM00265M1",
+      "image_path": "msl/ncam/images/edr/NLB_512730161EDR_F0532980NCAM00265M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_512730161EDR_F0532980NCAM00265M1.png",
+      "pilot_rank": 32,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0532980NCAM00265M1",
+      "split": "train"
+    },
+    "NLB_512995340EDR_F0540000NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_512995340EDR_F0540000NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_512995340EDR_F0540000NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_512995340EDR_F0540000NCAM07753M1.png",
+      "pilot_rank": 53,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0540000NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_514326109EDR_F0540622NCAM00385M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_514326109EDR_F0540622NCAM00385M1",
+      "image_path": "msl/ncam/images/edr/NLB_514326109EDR_F0540622NCAM00385M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_514326109EDR_F0540622NCAM00385M1.png",
+      "pilot_rank": 8,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "bedrock_big_rock_boundary",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0540622NCAM00385M1",
+      "split": "train"
+    },
+    "NLB_516986144EDR_F0541490NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_516986144EDR_F0541490NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_516986144EDR_F0541490NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_516986144EDR_F0541490NCAM07753M1.png",
+      "pilot_rank": 109,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0541490NCAM07753M1",
+      "split": "val"
+    },
+    "NLB_517255171EDR_F0541610NCAM00354M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_517255171EDR_F0541610NCAM00354M1",
+      "image_path": "msl/ncam/images/edr/NLB_517255171EDR_F0541610NCAM00354M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_517255171EDR_F0541610NCAM00354M1.png",
+      "pilot_rank": 83,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0541610NCAM00354M1",
+      "split": "train"
+    },
+    "NLB_517255503EDR_F0541610NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_517255503EDR_F0541610NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_517255503EDR_F0541610NCAM07753M1.png",
+      "pilot_rank": 132,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0541610NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_517960514EDR_F0542262NCAM00285M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_517960514EDR_F0542262NCAM00285M1",
+      "image_path": "msl/ncam/images/edr/NLB_517960514EDR_F0542262NCAM00285M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_517960514EDR_F0542262NCAM00285M1.png",
+      "pilot_rank": 27,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "bedrock_big_rock_boundary",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0542262NCAM00285M1",
+      "split": "train"
+    },
+    "NLB_517962306EDR_F0542280NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_517962306EDR_F0542280NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_517962306EDR_F0542280NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_517962306EDR_F0542280NCAM07753M1.png",
+      "pilot_rank": 25,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "bedrock_big_rock_boundary",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0542280NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_519032073EDR_F0542508NCAM00287M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_519032073EDR_F0542508NCAM00287M1",
+      "image_path": "msl/ncam/images/edr/NLB_519032073EDR_F0542508NCAM00287M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_519032073EDR_F0542508NCAM00287M1.png",
+      "pilot_rank": 19,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "bedrock_big_rock_boundary",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0542508NCAM00287M1",
+      "split": "train"
+    },
+    "NLB_519033092EDR_F0542508NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_519033092EDR_F0542508NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_519033092EDR_F0542508NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_519033092EDR_F0542508NCAM07753M1.png",
+      "pilot_rank": 52,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0542508NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_526667286EDR_F0572798NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_526667286EDR_F0572798NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_526667286EDR_F0572798NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_526667286EDR_F0572798NCAM07753M1.png",
+      "pilot_rank": 36,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0572798NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_526667508EDR_F0572798NCAM00251M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_526667508EDR_F0572798NCAM00251M1",
+      "image_path": "msl/ncam/images/edr/NLB_526667508EDR_F0572798NCAM00251M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_526667508EDR_F0572798NCAM00251M1.png",
+      "pilot_rank": 116,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0572798NCAM00251M1",
+      "split": "train"
+    },
+    "NLB_528261206EDR_F0580738NCAM00385M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+      "image_path": "msl/ncam/images/edr/NLB_528261206EDR_F0580738NCAM00385M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_528261206EDR_F0580738NCAM00385M1.png",
+      "pilot_rank": 88,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0580738NCAM00385M1",
+      "split": "train"
+    },
+    "NLB_528262409EDR_F0580774NCAM00257M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_528262409EDR_F0580774NCAM00257M1",
+      "image_path": "msl/ncam/images/edr/NLB_528262409EDR_F0580774NCAM00257M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_528262409EDR_F0580774NCAM00257M1.png",
+      "pilot_rank": 147,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0580774NCAM00257M1",
+      "split": "train"
+    },
+    "NLB_529502583EDR_F0581950NCAM00385M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_529502583EDR_F0581950NCAM00385M1",
+      "image_path": "msl/ncam/images/edr/NLB_529502583EDR_F0581950NCAM00385M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_529502583EDR_F0581950NCAM00385M1.png",
+      "pilot_rank": 55,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0581950NCAM00385M1",
+      "split": "train"
+    },
+    "NLB_529681104EDR_F0582034NCAM00385M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_529681104EDR_F0582034NCAM00385M1",
+      "image_path": "msl/ncam/images/edr/NLB_529681104EDR_F0582034NCAM00385M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_529681104EDR_F0582034NCAM00385M1.png",
+      "pilot_rank": 84,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0582034NCAM00385M1",
+      "split": "train"
+    },
+    "NLB_530568525EDR_F0582136NCAM05113M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_530568525EDR_F0582136NCAM05113M1",
+      "image_path": "msl/ncam/images/edr/NLB_530568525EDR_F0582136NCAM05113M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_530568525EDR_F0582136NCAM05113M1.png",
+      "pilot_rank": 13,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0582136NCAM05113M1",
+      "split": "val"
+    },
+    "NLB_530660251EDR_F0582394NCAM05113M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_530660251EDR_F0582394NCAM05113M1",
+      "image_path": "msl/ncam/images/edr/NLB_530660251EDR_F0582394NCAM05113M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_530660251EDR_F0582394NCAM05113M1.png",
+      "pilot_rank": 98,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0582394NCAM05113M1",
+      "split": "train"
+    },
+    "NLB_531734905EDR_F0591596NCAM00653M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_531734905EDR_F0591596NCAM00653M1",
+      "image_path": "msl/ncam/images/edr/NLB_531734905EDR_F0591596NCAM00653M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_531734905EDR_F0591596NCAM00653M1.png",
+      "pilot_rank": 96,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0591596NCAM00653M1",
+      "split": "train"
+    },
+    "NLB_531910192EDR_F0591998NCAM00275M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_531910192EDR_F0591998NCAM00275M1",
+      "image_path": "msl/ncam/images/edr/NLB_531910192EDR_F0591998NCAM00275M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_531910192EDR_F0591998NCAM00275M1.png",
+      "pilot_rank": 10,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0591998NCAM00275M1",
+      "split": "train"
+    },
+    "NLB_532080163EDR_F0592242NCAM00276M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_532080163EDR_F0592242NCAM00276M1",
+      "image_path": "msl/ncam/images/edr/NLB_532080163EDR_F0592242NCAM00276M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_532080163EDR_F0592242NCAM00276M1.png",
+      "pilot_rank": 3,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0592242NCAM00276M1",
+      "split": "train"
+    },
+    "NLB_536794099EDR_F0593016NCAM00207M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_536794099EDR_F0593016NCAM00207M1",
+      "image_path": "msl/ncam/images/edr/NLB_536794099EDR_F0593016NCAM00207M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_536794099EDR_F0593016NCAM00207M1.png",
+      "pilot_rank": 22,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0593016NCAM00207M1",
+      "split": "train"
+    },
+    "NLB_538115968EDR_F0601650NCAM00653M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_538115968EDR_F0601650NCAM00653M1",
+      "image_path": "msl/ncam/images/edr/NLB_538115968EDR_F0601650NCAM00653M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_538115968EDR_F0601650NCAM00653M1.png",
+      "pilot_rank": 4,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0601650NCAM00653M1",
+      "split": "val"
+    },
+    "NLB_538567497EDR_F0602256NCAM00251M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_538567497EDR_F0602256NCAM00251M1",
+      "image_path": "msl/ncam/images/edr/NLB_538567497EDR_F0602256NCAM00251M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_538567497EDR_F0602256NCAM00251M1.png",
+      "pilot_rank": 69,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0602256NCAM00251M1",
+      "split": "train"
+    },
+    "NLB_542036117EDR_F0611332NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_542036117EDR_F0611332NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_542036117EDR_F0611332NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_542036117EDR_F0611332NCAM07753M1.png",
+      "pilot_rank": 65,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0611332NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_542390881EDR_F0611908NCAM00354M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_542390881EDR_F0611908NCAM00354M1",
+      "image_path": "msl/ncam/images/edr/NLB_542390881EDR_F0611908NCAM00354M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_542390881EDR_F0611908NCAM00354M1.png",
+      "pilot_rank": 54,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0611908NCAM00354M1",
+      "split": "val"
+    },
+    "NLB_543533452EDR_F0613226NCAM00312M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+      "image_path": "msl/ncam/images/edr/NLB_543533452EDR_F0613226NCAM00312M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_543533452EDR_F0613226NCAM00312M1.png",
+      "pilot_rank": 31,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "border_truncation_candidate",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0613226NCAM00312M1",
+      "split": "train"
+    },
+    "NLB_545223247EDR_F0620690NCAM00297M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_545223247EDR_F0620690NCAM00297M1",
+      "image_path": "msl/ncam/images/edr/NLB_545223247EDR_F0620690NCAM00297M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_545223247EDR_F0620690NCAM00297M1.png",
+      "pilot_rank": 79,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0620690NCAM00297M1",
+      "split": "train"
+    },
+    "NLB_545400542EDR_F0620786NCAM00353M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_545400542EDR_F0620786NCAM00353M1",
+      "image_path": "msl/ncam/images/edr/NLB_545400542EDR_F0620786NCAM00353M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_545400542EDR_F0620786NCAM00353M1.png",
+      "pilot_rank": 139,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0620786NCAM00353M1",
+      "split": "train"
+    },
+    "NLB_545586860EDR_F0620786NCAM00207M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_545586860EDR_F0620786NCAM00207M1",
+      "image_path": "msl/ncam/images/edr/NLB_545586860EDR_F0620786NCAM00207M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_545586860EDR_F0620786NCAM00207M1.png",
+      "pilot_rank": 58,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0620786NCAM00207M1",
+      "split": "val"
+    },
+    "NLB_545659954EDR_F0621080NCAM00251M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_545659954EDR_F0621080NCAM00251M1",
+      "image_path": "msl/ncam/images/edr/NLB_545659954EDR_F0621080NCAM00251M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_545659954EDR_F0621080NCAM00251M1.png",
+      "pilot_rank": 89,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0621080NCAM00251M1",
+      "split": "val"
+    },
+    "NLB_546992923EDR_F0623050NCAM00265M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_546992923EDR_F0623050NCAM00265M1",
+      "image_path": "msl/ncam/images/edr/NLB_546992923EDR_F0623050NCAM00265M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_546992923EDR_F0623050NCAM00265M1.png",
+      "pilot_rank": 72,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0623050NCAM00265M1",
+      "split": "val"
+    },
+    "NLB_547082057EDR_F0623188NCAM00266M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_547082057EDR_F0623188NCAM00266M1",
+      "image_path": "msl/ncam/images/edr/NLB_547082057EDR_F0623188NCAM00266M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_547082057EDR_F0623188NCAM00266M1.png",
+      "pilot_rank": 136,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0623188NCAM00266M1",
+      "split": "val"
+    },
+    "NLB_547170366EDR_F0623350NCAM00267M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_547170366EDR_F0623350NCAM00267M1",
+      "image_path": "msl/ncam/images/edr/NLB_547170366EDR_F0623350NCAM00267M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_547170366EDR_F0623350NCAM00267M1.png",
+      "pilot_rank": 74,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0623350NCAM00267M1",
+      "split": "train"
+    },
+    "NLB_547527411EDR_F0630000NCAM00269M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_547527411EDR_F0630000NCAM00269M1",
+      "image_path": "msl/ncam/images/edr/NLB_547527411EDR_F0630000NCAM00269M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_547527411EDR_F0630000NCAM00269M1.png",
+      "pilot_rank": 81,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0630000NCAM00269M1",
+      "split": "train"
+    },
+    "NLB_547531945EDR_F0630000NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_547531945EDR_F0630000NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_547531945EDR_F0630000NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_547531945EDR_F0630000NCAM07753M1.png",
+      "pilot_rank": 35,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0630000NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_547800871EDR_F0630346NCAM00354M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_547800871EDR_F0630346NCAM00354M1",
+      "image_path": "msl/ncam/images/edr/NLB_547800871EDR_F0630346NCAM00354M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_547800871EDR_F0630346NCAM00354M1.png",
+      "pilot_rank": 92,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "border_truncation_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0630346NCAM00354M1",
+      "split": "val"
+    },
+    "NLB_547801039EDR_F0630346NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_547801039EDR_F0630346NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_547801039EDR_F0630346NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_547801039EDR_F0630346NCAM07753M1.png",
+      "pilot_rank": 126,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0630346NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_548249342EDR_F0631150NCAM00274M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_548249342EDR_F0631150NCAM00274M1",
+      "image_path": "msl/ncam/images/edr/NLB_548249342EDR_F0631150NCAM00274M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_548249342EDR_F0631150NCAM00274M1.png",
+      "pilot_rank": 51,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0631150NCAM00274M1",
+      "split": "train"
+    },
+    "NLB_548252623EDR_F0631150NCAM00312M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "image_path": "msl/ncam/images/edr/NLB_548252623EDR_F0631150NCAM00312M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_548252623EDR_F0631150NCAM00312M1.png",
+      "pilot_rank": 41,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0631150NCAM00312M1",
+      "split": "train"
+    },
+    "NLB_549044161EDR_F0631840CCAM15903M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_549044161EDR_F0631840CCAM15903M1",
+      "image_path": "msl/ncam/images/edr/NLB_549044161EDR_F0631840CCAM15903M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_549044161EDR_F0631840CCAM15903M1.png",
+      "pilot_rank": 50,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "NLB_549044161EDR_F0631840CCAM15903M1",
+      "split": "val"
+    },
+    "NLB_549392097EDR_F0632008NCAM00312M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_549392097EDR_F0632008NCAM00312M1",
+      "image_path": "msl/ncam/images/edr/NLB_549392097EDR_F0632008NCAM00312M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_549392097EDR_F0632008NCAM00312M1.png",
+      "pilot_rank": 107,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0632008NCAM00312M1",
+      "split": "train"
+    },
+    "NLB_550010635EDR_F0632582NCAM00282M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_550010635EDR_F0632582NCAM00282M1",
+      "image_path": "msl/ncam/images/edr/NLB_550010635EDR_F0632582NCAM00282M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_550010635EDR_F0632582NCAM00282M1.png",
+      "pilot_rank": 124,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0632582NCAM00282M1",
+      "split": "train"
+    },
+    "NLB_550103482EDR_F0632672NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_550103482EDR_F0632672NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_550103482EDR_F0632672NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_550103482EDR_F0632672NCAM07753M1.png",
+      "pilot_rank": 33,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0632672NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_550548257EDR_F0633326NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_550548257EDR_F0633326NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_550548257EDR_F0633326NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_550548257EDR_F0633326NCAM07753M1.png",
+      "pilot_rank": 77,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0633326NCAM07753M1",
+      "split": "val"
+    },
+    "NLB_550812470EDR_F0640252NCAM00289M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_550812470EDR_F0640252NCAM00289M1",
+      "image_path": "msl/ncam/images/edr/NLB_550812470EDR_F0640252NCAM00289M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_550812470EDR_F0640252NCAM00289M1.png",
+      "pilot_rank": 63,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0640252NCAM00289M1",
+      "split": "train"
+    },
+    "NLB_551440780EDR_F0640996NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_551440780EDR_F0640996NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_551440780EDR_F0640996NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_551440780EDR_F0640996NCAM07753M1.png",
+      "pilot_rank": 28,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0640996NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_555606916EDR_F0650000NCAM00264M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_555606916EDR_F0650000NCAM00264M1",
+      "image_path": "msl/ncam/images/edr/NLB_555606916EDR_F0650000NCAM00264M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_555606916EDR_F0650000NCAM00264M1.png",
+      "pilot_rank": 76,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0650000NCAM00264M1",
+      "split": "train"
+    },
+    "NLB_555692594EDR_F0650096NCAM00385M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_555692594EDR_F0650096NCAM00385M1",
+      "image_path": "msl/ncam/images/edr/NLB_555692594EDR_F0650096NCAM00385M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_555692594EDR_F0650096NCAM00385M1.png",
+      "pilot_rank": 68,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0650096NCAM00385M1",
+      "split": "val"
+    },
+    "NLB_555700793EDR_F0650156CCAM15903M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_555700793EDR_F0650156CCAM15903M1",
+      "image_path": "msl/ncam/images/edr/NLB_555700793EDR_F0650156CCAM15903M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_555700793EDR_F0650156CCAM15903M1.png",
+      "pilot_rank": 129,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "NLB_555700793EDR_F0650156CCAM15903M1",
+      "split": "train"
+    },
+    "NLB_557297963EDR_F0652720NCAM07753M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_557297963EDR_F0652720NCAM07753M1",
+      "image_path": "msl/ncam/images/edr/NLB_557297963EDR_F0652720NCAM07753M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_557297963EDR_F0652720NCAM07753M1.png",
+      "pilot_rank": 9,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0652720NCAM07753M1",
+      "split": "train"
+    },
+    "NLB_557476847EDR_F0652828NCAM00385M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_557476847EDR_F0652828NCAM00385M1",
+      "image_path": "msl/ncam/images/edr/NLB_557476847EDR_F0652828NCAM00385M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_557476847EDR_F0652828NCAM00385M1.png",
+      "pilot_rank": 114,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0652828NCAM00385M1",
+      "split": "val"
+    },
+    "NLB_557555419EDR_F0652882NCAM00296M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_557555419EDR_F0652882NCAM00296M1",
+      "image_path": "msl/ncam/images/edr/NLB_557555419EDR_F0652882NCAM00296M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_557555419EDR_F0652882NCAM00296M1.png",
+      "pilot_rank": 16,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0652882NCAM00296M1",
+      "split": "train"
+    },
+    "NLB_577895239EDR_F0692766NCAM00293M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_577895239EDR_F0692766NCAM00293M1",
+      "image_path": "msl/ncam/images/edr/NLB_577895239EDR_F0692766NCAM00293M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_577895239EDR_F0692766NCAM00293M1.png",
+      "pilot_rank": 103,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0692766NCAM00293M1",
+      "split": "train"
+    },
+    "NLB_579308863EDR_F0701538NCAM00307M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_579308863EDR_F0701538NCAM00307M1",
+      "image_path": "msl/ncam/images/edr/NLB_579308863EDR_F0701538NCAM00307M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_579308863EDR_F0701538NCAM00307M1.png",
+      "pilot_rank": 134,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0701538NCAM00307M1",
+      "split": "train"
+    },
+    "NLB_579316096EDR_F0701538NCAM00207M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_579316096EDR_F0701538NCAM00207M1",
+      "image_path": "msl/ncam/images/edr/NLB_579316096EDR_F0701538NCAM00207M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_579316096EDR_F0701538NCAM00207M1.png",
+      "pilot_rank": 128,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0701538NCAM00207M1",
+      "split": "train"
+    },
+    "NLB_579407334EDR_F0701538NCAM00320M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_579407334EDR_F0701538NCAM00320M1",
+      "image_path": "msl/ncam/images/edr/NLB_579407334EDR_F0701538NCAM00320M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_579407334EDR_F0701538NCAM00320M1.png",
+      "pilot_rank": 12,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0701538NCAM00320M1",
+      "split": "val"
+    },
+    "NLB_579570335EDR_F0701554NCAM00312M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_579570335EDR_F0701554NCAM00312M1",
+      "image_path": "msl/ncam/images/edr/NLB_579570335EDR_F0701554NCAM00312M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_579570335EDR_F0701554NCAM00312M1.png",
+      "pilot_rank": 112,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0701554NCAM00312M1",
+      "split": "val"
+    },
+    "NLB_579753089EDR_F0701752NCAM00264M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_579753089EDR_F0701752NCAM00264M1",
+      "image_path": "msl/ncam/images/edr/NLB_579753089EDR_F0701752NCAM00264M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_579753089EDR_F0701752NCAM00264M1.png",
+      "pilot_rank": 70,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0701752NCAM00264M1",
+      "split": "train"
+    },
+    "NLB_579924899EDR_F0701752NCAM00353M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_579924899EDR_F0701752NCAM00353M1",
+      "image_path": "msl/ncam/images/edr/NLB_579924899EDR_F0701752NCAM00353M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_579924899EDR_F0701752NCAM00353M1.png",
+      "pilot_rank": 118,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0701752NCAM00353M1",
+      "split": "train"
+    },
+    "NLB_580288890EDR_F0701752NCAM00309M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_580288890EDR_F0701752NCAM00309M1",
+      "image_path": "msl/ncam/images/edr/NLB_580288890EDR_F0701752NCAM00309M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_580288890EDR_F0701752NCAM00309M1.png",
+      "pilot_rank": 117,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0701752NCAM00309M1",
+      "split": "val"
+    },
+    "NLB_582244604EDR_F0701752NCAM00207M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_582244604EDR_F0701752NCAM00207M1",
+      "image_path": "msl/ncam/images/edr/NLB_582244604EDR_F0701752NCAM00207M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_582244604EDR_F0701752NCAM00207M1.png",
+      "pilot_rank": 148,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0701752NCAM00207M1",
+      "split": "train"
+    },
+    "NLB_582506787EDR_F0710000NCAM00266M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_582506787EDR_F0710000NCAM00266M1",
+      "image_path": "msl/ncam/images/edr/NLB_582506787EDR_F0710000NCAM00266M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_582506787EDR_F0710000NCAM00266M1.png",
+      "pilot_rank": 5,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0710000NCAM00266M1",
+      "split": "train"
+    },
+    "NLB_582507925EDR_F0710000NCAM00267M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_582507925EDR_F0710000NCAM00267M1",
+      "image_path": "msl/ncam/images/edr/NLB_582507925EDR_F0710000NCAM00267M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_582507925EDR_F0710000NCAM00267M1.png",
+      "pilot_rank": 37,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0710000NCAM00267M1",
+      "split": "train"
+    },
+    "NLB_582938538EDR_F0710228NCAM00272M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_582938538EDR_F0710228NCAM00272M1",
+      "image_path": "msl/ncam/images/edr/NLB_582938538EDR_F0710228NCAM00272M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_582938538EDR_F0710228NCAM00272M1.png",
+      "pilot_rank": 80,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0710228NCAM00272M1",
+      "split": "val"
+    },
+    "NLB_583208586EDR_F0710570NCAM00278M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_583208586EDR_F0710570NCAM00278M1",
+      "image_path": "msl/ncam/images/edr/NLB_583208586EDR_F0710570NCAM00278M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_583208586EDR_F0710570NCAM00278M1.png",
+      "pilot_rank": 49,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0710570NCAM00278M1",
+      "split": "train"
+    },
+    "NLB_605858363EDR_F0750000NCAM00289M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_605858363EDR_F0750000NCAM00289M1",
+      "image_path": "msl/ncam/images/edr/NLB_605858363EDR_F0750000NCAM00289M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_605858363EDR_F0750000NCAM00289M1.png",
+      "pilot_rank": 7,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "isolated_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0750000NCAM00289M1",
+      "split": "train"
+    },
+    "NLB_614011063EDR_F0760934NCAM00385M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_614011063EDR_F0760934NCAM00385M1",
+      "image_path": "msl/ncam/images/edr/NLB_614011063EDR_F0760934NCAM00385M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_614011063EDR_F0760934NCAM00385M1.png",
+      "pilot_rank": 141,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0760934NCAM00385M1",
+      "split": "train"
+    },
+    "NLB_614017708EDR_F0760988NCAM00288M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_614017708EDR_F0760988NCAM00288M1",
+      "image_path": "msl/ncam/images/edr/NLB_614017708EDR_F0760988NCAM00288M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_614017708EDR_F0760988NCAM00288M1.png",
+      "pilot_rank": 137,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0760988NCAM00288M1",
+      "split": "train"
+    },
+    "NLB_615805575EDR_F0761714NCAM00353M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_615805575EDR_F0761714NCAM00353M1",
+      "image_path": "msl/ncam/images/edr/NLB_615805575EDR_F0761714NCAM00353M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_615805575EDR_F0761714NCAM00353M1.png",
+      "pilot_rank": 149,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0761714NCAM00353M1",
+      "split": "train"
+    },
+    "NLB_617309155EDR_F0762672NCAM00270M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_617309155EDR_F0762672NCAM00270M1",
+      "image_path": "msl/ncam/images/edr/NLB_617309155EDR_F0762672NCAM00270M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_617309155EDR_F0762672NCAM00270M1.png",
+      "pilot_rank": 113,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "very_large_component_candidate",
+        "tiny_component_candidate",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0762672NCAM00270M1",
+      "split": "train"
+    },
+    "NLB_626095223EDR_F0771416NCAM00262M1": {
+      "annotations": [],
+      "image_height": 1024,
+      "image_id": "NLB_626095223EDR_F0771416NCAM00262M1",
+      "image_path": "msl/ncam/images/edr/NLB_626095223EDR_F0771416NCAM00262M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_626095223EDR_F0771416NCAM00262M1.png",
+      "pilot_rank": 86,
+      "review_status": "unreviewed",
+      "reviewer": null,
+      "selection_strata": [
+        "multiple_candidate_regions",
+        "bedrock_big_rock_boundary",
+        "rgb_only_or_geometry_unresolved"
+      ],
+      "sequence_id": "F0771416NCAM00262M1",
+      "split": "val"
+    }
+  },
+  "object_class": {
+    "id": 1,
+    "name": "rock"
+  },
+  "pilot_id": "rock_instance_pilot_v0_candidates",
+  "review_version": "pilot_v1",
+  "schema_version": "rock_instance_pilot_annotation_v1",
+  "source_candidate_manifest": "rock_instance_pilot_candidates.csv",
+  "source_candidate_manifest_sha256": "c036aaf32f11a21b6b44c4f227c8ce37a560b671b524efcd01484224882c2c52"
+}

@@ -2,11 +2,12 @@ import tempfile
 import unittest
 import warnings
 from pathlib import Path
+from unittest.mock import patch
 
 import torch
 import torch.nn as nn
 
-from src.train_utils import load_training_checkpoint, save_checkpoint
+from src.train_utils import load_training_checkpoint, restore_rng_state, save_checkpoint
 
 
 class CheckpointResumeTests(unittest.TestCase):
@@ -50,6 +51,49 @@ class CheckpointResumeTests(unittest.TestCase):
             warnings.simplefilter("always")
             load_training_checkpoint(model, optimizer, self.path, torch.device("cpu"), expected_metadata={"manifest_hash": "manifest", "git_commit_sha": "second"})
         self.assertTrue(any("source commit differs" in str(item.message) for item in captured))
+
+    def test_resume_ignores_only_operational_resume_checkpoint_path(self) -> None:
+        checkpoint_metadata = {
+            "configuration": {
+                "training": {"resume_checkpoint": "/previous/last.pth", "seed": 42},
+                "model": {"backbone": "resnet101"},
+            }
+        }
+        expected_metadata = {
+            "configuration": {
+                "training": {"resume_checkpoint": "/new/location/last.pth", "seed": 42},
+                "model": {"backbone": "resnet101"},
+            }
+        }
+        model = nn.Linear(2, 1)
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+        save_checkpoint(model, optimizer, 1, self.path, checkpoint_metadata)
+
+        load_training_checkpoint(model, optimizer, self.path, torch.device("cpu"), expected_metadata=expected_metadata)
+
+        incompatible = {
+            "configuration": {
+                "training": {"resume_checkpoint": "/new/location/last.pth", "seed": 99},
+                "model": {"backbone": "resnet101"},
+            }
+        }
+        with self.assertRaisesRegex(RuntimeError, "incompatible"):
+            load_training_checkpoint(model, optimizer, self.path, torch.device("cpu"), expected_metadata=incompatible)
+
+    def test_rng_states_are_normalized_after_cpu_checkpoint_load(self) -> None:
+        torch_state = torch.arange(16, dtype=torch.int64)[::2]
+        cuda_state = torch.arange(12, dtype=torch.int16)[::2]
+        with (
+            patch("src.train_utils.torch.set_rng_state") as set_torch_state,
+            patch("src.train_utils.torch.cuda.is_available", return_value=True),
+            patch("src.train_utils.torch.cuda.set_rng_state_all") as set_cuda_states,
+        ):
+            restore_rng_state({"torch": torch_state, "cuda": [cuda_state]})
+
+        restored_torch = set_torch_state.call_args.args[0]
+        restored_cuda = set_cuda_states.call_args.args[0][0]
+        self.assertEqual((restored_torch.device.type, restored_torch.dtype, restored_torch.is_contiguous()), ("cpu", torch.uint8, True))
+        self.assertEqual((restored_cuda.device.type, restored_cuda.dtype, restored_cuda.is_contiguous()), ("cpu", torch.uint8, True))
 
     def test_amp_is_rejected_on_cpu(self) -> None:
         from torch.utils.data import DataLoader, TensorDataset

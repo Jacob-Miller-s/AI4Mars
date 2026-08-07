@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "C:\Users\Jacob\AppData\Local\Temp\ipykernel_21292\2121923847.py", line 74, in <module>
+    val_metrics = evaluate(
+        model,
+    ...<11 lines>...
+        run_logger=run_logger,
+    )
+  File "c:\Users\Jacob\AI4Mars\src\train_utils.py", line 344, in evaluate
+    for images, masks in dataloader:
+                         ^^^^^^^^^^
+  File "c:\Users\Jacob\AI4Mars\.venv\Lib\site-packages\torch\utils\data\dataloader.py", line 718, in __next__
+    data = self._next_data()
+  File "c:\Users\Jacob\AI4Mars\.venv\Lib\site-packages\torch\utils\data\dataloader.py", line 778, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "c:\Users\Jacob\AI4Mars\.venv\Lib\site-packages\torch\utils\data\_utils\fetch.py", line 54, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ~~~~~~~~~~~~^^^^^
+  File "c:\Users\Jacob\AI4Mars\src\dataset.py", line 135, in __getitem__
+    image = Image.open(image_path).convert("RGB")
+  File "c:\Users\Jacob\AI4Mars\.venv\Lib\site-packages\PIL\Image.py", line 1070, in convert
+    self.load()
+    ~~~~~~~~~^^
+  File "c:\Users\Jacob\AI4Mars\.venv\Lib\site-packages\PIL\ImageFile.py", line 412, in load
+    n, err_code = decoder.decode(b)
+                  ~~~~~~~~~~~~~~^^^
+KeyboardInterrupt

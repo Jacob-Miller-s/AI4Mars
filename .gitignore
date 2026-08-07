@@ -18,6 +18,7 @@ models/
 # Generated outputs — not committed
 outputs/predictions/
 outputs/logs/
+outputs/sprint0/
 
 # Archive / model files
 *.zip

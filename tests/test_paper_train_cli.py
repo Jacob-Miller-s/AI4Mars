@@ -144,7 +144,7 @@ class ValidateOnlyWorkflowTests(_ManifestFixtureMixin, unittest.TestCase):
 
         self.assertEqual(
             set(audit),
-            {"train", "val", "expert_min1_100agree", "expert_min2_100agree", "expert_min3_100agree"},
+            {"train", "val", "expert_min1", "expert_min2", "expert_min3"},
         )
         # ensure_writable_roots() creates the top-level runs/checkpoints scaffolding
         # even during --validate-only, but RunLogger.start() must never be reached,
@@ -157,7 +157,7 @@ class ValidateOnlyWorkflowTests(_ManifestFixtureMixin, unittest.TestCase):
 
         audit = self._run_main(validation_level="full")
 
-        self.assertIn("expert_min3_100agree", audit)
+        self.assertIn("expert_min3", audit)
 
     def test_full_level_raises_when_expert_split_file_missing(self) -> None:
         for source_id in ("A", "B", "C1", "C2"):

@@ -21,6 +21,11 @@ CLASS_IDS = frozenset(range(len(CLASS_NAMES)))
 IGNORE_INDEX = 255
 MSL_NAVCAM_SCOPE = {"mission": "msl", "rover": "curiosity", "camera": "ncam", "label_scheme": "NAV"}
 EXPERT_AGREEMENTS = ("min1-100agree", "min2-100agree", "min3-100agree")
+EXPERT_SPLIT_AGREEMENTS = {
+    "expert_min1": "min1-100agree",
+    "expert_min2": "min2-100agree",
+    "expert_min3": "min3-100agree",
+}
 
 
 @dataclass(frozen=True)
@@ -60,10 +65,8 @@ def _require_relative_dataset_path(value: str, field_name: str, row_number: int)
 def _expected_role(split_name: str) -> tuple[str, str]:
     if split_name in {"train", "val"}:
         return "crowdsourced_train", ""
-    if not split_name.startswith("expert_"):
-        raise ValueError(f"Unknown reproduction split: {split_name}")
-    agreement = split_name.removeprefix("expert_").replace("_", "-")
-    if agreement not in EXPERT_AGREEMENTS:
+    agreement = EXPERT_SPLIT_AGREEMENTS.get(split_name)
+    if agreement is None:
         raise ValueError(f"Unknown expert agreement split: {split_name}")
     return "expert_gold_test", agreement
 

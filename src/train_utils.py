@@ -16,6 +16,7 @@ Loss function:
     pixels labelled 255 (unlabeled / out-of-scope regions in AI4Mars masks).
 """
 
+from copy import deepcopy
 from datetime import datetime, timezone
 import os
 from pathlib import Path
@@ -171,6 +172,15 @@ def capture_rng_state() -> Dict[str, Any]:
     return state
 
 
+def _normalize_rng_tensor(value: Any, *, state_name: str) -> torch.Tensor:
+    """Return a CPU-contiguous uint8 tensor accepted by PyTorch RNG setters."""
+    try:
+        tensor = torch.as_tensor(value, dtype=torch.uint8, device="cpu")
+    except (TypeError, RuntimeError) as error:
+        raise TypeError(f"Invalid {state_name} RNG state in checkpoint.") from error
+    return tensor.contiguous()
+
+
 def restore_rng_state(state: Dict[str, Any]) -> None:
     """Restore previously captured single-process RNG state."""
     if not state:
@@ -180,13 +190,31 @@ def restore_rng_state(state: Dict[str, Any]) -> None:
     if "numpy" in state:
         np.random.set_state(state["numpy"])
     if "torch" in state:
-        torch.set_rng_state(state["torch"])
+        torch.set_rng_state(_normalize_rng_tensor(state["torch"], state_name="torch"))
     if "cuda" in state and torch.cuda.is_available():
-        torch.cuda.set_rng_state_all(state["cuda"])
+        cuda_states = state["cuda"]
+        if not isinstance(cuda_states, (list, tuple)):
+            raise TypeError("Invalid CUDA RNG states in checkpoint; expected a sequence.")
+        torch.cuda.set_rng_state_all(
+            [_normalize_rng_tensor(value, state_name="cuda") for value in cuda_states]
+        )
+
+
+def _normalize_resume_metadata(metadata: Dict[str, Any]) -> Dict[str, Any]:
+    """Remove the only operational field that must not define an experiment."""
+    normalized = deepcopy(metadata)
+    configuration = normalized.get("configuration")
+    if isinstance(configuration, dict):
+        training = configuration.get("training")
+        if isinstance(training, dict):
+            training.pop("resume_checkpoint", None)
+    return normalized
 
 
 def validate_resume_metadata(checkpoint_metadata: Dict[str, Any], expected_metadata: Dict[str, Any]) -> None:
     """Reject changed experiment definitions while allowing a source SHA change."""
+    checkpoint_metadata = _normalize_resume_metadata(checkpoint_metadata)
+    expected_metadata = _normalize_resume_metadata(expected_metadata)
     mismatches = []
     for key, expected_value in expected_metadata.items():
         actual_value = checkpoint_metadata.get(key)

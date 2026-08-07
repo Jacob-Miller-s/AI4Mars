@@ -440,9 +440,9 @@ def main() -> None:
         "val": paths.manifest_root / data["val_manifest"],
     }
     expert_manifest_keys = {
-        "expert_min1_100agree": "expert_min1_manifest",
-        "expert_min2_100agree": "expert_min2_manifest",
-        "expert_min3_100agree": "expert_min3_manifest",
+        "expert_min1": "expert_min1_manifest",
+        "expert_min2": "expert_min2_manifest",
+        "expert_min3": "expert_min3_manifest",
     }
     expert_manifests = {
         name: paths.manifest_root / data[key]

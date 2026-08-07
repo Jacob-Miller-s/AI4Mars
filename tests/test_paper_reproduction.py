@@ -89,18 +89,28 @@ class PaperReproductionTests(unittest.TestCase):
         expert = self._manifest("expert.csv", [self._row("A", "SEQ_C", agreement="min3-100agree")])
 
         with self.assertRaisesRegex(ValueError, "source leakage"):
-            assert_no_reproduction_leakage({"train": train, "val": val, "expert_min3_100agree": expert})
+            assert_no_reproduction_leakage({"train": train, "val": val, "expert_min3": expert})
 
     def test_summary_reports_scope_role_and_agreement_counts(self) -> None:
         train = self._manifest("train.csv", [self._row("A", "SEQ_A")])
         expert = self._manifest("expert.csv", [self._row("B", "SEQ_B", agreement="min1-100agree")])
 
-        summary = summarize_reproduction_manifests({"train": train, "expert_min1_100agree": expert})
+        summary = summarize_reproduction_manifests({"train": train, "expert_min1": expert})
 
         self.assertEqual(summary["train"]["camera:ncam"], 1)
         self.assertEqual(summary["train"]["agreement:none"], 1)
-        self.assertEqual(summary["expert_min1_100agree"]["label_role:expert_gold_test"], 1)
-        self.assertEqual(summary["expert_min1_100agree"]["agreement:min1-100agree"], 1)
+        self.assertEqual(summary["expert_min1"]["label_role:expert_gold_test"], 1)
+        self.assertEqual(summary["expert_min1"]["agreement:min1-100agree"], 1)
+
+    def test_expert_aliases_map_to_the_expected_agreement_thresholds(self) -> None:
+        for split_name, agreement in (
+            ("expert_min1", "min1-100agree"),
+            ("expert_min2", "min2-100agree"),
+            ("expert_min3", "min3-100agree"),
+        ):
+            with self.subTest(split_name=split_name):
+                manifest = self._manifest(f"{split_name}.csv", [self._row(split_name, f"SEQ_{split_name}", agreement=agreement)])
+                validate_reproduction_manifest(manifest, split_name=split_name)
 
     def test_dataset_applies_encoder_normalization_and_nearest_mask_resize(self) -> None:
         image_path = self.root / "image.png"
