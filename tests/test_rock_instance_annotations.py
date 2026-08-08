@@ -27,6 +27,7 @@ from src.rock_instance.review_tool import (
     _bbox_from_polygon,
     initialize_calibration_resolution_artifacts,
     next_unreviewed_image_id,
+    restart_in_progress_image,
 )
 from src.rock_instance.review_report import summarize_review_state
 from src.rock_instance.repeat_review import initialize_isolated_repeat_state, select_repeat_image_ids
@@ -162,6 +163,24 @@ class AnnotationFixture(unittest.TestCase):
         self.assertEqual(self.state["images"]["source-a"]["review_status"], "reviewed")
         with self.assertRaisesRegex(ValueError, "All images"):
             next_unreviewed_image_id(self.state)
+
+    def test_restart_archives_incomplete_image_attempts_before_resetting_it(self) -> None:
+        record_annotation(
+            self.state,
+            self._annotation(),
+            reviewer="researcher",
+            image_review_status="in_progress",
+        )
+        state_path = self.root / "review_state.json"
+        save_review_state(state_path, self.state)
+
+        archive_path = restart_in_progress_image(state_path, "source-a", reason="Restart after recording an incorrect disposition.")
+        restored = load_review_state(state_path)
+
+        self.assertTrue(archive_path.is_file())
+        self.assertIn("source-a:1", archive_path.read_text(encoding="utf-8"))
+        self.assertEqual(restored["images"]["source-a"]["annotations"], [])
+        self.assertEqual(restored["images"]["source-a"]["review_status"], "unreviewed")
 
     def test_polygon_bbox_includes_its_last_rasterized_pixel(self) -> None:
         self.assertEqual(_bbox_from_polygon([[1.0, 2.0], [6.0, 2.0], [6.0, 6.0], [1.0, 6.0]]), [1, 2, 6, 5])

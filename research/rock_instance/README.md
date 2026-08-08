@@ -95,6 +95,16 @@ python -m src.rock_instance.review_tool \
   --dataset-root <dataset-root> --interactive
 ```
 
+If an incomplete image needs a clean re-review, archive its attempts before resetting only that image. This command refuses to reset completed images and never changes the immutable initial snapshot:
+
+```bash
+python -m src.rock_instance.review_tool \
+  --state-path artifacts/rock_instance/calibration_resolved_v2/review_state.json \
+  --dataset-root <dataset-root> \
+  --restart-image --image-id <image-id> \
+  --restart-reason "reason for clean re-review"
+```
+
 For each human decision, call the same reviewer command with an `--action`: `accepted`, `rejected_bedrock`, `rejected_noise`, `split_required`, `merge_required`, `uncertain`, or `deferred`. Supply either `--component-id` or a reviewer-defined `--bbox`; accepted rocks additionally require `--polygon-json` so their visible-object geometry is explicit. `--truncated`, `--occluded`, and `--notes` record qualifying context and rationale. Every action is atomically saved and can be resumed later. The reviewer never modifies source semantic masks.
 
 ```bash

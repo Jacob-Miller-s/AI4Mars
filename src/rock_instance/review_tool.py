@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import csv
+from datetime import datetime, timezone
 import json
 import shutil
 from pathlib import Path
@@ -20,6 +22,8 @@ from src.dataset import normalize_ai4mars_mask
 from src.rock_instance.annotations import (
     ANNOTATION_STATUSES,
     REVIEW_VERSION,
+    TERMINAL_ANNOTATION_STATUSES,
+    component_coverage_for_image,
     configure_component_review,
     configure_review_scope,
     finish_image_review,
@@ -31,6 +35,7 @@ from src.rock_instance.annotations import (
     save_review_state,
     set_candidate_independent_observation,
     sha256_file,
+    unresolved_candidate_component_ids,
 )
 
 
@@ -189,6 +194,58 @@ def next_unreviewed_image_id(state: dict[str, Any]) -> str:
     )["image_id"]
 
 
+def restart_in_progress_image(state_path: Path, image_id: str, *, reason: str) -> Path:
+    """Archive one incomplete image's attempts before resetting it for a clean re-review."""
+    if not reason.strip():
+        raise ValueError("An image restart requires a non-empty reason.")
+    state_path = Path(state_path)
+    state = load_review_state(state_path)
+    image = state.get("images", {}).get(image_id)
+    if image is None:
+        raise ValueError(f"Unknown review-state image_id: {image_id!r}")
+    if image["review_status"] == "reviewed":
+        raise ValueError("Refusing to restart a completed image.")
+    image_resolutions = [
+        record for record in state.get("resolution_records", []) if record["image_id"] == image_id
+    ]
+    if not image["annotations"] and not image_resolutions:
+        raise ValueError("Refusing to restart an image with no saved review attempts.")
+    archive_path = (
+        state_path.parent
+        / "restart_archives"
+        / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+        / f"{image_id}.json"
+    )
+    archive_path.parent.mkdir(parents=True, exist_ok=False)
+    archive_path.write_text(
+        json.dumps(
+            {
+                "archived_at_utc": datetime.now(timezone.utc).isoformat(),
+                "reason": reason,
+                "source_review_state": str(state_path),
+                "source_review_state_sha256": sha256_file(state_path),
+                "image": copy.deepcopy(image),
+                "resolution_records": image_resolutions,
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    image["annotations"] = []
+    image["review_status"] = "unreviewed"
+    image["reviewer"] = None
+    if "obvious_candidate_independent_rock_observed" in image:
+        image["obvious_candidate_independent_rock_observed"] = False
+        image["candidate_independent_observation_note"] = ""
+    state["resolution_records"] = [
+        record for record in state.get("resolution_records", []) if record["image_id"] != image_id
+    ]
+    save_review_state(state_path, state)
+    return archive_path
+
+
 def _bbox_from_polygon(polygon: list[list[float]]) -> list[int]:
     """Compute a source-image bounding box that encloses a reviewer-drawn polygon."""
     x_values = [point[0] for point in polygon]
@@ -245,8 +302,11 @@ class RockInstanceReviewUI:
         if not self.components:
             raise ValueError(f"No semantic component candidates are available for {image_id}.")
         self.selected_component_id = int(self.components[0]["component_id"])
+        self.selected_source_component_ids = {self.selected_component_id}
+        self.merge_mode = False
         self.status = "uncertain"
         self.polygon: list[list[float]] = []
+        self.polygon_source_component_id: int | None = None
         self.draw_mode = False
         self.notes = ""
         self._render()
@@ -306,12 +366,13 @@ class RockInstanceReviewUI:
         for component in self.components:
             component_id = int(component["component_id"])
             selected = component_id == self.selected_component_id
+            included = self.merge_mode and component_id in self.selected_source_component_ids
             rectangle = Rectangle(
                 (int(component["bbox_left"]), int(component["bbox_top"])),
                 int(component["bbox_width"]),
                 int(component["bbox_height"]),
                 linewidth=2.5 if selected else 1.5,
-                edgecolor="yellow" if selected else "cyan",
+                edgecolor="yellow" if selected else "orange" if included else "cyan",
                 facecolor="none",
             )
             self.review_axis.add_patch(rectangle)
@@ -338,22 +399,25 @@ class RockInstanceReviewUI:
 
     def _build_controls(self) -> None:
         status_axis = self.figure.add_axes((0.02, 0.035, 0.17, 0.25))
-        self.status_control = RadioButtons(status_axis, sorted(ANNOTATION_STATUSES), active=sorted(ANNOTATION_STATUSES).index(self.status))
+        terminal_statuses = sorted(TERMINAL_ANNOTATION_STATUSES)
+        self.status_control = RadioButtons(status_axis, terminal_statuses, active=terminal_statuses.index(self.status))
         self.status_control.on_clicked(self._on_status_changed)
         component_axis = self.figure.add_axes((0.23, 0.20, 0.17, 0.06))
         component_axis.axis("off")
         self.component_text = component_axis.text(0, 0.75, "", va="top", fontsize=10)
-        previous_button = Button(self.figure.add_axes((0.41, 0.21, 0.10, 0.05)), "Previous")
+        previous_button = Button(self.figure.add_axes((0.41, 0.21, 0.075, 0.05)), "Previous")
         previous_button.on_clicked(lambda _event: self._cycle_component(-1))
-        next_button = Button(self.figure.add_axes((0.53, 0.21, 0.10, 0.05)), "Next")
+        next_button = Button(self.figure.add_axes((0.495, 0.21, 0.075, 0.05)), "Next")
         next_button.on_clicked(lambda _event: self._cycle_component(1))
-        notes_button = Button(self.figure.add_axes((0.65, 0.21, 0.12, 0.05)), "Edit notes")
+        self.merge_button = Button(self.figure.add_axes((0.58, 0.21, 0.10, 0.05)), "Merge: off")
+        self.merge_button.on_clicked(self._toggle_merge_mode)
+        notes_button = Button(self.figure.add_axes((0.69, 0.21, 0.08, 0.05)), "Notes")
         notes_button.on_clicked(self._edit_notes)
         flags_axis = self.figure.add_axes((0.23, 0.025, 0.15, 0.055))
         self.flags_control = CheckButtons(flags_axis, ("truncated", "occluded"), (False, False))
-        self.draw_button = Button(self.figure.add_axes((0.79, 0.21, 0.17, 0.05)), "Draw polygon")
+        self.draw_button = Button(self.figure.add_axes((0.78, 0.21, 0.085, 0.05)), "Draw")
         self.draw_button.on_clicked(self._toggle_draw_mode)
-        undo_button = Button(self.figure.add_axes((0.84, 0.21, 0.12, 0.05)), "Undo point")
+        undo_button = Button(self.figure.add_axes((0.875, 0.21, 0.085, 0.05)), "Undo")
         undo_button.on_clicked(self._undo_point)
         save_button = Button(self.figure.add_axes((0.40, 0.025, 0.17, 0.055)), "Save decision")
         save_button.on_clicked(self._save_decision)
@@ -363,7 +427,7 @@ class RockInstanceReviewUI:
         self.message_axis.axis("off")
         self.message_text = self.message_axis.text(0, 0.9, "", va="top", wrap=True, fontsize=10)
         self.controls = [
-            self.status_control, previous_button, next_button, notes_button, self.flags_control,
+            self.status_control, previous_button, next_button, self.merge_button, notes_button, self.flags_control,
             self.draw_button, undo_button, save_button, finish_button,
         ]
         self._update_component_text()
@@ -377,7 +441,7 @@ class RockInstanceReviewUI:
         self.status = status
         if status != "accepted":
             self.draw_mode = False
-            self.draw_button.label.set_text("Draw polygon")
+            self.draw_button.label.set_text("Draw")
 
     def _cycle_component(self, direction: int) -> None:
         component_ids = [int(component["component_id"]) for component in self.components]
@@ -388,7 +452,37 @@ class RockInstanceReviewUI:
         self.figure.canvas.draw_idle()
 
     def _update_component_text(self) -> None:
-        self.component_text.set_text(f"Component: {self.selected_component_id}\nNotes: {self.notes or 'none'}")
+        covered = sorted(component_coverage_for_image(self.state, self.image_id))
+        unresolved = unresolved_candidate_component_ids(self.state, self.image_id)
+        source_text = (
+            f"merge sources: {sorted(self.selected_source_component_ids)}"
+            if self.merge_mode
+            else "single-component decision"
+        )
+        polygon_text = (
+            f"Polygon points: {len(self.polygon)} from component {self.polygon_source_component_id}"
+            if self.polygon_source_component_id is not None
+            else f"Polygon points: {len(self.polygon)}"
+        )
+        self.component_text.set_text(
+            f"Component: {self.selected_component_id} | {source_text}\n"
+            f"{polygon_text} | unresolved: {unresolved or 'none'}"
+        )
+        self.merge_button.label.set_text("Merge: on" if self.merge_mode else "Merge: off")
+
+    def _toggle_merge_mode(self, _event: Any) -> None:
+        self.merge_mode = not self.merge_mode
+        self.selected_source_component_ids = {self.selected_component_id}
+        self.polygon = []
+        self.polygon_source_component_id = None
+        self._update_component_text()
+        self._draw_review_overlays()
+        self._set_message(
+            "Merge mode: click every contributing box, select accepted, and draw one boundary from any selected source."
+            if self.merge_mode
+            else "Single-component mode: Save applies only to the highlighted component."
+        )
+        self.figure.canvas.draw_idle()
 
     def _edit_notes(self, _event: Any) -> None:
         try:
@@ -417,28 +511,46 @@ class RockInstanceReviewUI:
             self._set_message("Select accepted before drawing a visible-rock boundary.", error=True)
             return
         self.draw_mode = not self.draw_mode
-        self.draw_button.label.set_text("Stop drawing" if self.draw_mode else "Draw polygon")
-        self._set_message("Polygon drawing active." if self.draw_mode else "Polygon drawing paused.")
+        self.draw_button.label.set_text("Stop" if self.draw_mode else "Draw")
+        self._set_message(
+            "Click vertices in the right review panel; at least 3 points are required."
+            if self.draw_mode
+            else f"Polygon drawing paused with {len(self.polygon)} point(s)."
+        )
         self.figure.canvas.draw_idle()
 
     def _undo_point(self, _event: Any) -> None:
         if self.polygon:
             self.polygon.pop()
+            if not self.polygon:
+                self.polygon_source_component_id = None
             self._draw_review_overlays()
+            self._update_component_text()
+            self._set_message(f"Polygon has {len(self.polygon)} point(s).")
             self.figure.canvas.draw_idle()
 
     def _on_canvas_click(self, event: Any) -> None:
         if event.inaxes is not self.review_axis or event.xdata is None or event.ydata is None:
             return
         if self.draw_mode:
+            if self.polygon_source_component_id is None:
+                self.polygon_source_component_id = self.selected_component_id
             self.polygon.append([float(event.xdata), float(event.ydata)])
             self._draw_review_overlays()
+            self._update_component_text()
+            self._set_message(f"Polygon has {len(self.polygon)} point(s).")
             self.figure.canvas.draw_idle()
             return
         for component in self.components:
             left, top, width, height = _component_bbox(self.components, int(component["component_id"]))
             if left <= event.xdata <= left + width and top <= event.ydata <= top + height:
                 self.selected_component_id = int(component["component_id"])
+                if self.merge_mode:
+                    if self.selected_component_id in self.selected_source_component_ids:
+                        if len(self.selected_source_component_ids) > 1:
+                            self.selected_source_component_ids.remove(self.selected_component_id)
+                    else:
+                        self.selected_source_component_ids.add(self.selected_component_id)
                 self._update_component_text()
                 self._draw_review_overlays()
                 self.figure.canvas.draw_idle()
@@ -446,7 +558,32 @@ class RockInstanceReviewUI:
 
     def _save_decision(self, _event: Any) -> None:
         try:
-            component_id = self.selected_component_id
+            source_component_ids = (
+                sorted(self.selected_source_component_ids)
+                if self.merge_mode
+                else [self.selected_component_id]
+            )
+            is_merge = self.merge_mode
+            if self.status not in TERMINAL_ANNOTATION_STATUSES:
+                raise ValueError("Select a terminal disposition before saving a corrected-calibration decision.")
+            if is_merge and len(source_component_ids) < 2:
+                raise ValueError("Select at least two component boxes for a merge, or turn merge mode off.")
+            if is_merge and not self.notes.strip():
+                raise ValueError("A merge resolution requires reviewer notes explaining the physical-rock decision.")
+            initial_decision_ids = [
+                decision["instance_id"]
+                for decision in self.state.get("initial_calibration_reference", {}).get("decisions", [])
+                if decision.get("image_id") == self.image_id
+            ]
+            if is_merge and not initial_decision_ids:
+                raise ValueError("A merge resolution requires at least one linked initial-review decision.")
+            component_id = (
+                self.polygon_source_component_id
+                if self.status == "accepted" and self.polygon_source_component_id is not None
+                else self.selected_component_id
+            )
+            if component_id not in source_component_ids:
+                raise ValueError("The polygon source must be one of the selected merge components.")
             bbox = _component_bbox(self.components, component_id)
             instance_id = _next_instance_id(self.state, self.image_id)
             if self.status == "accepted":
@@ -458,6 +595,7 @@ class RockInstanceReviewUI:
                 "image_id": self.image_id,
                 "sequence_id": self.image["sequence_id"],
                 "source_candidate_component_id": component_id,
+                "source_candidate_component_ids": source_component_ids,
                 "bbox": bbox,
                 "polygon": self.polygon if self.status == "accepted" else None,
                 "annotation_status": self.status,
@@ -468,18 +606,48 @@ class RockInstanceReviewUI:
                 "reviewer_notes": self.notes,
                 "review_version": REVIEW_VERSION,
             }
-            record_annotation(self.state, annotation, reviewer=self.reviewer, image_review_status="in_progress")
-            save_review_state(self.state_path, self.state)
+            updated_state = copy.deepcopy(self.state)
+            record_annotation(updated_state, annotation, reviewer=self.reviewer, image_review_status="in_progress")
+            if is_merge:
+                existing_resolution_ids = {
+                    record["resolution_id"] for record in updated_state.get("resolution_records", [])
+                }
+                resolution_index = 1
+                while f"{self.image_id}:merge-{resolution_index:03d}" in existing_resolution_ids:
+                    resolution_index += 1
+                record_resolution(
+                    updated_state,
+                    {
+                        "resolution_id": f"{self.image_id}:merge-{resolution_index:03d}",
+                        "resolution_type": "merge",
+                        "image_id": self.image_id,
+                        "sequence_id": self.image["sequence_id"],
+                        "source_candidate_component_ids": source_component_ids,
+                        "initial_decision_instance_ids": initial_decision_ids,
+                        "resolved_annotation_instance_ids": [instance_id],
+                        "reviewer_notes": self.notes,
+                    },
+                )
+            save_review_state(self.state_path, updated_state)
+            self.state = updated_state
+            self.image = self.state["images"][self.image_id]
         except (ValueError, TypeError) as error:
             self._set_message(str(error), error=True)
             return
         self.polygon = []
+        self.polygon_source_component_id = None
         self.draw_mode = False
-        self.draw_button.label.set_text("Draw polygon")
+        self.merge_mode = False
+        self.selected_source_component_ids = {self.selected_component_id}
+        self.draw_button.label.set_text("Draw")
         self.notes = ""
         self._update_component_text()
         self._draw_review_overlays()
-        self._set_message("Decision saved. Finish the image only after all components are adjudicated.")
+        unresolved = unresolved_candidate_component_ids(self.state, self.image_id)
+        if unresolved:
+            self._set_message(f"Decision saved. Terminal dispositions still needed for: {unresolved}.")
+        else:
+            self._set_message("Decision saved. Every candidate component is covered; finish the image when ready.")
 
     def _finish_image(self, _event: Any) -> None:
         try:
@@ -489,6 +657,11 @@ class RockInstanceReviewUI:
         except ValueError as error:
             if "All images in the active" in str(error):
                 self._set_message("The active review scope is complete.")
+            elif "unresolved candidate component IDs" in str(error):
+                self._set_message(
+                    f"{error} Save a terminal disposition for each listed ID, or save an explicit merge resolution.",
+                    error=True,
+                )
             else:
                 self._set_message(str(error), error=True)
             return
@@ -579,6 +752,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--initialize", action="store_true", help="Create candidate copy, provenance, and empty review state.")
     parser.add_argument("--initialize-calibration-resolution", action="store_true", help="Create a fresh v2 corrected-calibration state from immutable initial evidence.")
     parser.add_argument("--activate-calibration-scope", action="store_true", help="Restrict an empty pilot state to a copied calibration manifest.")
+    parser.add_argument("--restart-image", action="store_true", help="Archive and reset one incomplete image for a clean re-review.")
+    parser.add_argument("--restart-reason", help="Required audit reason when using --restart-image.")
     parser.add_argument("--candidate-manifest", type=Path)
     parser.add_argument("--calibration-manifest", type=Path)
     parser.add_argument("--initial-snapshot", type=Path)
@@ -642,6 +817,11 @@ def main() -> None:
             raise ValueError("--activate-calibration-scope requires --state-path and --calibration-manifest.")
         activate_calibration_scope(args.state_path, args.calibration_manifest)
         print(f"activated calibration scope for {args.state_path}")
+        return
+    if args.restart_image:
+        if args.state_path is None or args.image_id is None or args.restart_reason is None:
+            raise ValueError("--restart-image requires --state-path, --image-id, and --restart-reason.")
+        print(restart_in_progress_image(args.state_path, args.image_id, reason=args.restart_reason))
         return
     if args.state_path is None or args.component_candidates_csv is None:
         raise ValueError("Review actions require --state-path and --component-candidates-csv.")

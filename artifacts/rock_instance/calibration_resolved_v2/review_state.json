@@ -385,7 +385,28 @@
       "split": "val"
     },
     "NLB_458749903EDR_F0390726NCAM00264M1": {
-      "annotations": [],
+      "annotations": [
+        {
+          "annotation_status": "uncertain",
+          "bbox": [
+            31,
+            376,
+            2,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_458749903EDR_F0390726NCAM00264M1",
+          "instance_id": "NLB_458749903EDR_F0390726NCAM00264M1:rock-001",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0390726NCAM00264M1",
+          "source_candidate_component_id": 1,
+          "truncated": false,
+          "uncertain": true
+        }
+      ],
       "candidate_component_ids": [
         1
       ],
@@ -397,8 +418,8 @@
       "mask_path": "msl/ncam/labels/train/NLB_458749903EDR_F0390726NCAM00264M1.png",
       "obvious_candidate_independent_rock_observed": false,
       "pilot_rank": 15,
-      "review_status": "unreviewed",
-      "reviewer": null,
+      "review_status": "reviewed",
+      "reviewer": "single_researcher",
       "selection_strata": [
         "isolated_candidate",
         "tiny_component_candidate",
@@ -426,7 +447,28 @@
       "split": "train"
     },
     "NLB_460794047EDR_F0400660NCAM00262M1": {
-      "annotations": [],
+      "annotations": [
+        {
+          "annotation_status": "uncertain",
+          "bbox": [
+            1012,
+            546,
+            2,
+            6
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_460794047EDR_F0400660NCAM00262M1",
+          "instance_id": "NLB_460794047EDR_F0400660NCAM00262M1:rock-001",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0400660NCAM00262M1",
+          "source_candidate_component_id": 1,
+          "truncated": false,
+          "uncertain": true
+        }
+      ],
       "candidate_component_ids": [
         1
       ],
@@ -438,8 +480,8 @@
       "mask_path": "msl/ncam/labels/train/NLB_460794047EDR_F0400660NCAM00262M1.png",
       "obvious_candidate_independent_rock_observed": false,
       "pilot_rank": 14,
-      "review_status": "unreviewed",
-      "reviewer": null,
+      "review_status": "reviewed",
+      "reviewer": "single_researcher",
       "selection_strata": [
         "isolated_candidate",
         "tiny_component_candidate",
@@ -523,7 +565,695 @@
       "split": "val"
     },
     "NLB_463551084EDR_F0411534NCAM00385M1": {
-      "annotations": [],
+      "annotations": [
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            11,
+            5,
+            749,
+            19
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+          "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-001",
+          "occluded": false,
+          "polygon": [
+            [
+              11.946666666666715,
+              5.18826666666655
+            ],
+            [
+              11.946666666666715,
+              23.961599999999862
+            ],
+            [
+              757.7600000000002,
+              17.134933333333265
+            ],
+            [
+              759.4666666666672,
+              6.894933333333256
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0411534NCAM00385M1",
+          "source_candidate_component_id": 1,
+          "source_candidate_component_ids": [
+            1
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            449,
+            223,
+            1,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+          "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-002",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0411534NCAM00385M1",
+          "source_candidate_component_id": 3,
+          "source_candidate_component_ids": [
+            3
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            184,
+            261,
+            112,
+            43
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+          "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-003",
+          "occluded": false,
+          "polygon": [
+            [
+              184.32000000000016,
+              302.1482666666666
+            ],
+            [
+              262.8266666666668,
+              261.18826666666655
+            ],
+            [
+              295.25333333333356,
+              288.49493333333317
+            ],
+            [
+              226.98666666666668,
+              303.8549333333333
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0411534NCAM00385M1",
+          "source_candidate_component_id": 4,
+          "source_candidate_component_ids": [
+            4
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            107,
+            49,
+            288,
+            124
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+          "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-004",
+          "occluded": false,
+          "polygon": [
+            [
+              107.52000000000044,
+              107.58826666666664
+            ],
+            [
+              271.3600000000001,
+              49.5616
+            ],
+            [
+              373.7600000000002,
+              75.16159999999991
+            ],
+            [
+              394.24000000000024,
+              111.00159999999983
+            ],
+            [
+              343.0400000000004,
+              145.13493333333327
+            ],
+            [
+              191.146666666667,
+              172.44159999999988
+            ],
+            [
+              131.4133333333334,
+              165.61493333333328
+            ],
+            [
+              182.61333333333369,
+              140.01493333333337
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0411534NCAM00385M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            13,
+            163,
+            109,
+            44
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+          "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-005",
+          "occluded": false,
+          "polygon": [
+            [
+              13.653333333333649,
+              174.1482666666666
+            ],
+            [
+              98.98666666666668,
+              163.90826666666658
+            ],
+            [
+              121.17333333333363,
+              204.8682666666666
+            ],
+            [
+              23.89333333333343,
+              206.57493333333332
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0411534NCAM00385M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            30,
+            221,
+            78,
+            32
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+          "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-006",
+          "occluded": false,
+          "polygon": [
+            [
+              30.720000000000255,
+              233.88159999999993
+            ],
+            [
+              49.49333333333334,
+              221.93493333333322
+            ],
+            [
+              56.320000000000164,
+              235.58826666666664
+            ],
+            [
+              107.52000000000044,
+              235.58826666666664
+            ],
+            [
+              98.98666666666668,
+              252.65493333333325
+            ],
+            [
+              46.08000000000038,
+              249.24159999999983
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0411534NCAM00385M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            121,
+            254,
+            35,
+            23
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+          "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-007",
+          "occluded": false,
+          "polygon": [
+            [
+              121.17333333333363,
+              271.42826666666656
+            ],
+            [
+              141.65333333333365,
+              254.36159999999995
+            ],
+            [
+              155.30666666666684,
+              262.89493333333326
+            ],
+            [
+              150.18666666666695,
+              276.5482666666667
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0411534NCAM00385M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            245,
+            180,
+            81,
+            54
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+          "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-008",
+          "occluded": false,
+          "polygon": [
+            [
+              245.76000000000022,
+              221.93493333333322
+            ],
+            [
+              269.65333333333365,
+              182.6815999999999
+            ],
+            [
+              324.2666666666669,
+              180.97493333333318
+            ],
+            [
+              325.97333333333336,
+              198.04160000000002
+            ],
+            [
+              298.66666666666697,
+              216.81493333333333
+            ],
+            [
+              273.06666666666706,
+              233.88159999999993
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0411534NCAM00385M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            286,
+            232,
+            42,
+            37
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+          "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-009",
+          "occluded": false,
+          "polygon": [
+            [
+              286.72000000000025,
+              262.89493333333326
+            ],
+            [
+              325.97333333333336,
+              268.0149333333334
+            ],
+            [
+              327.6800000000003,
+              245.82826666666665
+            ],
+            [
+              298.66666666666697,
+              232.17493333333323
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0411534NCAM00385M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            315,
+            198,
+            58,
+            28
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+          "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-010",
+          "occluded": false,
+          "polygon": [
+            [
+              315.7333333333336,
+              220.2282666666665
+            ],
+            [
+              363.52000000000044,
+              198.04160000000002
+            ],
+            [
+              372.05333333333374,
+              220.2282666666665
+            ],
+            [
+              339.626666666667,
+              225.34826666666663
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0411534NCAM00385M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            428,
+            167,
+            81,
+            32
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+          "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-011",
+          "occluded": false,
+          "polygon": [
+            [
+              443.7333333333336,
+              198.04160000000002
+            ],
+            [
+              508.58666666666704,
+              180.97493333333318
+            ],
+            [
+              500.05333333333374,
+              167.3216
+            ],
+            [
+              445.44000000000005,
+              167.3216
+            ],
+            [
+              428.37333333333345,
+              170.73493333333317
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0411534NCAM00385M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            518,
+            165,
+            49,
+            18
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+          "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-012",
+          "occluded": false,
+          "polygon": [
+            [
+              518.8266666666668,
+              180.97493333333318
+            ],
+            [
+              566.6133333333337,
+              182.6815999999999
+            ],
+            [
+              527.3600000000001,
+              165.61493333333328
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0411534NCAM00385M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            564,
+            143,
+            71,
+            37
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+          "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-013",
+          "occluded": false,
+          "polygon": [
+            [
+              599.0400000000004,
+              179.2682666666667
+            ],
+            [
+              634.8800000000001,
+              162.20159999999987
+            ],
+            [
+              617.8133333333335,
+              143.42826666666656
+            ],
+            [
+              581.9733333333334,
+              146.84159999999997
+            ],
+            [
+              564.9066666666668,
+              162.20159999999987
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0411534NCAM00385M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            699,
+            35,
+            110,
+            65
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+          "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-014",
+          "occluded": false,
+          "polygon": [
+            [
+              699.7333333333336,
+              49.5616
+            ],
+            [
+              762.8800000000001,
+              75.16159999999991
+            ],
+            [
+              762.8800000000001,
+              93.93493333333322
+            ],
+            [
+              788.4800000000005,
+              99.05493333333334
+            ],
+            [
+              808.96,
+              68.33493333333331
+            ],
+            [
+              802.1333333333337,
+              46.148266666666586
+            ],
+            [
+              769.7066666666669,
+              35.90826666666658
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0411534NCAM00385M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            640,
+            52,
+            62,
+            36
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+          "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-015",
+          "occluded": false,
+          "polygon": [
+            [
+              665.6000000000004,
+              52.97493333333318
+            ],
+            [
+              701.44,
+              73.4549333333332
+            ],
+            [
+              684.3733333333334,
+              87.10826666666662
+            ],
+            [
+              653.6533333333336,
+              83.69493333333321
+            ],
+            [
+              640.0000000000005,
+              66.6282666666666
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0411534NCAM00385M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            481,
+            93,
+            110,
+            63
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+          "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-016",
+          "occluded": false,
+          "polygon": [
+            [
+              481.2800000000002,
+              145.13493333333327
+            ],
+            [
+              508.58666666666704,
+              155.37493333333327
+            ],
+            [
+              527.3600000000001,
+              143.42826666666656
+            ],
+            [
+              578.5600000000004,
+              128.06826666666666
+            ],
+            [
+              590.5066666666671,
+              99.05493333333334
+            ],
+            [
+              559.7866666666669,
+              93.93493333333322
+            ],
+            [
+              520.5333333333338,
+              99.05493333333334
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0411534NCAM00385M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        }
+      ],
       "candidate_component_ids": [
         1,
         2,
@@ -538,8 +1268,8 @@
       "mask_path": "msl/ncam/labels/train/NLB_463551084EDR_F0411534NCAM00385M1.png",
       "obvious_candidate_independent_rock_observed": false,
       "pilot_rank": 34,
-      "review_status": "unreviewed",
-      "reviewer": null,
+      "review_status": "reviewed",
+      "reviewer": "single_researcher",
       "selection_strata": [
         "multiple_candidate_regions",
         "bedrock_big_rock_boundary",
@@ -589,7 +1319,546 @@
       "split": "train"
     },
     "NLB_467991018EDR_F0440568NCAM00298M1": {
-      "annotations": [],
+      "annotations": [
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            727,
+            145,
+            144,
+            146
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_467991018EDR_F0440568NCAM00298M1",
+          "instance_id": "NLB_467991018EDR_F0440568NCAM00298M1:rock-001",
+          "occluded": false,
+          "polygon": [
+            [
+              836.2666666666669,
+              145.13493333333327
+            ],
+            [
+              791.8933333333334,
+              165.61493333333328
+            ],
+            [
+              791.8933333333334,
+              194.6282666666666
+            ],
+            [
+              776.5333333333338,
+              203.1615999999999
+            ],
+            [
+              750.9333333333334,
+              215.10826666666662
+            ],
+            [
+              733.8666666666668,
+              252.65493333333325
+            ],
+            [
+              727.0400000000004,
+              290.20159999999987
+            ],
+            [
+              774.8266666666668,
+              288.49493333333317
+            ],
+            [
+              817.4933333333338,
+              249.24159999999983
+            ],
+            [
+              844.8000000000002,
+              247.53493333333336
+            ],
+            [
+              870.4000000000001,
+              237.29493333333335
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0440568NCAM00298M1",
+          "source_candidate_component_id": 1,
+          "source_candidate_component_ids": [
+            1
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            650,
+            30,
+            366,
+            203
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_467991018EDR_F0440568NCAM00298M1",
+          "instance_id": "NLB_467991018EDR_F0440568NCAM00298M1:rock-002",
+          "occluded": false,
+          "polygon": [
+            [
+              650.2400000000002,
+              141.72159999999985
+            ],
+            [
+              669.0133333333338,
+              76.86826666666661
+            ],
+            [
+              750.9333333333334,
+              39.32159999999999
+            ],
+            [
+              826.0266666666671,
+              30.788266666666686
+            ],
+            [
+              994.9866666666671,
+              64.9215999999999
+            ],
+            [
+              1015.4666666666672,
+              128.06826666666666
+            ],
+            [
+              1013.7600000000002,
+              232.17493333333323
+            ],
+            [
+              889.1733333333336,
+              187.8016
+            ],
+            [
+              860.1600000000003,
+              146.84159999999997
+            ],
+            [
+              848.2133333333336,
+              126.36159999999995
+            ],
+            [
+              800.4266666666667,
+              133.18826666666655
+            ],
+            [
+              773.1200000000003,
+              165.61493333333328
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0440568NCAM00298M1",
+          "source_candidate_component_id": 1,
+          "source_candidate_component_ids": [
+            1
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            431,
+            189,
+            199,
+            173
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_467991018EDR_F0440568NCAM00298M1",
+          "instance_id": "NLB_467991018EDR_F0440568NCAM00298M1:rock-003",
+          "occluded": false,
+          "polygon": [
+            [
+              571.7333333333336,
+              189.5082666666667
+            ],
+            [
+              486.4000000000001,
+              215.10826666666662
+            ],
+            [
+              447.146666666667,
+              257.77493333333337
+            ],
+            [
+              431.78666666666686,
+              343.1082666666666
+            ],
+            [
+              573.44,
+              361.88159999999993
+            ],
+            [
+              629.7600000000002,
+              298.7349333333332
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0440568NCAM00298M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            87,
+            261,
+            152,
+            117
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_467991018EDR_F0440568NCAM00298M1",
+          "instance_id": "NLB_467991018EDR_F0440568NCAM00298M1:rock-004",
+          "occluded": false,
+          "polygon": [
+            [
+              235.52000000000044,
+              279.96159999999986
+            ],
+            [
+              121.17333333333363,
+              261.18826666666655
+            ],
+            [
+              87.04000000000042,
+              286.7882666666667
+            ],
+            [
+              92.16000000000031,
+              341.4015999999999
+            ],
+            [
+              102.40000000000009,
+              373.82826666666665
+            ],
+            [
+              170.66666666666697,
+              377.24159999999983
+            ],
+            [
+              215.04000000000042,
+              363.58826666666664
+            ],
+            [
+              238.9333333333334,
+              310.6815999999999
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0440568NCAM00298M1",
+          "source_candidate_component_id": 3,
+          "source_candidate_component_ids": [
+            3
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            936,
+            314,
+            77,
+            77
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_467991018EDR_F0440568NCAM00298M1",
+          "instance_id": "NLB_467991018EDR_F0440568NCAM00298M1:rock-005",
+          "occluded": false,
+          "polygon": [
+            [
+              1008.6400000000003,
+              390.89493333333326
+            ],
+            [
+              936.9600000000005,
+              351.6415999999999
+            ],
+            [
+              983.0400000000004,
+              314.0949333333333
+            ],
+            [
+              1012.0533333333337,
+              327.7482666666667
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0440568NCAM00298M1",
+          "source_candidate_component_id": 4,
+          "source_candidate_component_ids": [
+            4
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            713,
+            426,
+            180,
+            83
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_467991018EDR_F0440568NCAM00298M1",
+          "instance_id": "NLB_467991018EDR_F0440568NCAM00298M1:rock-006",
+          "occluded": false,
+          "polygon": [
+            [
+              892.586666666667,
+              430.1482666666666
+            ],
+            [
+              820.9066666666668,
+              426.7349333333332
+            ],
+            [
+              713.3866666666668,
+              467.6949333333332
+            ],
+            [
+              721.9200000000001,
+              505.24160000000006
+            ],
+            [
+              790.186666666667,
+              508.65493333333325
+            ],
+            [
+              843.0933333333337,
+              469.4015999999999
+            ],
+            [
+              877.2266666666669,
+              469.4015999999999
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "5 & 9 same rock",
+          "sequence_id": "F0440568NCAM00298M1",
+          "source_candidate_component_id": 9,
+          "source_candidate_component_ids": [
+            5,
+            9
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            808,
+            520,
+            1,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_467991018EDR_F0440568NCAM00298M1",
+          "instance_id": "NLB_467991018EDR_F0440568NCAM00298M1:rock-007",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0440568NCAM00298M1",
+          "source_candidate_component_id": 10,
+          "source_candidate_component_ids": [
+            10
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            839,
+            472,
+            114,
+            92
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_467991018EDR_F0440568NCAM00298M1",
+          "instance_id": "NLB_467991018EDR_F0440568NCAM00298M1:rock-008",
+          "occluded": false,
+          "polygon": [
+            [
+              884.0533333333337,
+              472.81493333333333
+            ],
+            [
+              843.0933333333337,
+              510.36159999999995
+            ],
+            [
+              839.6800000000003,
+              546.2015999999999
+            ],
+            [
+              926.7200000000003,
+              563.2682666666667
+            ],
+            [
+              952.3200000000002,
+              532.5482666666667
+            ],
+            [
+              923.3066666666668,
+              486.4682666666665
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "same rock\\",
+          "sequence_id": "F0440568NCAM00298M1",
+          "source_candidate_component_id": 8,
+          "source_candidate_component_ids": [
+            8,
+            11
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            8,
+            682,
+            300,
+            334
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_467991018EDR_F0440568NCAM00298M1",
+          "instance_id": "NLB_467991018EDR_F0440568NCAM00298M1:rock-009",
+          "occluded": false,
+          "polygon": [
+            [
+              179.20000000000027,
+              682.7349333333333
+            ],
+            [
+              51.20000000000027,
+              849.9882666666666
+            ],
+            [
+              8.533333333333758,
+              988.2282666666666
+            ],
+            [
+              35.840000000000146,
+              1015.5349333333334
+            ],
+            [
+              163.84000000000015,
+              1010.4149333333334
+            ],
+            [
+              250.8800000000001,
+              948.9749333333333
+            ],
+            [
+              303.78666666666686,
+              897.7749333333334
+            ],
+            [
+              307.2000000000003,
+              814.1482666666666
+            ],
+            [
+              245.76000000000022,
+              687.8549333333333
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0440568NCAM00298M1",
+          "source_candidate_component_id": 12,
+          "source_candidate_component_ids": [
+            12
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            145,
+            697,
+            4,
+            4
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_467991018EDR_F0440568NCAM00298M1",
+          "instance_id": "NLB_467991018EDR_F0440568NCAM00298M1:rock-010",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0440568NCAM00298M1",
+          "source_candidate_component_id": 13,
+          "source_candidate_component_ids": [
+            13
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            910,
+            477,
+            23,
+            6
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_467991018EDR_F0440568NCAM00298M1",
+          "instance_id": "NLB_467991018EDR_F0440568NCAM00298M1:rock-011",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0440568NCAM00298M1",
+          "source_candidate_component_id": 6,
+          "source_candidate_component_ids": [
+            6
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            902,
+            479,
+            1,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_467991018EDR_F0440568NCAM00298M1",
+          "instance_id": "NLB_467991018EDR_F0440568NCAM00298M1:rock-012",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0440568NCAM00298M1",
+          "source_candidate_component_id": 7,
+          "source_candidate_component_ids": [
+            7
+          ],
+          "truncated": false,
+          "uncertain": false
+        }
+      ],
       "candidate_component_ids": [
         1,
         2,
@@ -613,8 +1882,8 @@
       "mask_path": "msl/ncam/labels/train/NLB_467991018EDR_F0440568NCAM00298M1.png",
       "obvious_candidate_independent_rock_observed": false,
       "pilot_rank": 91,
-      "review_status": "unreviewed",
-      "reviewer": null,
+      "review_status": "reviewed",
+      "reviewer": "single_researcher",
       "selection_strata": [
         "multiple_candidate_regions",
         "border_truncation_candidate",
@@ -1567,7 +2836,235 @@
       "split": "train"
     },
     "NLB_512730161EDR_F0532980NCAM00265M1": {
-      "annotations": [],
+      "annotations": [
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            117,
+            290,
+            225,
+            35
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_512730161EDR_F0532980NCAM00265M1",
+          "instance_id": "NLB_512730161EDR_F0532980NCAM00265M1:rock-001",
+          "occluded": false,
+          "polygon": [
+            [
+              117.76000000000022,
+              290.20159999999987
+            ],
+            [
+              341.3333333333335,
+              293.6149333333333
+            ],
+            [
+              281.60000000000036,
+              317.5082666666667
+            ],
+            [
+              163.84000000000015,
+              324.3349333333333
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0532980NCAM00265M1",
+          "source_candidate_component_id": 1,
+          "source_candidate_component_ids": [
+            1
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            302,
+            307,
+            47,
+            28
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_512730161EDR_F0532980NCAM00265M1",
+          "instance_id": "NLB_512730161EDR_F0532980NCAM00265M1:rock-002",
+          "occluded": false,
+          "polygon": [
+            [
+              302.0800000000004,
+              315.8016
+            ],
+            [
+              348.1600000000003,
+              307.2682666666667
+            ],
+            [
+              346.4533333333334,
+              334.5749333333333
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0532980NCAM00265M1",
+          "source_candidate_component_id": 1,
+          "source_candidate_component_ids": [
+            1
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            477,
+            273,
+            520,
+            195
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_512730161EDR_F0532980NCAM00265M1",
+          "instance_id": "NLB_512730161EDR_F0532980NCAM00265M1:rock-003",
+          "occluded": false,
+          "polygon": [
+            [
+              477.8666666666668,
+              324.3349333333333
+            ],
+            [
+              549.5466666666671,
+              319.2149333333332
+            ],
+            [
+              597.3333333333335,
+              308.9749333333332
+            ],
+            [
+              663.8933333333334,
+              274.84159999999997
+            ],
+            [
+              747.5200000000004,
+              273.13493333333327
+            ],
+            [
+              870.4000000000001,
+              286.7882666666667
+            ],
+            [
+              938.666666666667,
+              297.0282666666667
+            ],
+            [
+              981.3333333333335,
+              308.9749333333332
+            ],
+            [
+              996.6933333333336,
+              344.81493333333333
+            ],
+            [
+              977.9200000000001,
+              423.3216
+            ],
+            [
+              955.7333333333336,
+              460.8682666666666
+            ],
+            [
+              800.4266666666667,
+              467.6949333333332
+            ],
+            [
+              706.5600000000004,
+              455.7482666666667
+            ],
+            [
+              626.3466666666668,
+              433.5616
+            ],
+            [
+              564.9066666666668,
+              428.4415999999999
+            ],
+            [
+              506.8800000000001,
+              404.5482666666667
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0532980NCAM00265M1",
+          "source_candidate_component_id": 1,
+          "source_candidate_component_ids": [
+            1
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            550,
+            256,
+            6,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_512730161EDR_F0532980NCAM00265M1",
+          "instance_id": "NLB_512730161EDR_F0532980NCAM00265M1:rock-004",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0532980NCAM00265M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            482,
+            425,
+            54,
+            28
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_512730161EDR_F0532980NCAM00265M1",
+          "instance_id": "NLB_512730161EDR_F0532980NCAM00265M1:rock-005",
+          "occluded": false,
+          "polygon": [
+            [
+              482.98666666666713,
+              443.8016
+            ],
+            [
+              527.3600000000001,
+              452.3349333333333
+            ],
+            [
+              535.8933333333334,
+              431.8549333333333
+            ],
+            [
+              494.9333333333334,
+              425.0282666666667
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0532980NCAM00265M1",
+          "source_candidate_component_id": 3,
+          "source_candidate_component_ids": [
+            3
+          ],
+          "truncated": false,
+          "uncertain": false
+        }
+      ],
       "candidate_component_ids": [
         1,
         2,
@@ -1581,8 +3078,8 @@
       "mask_path": "msl/ncam/labels/train/NLB_512730161EDR_F0532980NCAM00265M1.png",
       "obvious_candidate_independent_rock_observed": false,
       "pilot_rank": 32,
-      "review_status": "unreviewed",
-      "reviewer": null,
+      "review_status": "reviewed",
+      "reviewer": "single_researcher",
       "selection_strata": [
         "multiple_candidate_regions",
         "bedrock_big_rock_boundary",
@@ -1817,7 +3314,160 @@
       "split": "train"
     },
     "NLB_528261206EDR_F0580738NCAM00385M1": {
-      "annotations": [],
+      "annotations": [
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            418,
+            138,
+            214,
+            47
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+          "instance_id": "NLB_528261206EDR_F0580738NCAM00385M1:rock-001",
+          "occluded": false,
+          "polygon": [
+            [
+              418.13333333333367,
+              146.84159999999997
+            ],
+            [
+              517.1200000000003,
+              138.30826666666667
+            ],
+            [
+              593.9200000000001,
+              160.49493333333317
+            ],
+            [
+              631.4666666666667,
+              184.3882666666666
+            ],
+            [
+              512.0000000000005,
+              179.2682666666667
+            ],
+            [
+              438.6133333333337,
+              182.6815999999999
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0580738NCAM00385M1",
+          "source_candidate_component_id": 1,
+          "source_candidate_component_ids": [
+            1
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            750,
+            160,
+            244,
+            52
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+          "instance_id": "NLB_528261206EDR_F0580738NCAM00385M1:rock-002",
+          "occluded": false,
+          "polygon": [
+            [
+              750.9333333333334,
+              192.9215999999999
+            ],
+            [
+              812.3733333333334,
+              160.49493333333317
+            ],
+            [
+              925.0133333333338,
+              162.20159999999987
+            ],
+            [
+              993.2800000000002,
+              211.6949333333332
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0580738NCAM00385M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            391,
+            192,
+            7,
+            6
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+          "instance_id": "NLB_528261206EDR_F0580738NCAM00385M1:rock-003",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0580738NCAM00385M1",
+          "source_candidate_component_id": 3,
+          "source_candidate_component_ids": [
+            3
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            218,
+            196,
+            231,
+            117
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+          "instance_id": "NLB_528261206EDR_F0580738NCAM00385M1:rock-004",
+          "occluded": false,
+          "polygon": [
+            [
+              218.45333333333338,
+              249.24159999999983
+            ],
+            [
+              384.00000000000045,
+              196.3349333333333
+            ],
+            [
+              448.85333333333347,
+              276.5482666666667
+            ],
+            [
+              247.4666666666667,
+              312.3882666666666
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "3 and 4 same rock",
+          "sequence_id": "F0580738NCAM00385M1",
+          "source_candidate_component_id": 3,
+          "source_candidate_component_ids": [
+            3,
+            4
+          ],
+          "truncated": false,
+          "uncertain": false
+        }
+      ],
       "candidate_component_ids": [
         1,
         2,
@@ -1832,8 +3482,8 @@
       "mask_path": "msl/ncam/labels/train/NLB_528261206EDR_F0580738NCAM00385M1.png",
       "obvious_candidate_independent_rock_observed": false,
       "pilot_rank": 88,
-      "review_status": "unreviewed",
-      "reviewer": null,
+      "review_status": "reviewed",
+      "reviewer": "single_researcher",
       "selection_strata": [
         "multiple_candidate_regions",
         "bedrock_big_rock_boundary",
@@ -2096,7 +3746,672 @@
       "split": "val"
     },
     "NLB_543533452EDR_F0613226NCAM00312M1": {
-      "annotations": [],
+      "annotations": [
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            541,
+            117,
+            472,
+            254
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-001",
+          "occluded": false,
+          "polygon": [
+            [
+              1012.0533333333337,
+              204.8682666666666
+            ],
+            [
+              940.3733333333334,
+              145.13493333333327
+            ],
+            [
+              866.9866666666671,
+              129.77493333333337
+            ],
+            [
+              721.9200000000001,
+              117.82826666666665
+            ],
+            [
+              629.7600000000002,
+              119.53493333333336
+            ],
+            [
+              573.44,
+              155.37493333333327
+            ],
+            [
+              541.0133333333338,
+              191.2149333333332
+            ],
+            [
+              541.0133333333338,
+              249.24159999999983
+            ],
+            [
+              580.2666666666669,
+              288.49493333333317
+            ],
+            [
+              617.8133333333335,
+              337.9882666666665
+            ],
+            [
+              701.44,
+              332.8682666666666
+            ],
+            [
+              861.8666666666668,
+              339.6949333333332
+            ],
+            [
+              954.0266666666671,
+              361.88159999999993
+            ],
+            [
+              1010.3466666666668,
+              370.41493333333324
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 1,
+          "source_candidate_component_ids": [
+            1
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            767,
+            124,
+            3,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-002",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            823,
+            137,
+            7,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-003",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 3,
+          "source_candidate_component_ids": [
+            3
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            831,
+            137,
+            1,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-004",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 4,
+          "source_candidate_component_ids": [
+            4
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            841,
+            138,
+            2,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-005",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 5,
+          "source_candidate_component_ids": [
+            5
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            915,
+            142,
+            5,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-006",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 6,
+          "source_candidate_component_ids": [
+            6
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            276,
+            93,
+            126,
+            77
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-007",
+          "occluded": false,
+          "polygon": [
+            [
+              401.06666666666706,
+              122.94826666666654
+            ],
+            [
+              310.6133333333337,
+              169.0282666666667
+            ],
+            [
+              276.48,
+              140.01493333333337
+            ],
+            [
+              329.38666666666677,
+              93.93493333333322
+            ],
+            [
+              382.2933333333335,
+              93.93493333333322
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 7,
+          "source_candidate_component_ids": [
+            7
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            531,
+            254,
+            1,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-008",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 8,
+          "source_candidate_component_ids": [
+            8
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            533,
+            267,
+            1,
+            2
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-009",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 9,
+          "source_candidate_component_ids": [
+            9
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            613,
+            326,
+            2,
+            2
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-010",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 10,
+          "source_candidate_component_ids": [
+            10
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            802,
+            332,
+            2,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-011",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 11,
+          "source_candidate_component_ids": [
+            11
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            928,
+            359,
+            1,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-012",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 12,
+          "source_candidate_component_ids": [
+            12
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            932,
+            360,
+            1,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-013",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 13,
+          "source_candidate_component_ids": [
+            13
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            935,
+            361,
+            3,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-014",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 14,
+          "source_candidate_component_ids": [
+            14
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            549,
+            503,
+            464,
+            296
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-015",
+          "occluded": false,
+          "polygon": [
+            [
+              1010.3466666666668,
+              640.0682666666667
+            ],
+            [
+              889.1733333333336,
+              532.5482666666667
+            ],
+            [
+              716.8000000000002,
+              503.53493333333336
+            ],
+            [
+              662.186666666667,
+              518.8949333333333
+            ],
+            [
+              631.4666666666667,
+              544.4949333333334
+            ],
+            [
+              587.0933333333337,
+              595.6949333333333
+            ],
+            [
+              549.5466666666671,
+              643.4816
+            ],
+            [
+              660.4800000000005,
+              733.9349333333333
+            ],
+            [
+              757.7600000000002,
+              769.7749333333333
+            ],
+            [
+              797.0133333333338,
+              786.8416
+            ],
+            [
+              870.4000000000001,
+              798.7882666666667
+            ],
+            [
+              921.6000000000004,
+              757.8282666666667
+            ],
+            [
+              994.9866666666671,
+              768.0682666666667
+            ],
+            [
+              1012.0533333333337,
+              759.5349333333334
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 15,
+          "source_candidate_component_ids": [
+            15
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            989,
+            619,
+            5,
+            5
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-016",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 16,
+          "source_candidate_component_ids": [
+            16
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            995,
+            624,
+            4,
+            4
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-017",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 17,
+          "source_candidate_component_ids": [
+            17
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            1010,
+            637,
+            1,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-018",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 18,
+          "source_candidate_component_ids": [
+            18
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            1012,
+            638,
+            4,
+            4
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-019",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 19,
+          "source_candidate_component_ids": [
+            19
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            1018,
+            643,
+            1,
+            4
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-020",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 20,
+          "source_candidate_component_ids": [
+            20
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            1009,
+            760,
+            1,
+            6
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-021",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 21,
+          "source_candidate_component_ids": [
+            21
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            1009,
+            760,
+            1,
+            6
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-022",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 21,
+          "source_candidate_component_ids": [
+            21
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            1009,
+            760,
+            4,
+            12
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_543533452EDR_F0613226NCAM00312M1",
+          "instance_id": "NLB_543533452EDR_F0613226NCAM00312M1:rock-023",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0613226NCAM00312M1",
+          "source_candidate_component_id": 22,
+          "source_candidate_component_ids": [
+            22
+          ],
+          "truncated": false,
+          "uncertain": false
+        }
+      ],
       "candidate_component_ids": [
         1,
         2,
@@ -2129,8 +4444,8 @@
       "mask_path": "msl/ncam/labels/train/NLB_543533452EDR_F0613226NCAM00312M1.png",
       "obvious_candidate_independent_rock_observed": false,
       "pilot_rank": 31,
-      "review_status": "unreviewed",
-      "reviewer": null,
+      "review_status": "reviewed",
+      "reviewer": "single_researcher",
       "selection_strata": [
         "multiple_candidate_regions",
         "border_truncation_candidate",
@@ -2312,7 +4627,377 @@
       "split": "train"
     },
     "NLB_547800871EDR_F0630346NCAM00354M1": {
-      "annotations": [],
+      "annotations": [
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            715,
+            5,
+            299,
+            113
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_547800871EDR_F0630346NCAM00354M1",
+          "instance_id": "NLB_547800871EDR_F0630346NCAM00354M1:rock-001",
+          "occluded": false,
+          "polygon": [
+            [
+              715.0933333333337,
+              12.014933333333147
+            ],
+            [
+              817.4933333333338,
+              97.34826666666663
+            ],
+            [
+              899.4133333333334,
+              117.82826666666665
+            ],
+            [
+              979.626666666667,
+              100.76159999999982
+            ],
+            [
+              1013.7600000000002,
+              87.10826666666662
+            ],
+            [
+              1010.3466666666668,
+              5.18826666666655
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "1 and 8 same rock",
+          "sequence_id": "F0630346NCAM00354M1",
+          "source_candidate_component_id": 8,
+          "source_candidate_component_ids": [
+            1,
+            8
+          ],
+          "truncated": true,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            97,
+            6,
+            258,
+            235
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_547800871EDR_F0630346NCAM00354M1",
+          "instance_id": "NLB_547800871EDR_F0630346NCAM00354M1:rock-002",
+          "occluded": false,
+          "polygon": [
+            [
+              279.89333333333343,
+              6.894933333333256
+            ],
+            [
+              107.52000000000044,
+              122.94826666666654
+            ],
+            [
+              97.2800000000002,
+              162.20159999999987
+            ],
+            [
+              128.0,
+              155.37493333333327
+            ],
+            [
+              128.0,
+              184.3882666666666
+            ],
+            [
+              206.50666666666712,
+              186.0949333333333
+            ],
+            [
+              235.52000000000044,
+              240.70826666666653
+            ],
+            [
+              302.0800000000004,
+              221.93493333333322
+            ],
+            [
+              354.9866666666667,
+              20.548266666666677
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0630346NCAM00354M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": true,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            317,
+            10,
+            3,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_547800871EDR_F0630346NCAM00354M1",
+          "instance_id": "NLB_547800871EDR_F0630346NCAM00354M1:rock-003",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0630346NCAM00354M1",
+          "source_candidate_component_id": 3,
+          "source_candidate_component_ids": [
+            3
+          ],
+          "truncated": true,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            228,
+            28,
+            1,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_547800871EDR_F0630346NCAM00354M1",
+          "instance_id": "NLB_547800871EDR_F0630346NCAM00354M1:rock-004",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0630346NCAM00354M1",
+          "source_candidate_component_id": 4,
+          "source_candidate_component_ids": [
+            4
+          ],
+          "truncated": true,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            224,
+            31,
+            1,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_547800871EDR_F0630346NCAM00354M1",
+          "instance_id": "NLB_547800871EDR_F0630346NCAM00354M1:rock-005",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0630346NCAM00354M1",
+          "source_candidate_component_id": 5,
+          "source_candidate_component_ids": [
+            5
+          ],
+          "truncated": true,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            220,
+            33,
+            2,
+            2
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_547800871EDR_F0630346NCAM00354M1",
+          "instance_id": "NLB_547800871EDR_F0630346NCAM00354M1:rock-006",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0630346NCAM00354M1",
+          "source_candidate_component_id": 6,
+          "source_candidate_component_ids": [
+            6
+          ],
+          "truncated": true,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            205,
+            35,
+            14,
+            11
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_547800871EDR_F0630346NCAM00354M1",
+          "instance_id": "NLB_547800871EDR_F0630346NCAM00354M1:rock-007",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0630346NCAM00354M1",
+          "source_candidate_component_id": 7,
+          "source_candidate_component_ids": [
+            7
+          ],
+          "truncated": true,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            264,
+            250,
+            46,
+            21
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_547800871EDR_F0630346NCAM00354M1",
+          "instance_id": "NLB_547800871EDR_F0630346NCAM00354M1:rock-008",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0630346NCAM00354M1",
+          "source_candidate_component_id": 9,
+          "source_candidate_component_ids": [
+            9
+          ],
+          "truncated": true,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            256,
+            265,
+            6,
+            2
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_547800871EDR_F0630346NCAM00354M1",
+          "instance_id": "NLB_547800871EDR_F0630346NCAM00354M1:rock-009",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0630346NCAM00354M1",
+          "source_candidate_component_id": 10,
+          "source_candidate_component_ids": [
+            10
+          ],
+          "truncated": true,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            263,
+            264,
+            2,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_547800871EDR_F0630346NCAM00354M1",
+          "instance_id": "NLB_547800871EDR_F0630346NCAM00354M1:rock-010",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0630346NCAM00354M1",
+          "source_candidate_component_id": 11,
+          "source_candidate_component_ids": [
+            11
+          ],
+          "truncated": true,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            465,
+            346,
+            153,
+            138
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_547800871EDR_F0630346NCAM00354M1",
+          "instance_id": "NLB_547800871EDR_F0630346NCAM00354M1:rock-011",
+          "occluded": false,
+          "polygon": [
+            [
+              600.7466666666669,
+              346.52160000000003
+            ],
+            [
+              537.6000000000004,
+              356.76160000000004
+            ],
+            [
+              465.9200000000001,
+              397.72159999999985
+            ],
+            [
+              486.4000000000001,
+              445.5082666666667
+            ],
+            [
+              541.0133333333338,
+              483.05493333333334
+            ],
+            [
+              592.2133333333336,
+              416.4949333333334
+            ],
+            [
+              617.8133333333335,
+              372.12159999999994
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "12, 14 samr rock",
+          "sequence_id": "F0630346NCAM00354M1",
+          "source_candidate_component_id": 12,
+          "source_candidate_component_ids": [
+            12,
+            14
+          ],
+          "truncated": true,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            559,
+            444,
+            2,
+            2
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_547800871EDR_F0630346NCAM00354M1",
+          "instance_id": "NLB_547800871EDR_F0630346NCAM00354M1:rock-012",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0630346NCAM00354M1",
+          "source_candidate_component_id": 13,
+          "source_candidate_component_ids": [
+            13
+          ],
+          "truncated": true,
+          "uncertain": false
+        }
+      ],
       "candidate_component_ids": [
         1,
         2,
@@ -2337,8 +5022,8 @@
       "mask_path": "msl/ncam/labels/train/NLB_547800871EDR_F0630346NCAM00354M1.png",
       "obvious_candidate_independent_rock_observed": false,
       "pilot_rank": 92,
-      "review_status": "unreviewed",
-      "reviewer": null,
+      "review_status": "reviewed",
+      "reviewer": "single_researcher",
       "selection_strata": [
         "multiple_candidate_regions",
         "border_truncation_candidate",
@@ -2368,7 +5053,172 @@
       "split": "train"
     },
     "NLB_548249342EDR_F0631150NCAM00274M1": {
-      "annotations": [],
+      "annotations": [
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            923,
+            665,
+            72,
+            13
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_548249342EDR_F0631150NCAM00274M1",
+          "instance_id": "NLB_548249342EDR_F0631150NCAM00274M1:rock-001",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0631150NCAM00274M1",
+          "source_candidate_component_id": 1,
+          "source_candidate_component_ids": [
+            1
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            944,
+            677,
+            2,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_548249342EDR_F0631150NCAM00274M1",
+          "instance_id": "NLB_548249342EDR_F0631150NCAM00274M1:rock-002",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0631150NCAM00274M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            440,
+            861,
+            567,
+            150
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_548249342EDR_F0631150NCAM00274M1",
+          "instance_id": "NLB_548249342EDR_F0631150NCAM00274M1:rock-003",
+          "occluded": false,
+          "polygon": [
+            [
+              440.32000000000016,
+              954.0949333333333
+            ],
+            [
+              445.44000000000005,
+              911.4282666666667
+            ],
+            [
+              489.8133333333335,
+              909.7216
+            ],
+            [
+              496.6400000000003,
+              867.0549333333333
+            ],
+            [
+              686.0800000000004,
+              861.9349333333333
+            ],
+            [
+              774.8266666666668,
+              865.3482666666666
+            ],
+            [
+              960.8533333333335,
+              902.8949333333334
+            ],
+            [
+              1006.9333333333334,
+              948.9749333333333
+            ],
+            [
+              1006.9333333333334,
+              1000.1749333333333
+            ],
+            [
+              774.8266666666668,
+              1010.4149333333334
+            ],
+            [
+              640.0000000000005,
+              972.8682666666666
+            ],
+            [
+              552.96,
+              947.2682666666667
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0631150NCAM00274M1",
+          "source_candidate_component_id": 3,
+          "source_candidate_component_ids": [
+            3
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            976,
+            918,
+            10,
+            8
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_548249342EDR_F0631150NCAM00274M1",
+          "instance_id": "NLB_548249342EDR_F0631150NCAM00274M1:rock-004",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0631150NCAM00274M1",
+          "source_candidate_component_id": 4,
+          "source_candidate_component_ids": [
+            4
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            428,
+            995,
+            56,
+            3
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_548249342EDR_F0631150NCAM00274M1",
+          "instance_id": "NLB_548249342EDR_F0631150NCAM00274M1:rock-005",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0631150NCAM00274M1",
+          "source_candidate_component_id": 5,
+          "source_candidate_component_ids": [
+            5
+          ],
+          "truncated": false,
+          "uncertain": false
+        }
+      ],
       "candidate_component_ids": [
         1,
         2,
@@ -2384,8 +5234,8 @@
       "mask_path": "msl/ncam/labels/train/NLB_548249342EDR_F0631150NCAM00274M1.png",
       "obvious_candidate_independent_rock_observed": false,
       "pilot_rank": 51,
-      "review_status": "unreviewed",
-      "reviewer": null,
+      "review_status": "reviewed",
+      "reviewer": "single_researcher",
       "selection_strata": [
         "multiple_candidate_regions",
         "very_large_component_candidate",
@@ -2585,7 +5435,243 @@
       "split": "train"
     },
     "NLB_555692594EDR_F0650096NCAM00385M1": {
-      "annotations": [],
+      "annotations": [
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            237,
+            6,
+            79,
+            30
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_555692594EDR_F0650096NCAM00385M1",
+          "instance_id": "NLB_555692594EDR_F0650096NCAM00385M1:rock-001",
+          "occluded": true,
+          "polygon": [
+            [
+              237.22666666666692,
+              6.894933333333256
+            ],
+            [
+              276.48,
+              35.90826666666658
+            ],
+            [
+              315.7333333333336,
+              6.894933333333256
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0650096NCAM00385M1",
+          "source_candidate_component_id": 1,
+          "source_candidate_component_ids": [
+            1
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_bedrock",
+          "bbox": [
+            453,
+            18,
+            192,
+            65
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_555692594EDR_F0650096NCAM00385M1",
+          "instance_id": "NLB_555692594EDR_F0650096NCAM00385M1:rock-002",
+          "occluded": true,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0650096NCAM00385M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            471,
+            27,
+            161,
+            45
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_555692594EDR_F0650096NCAM00385M1",
+          "instance_id": "NLB_555692594EDR_F0650096NCAM00385M1:rock-003",
+          "occluded": true,
+          "polygon": [
+            [
+              471.0400000000004,
+              27.374933333333274
+            ],
+            [
+              631.4666666666667,
+              35.90826666666658
+            ],
+            [
+              614.4000000000001,
+              70.04160000000002
+            ],
+            [
+              482.98666666666713,
+              71.7482666666665
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0650096NCAM00385M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            735,
+            51,
+            151,
+            59
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_555692594EDR_F0650096NCAM00385M1",
+          "instance_id": "NLB_555692594EDR_F0650096NCAM00385M1:rock-004",
+          "occluded": true,
+          "polygon": [
+            [
+              747.5200000000004,
+              51.268266666666705
+            ],
+            [
+              863.5733333333337,
+              56.388266666666595
+            ],
+            [
+              885.7600000000002,
+              97.34826666666663
+            ],
+            [
+              761.1733333333336,
+              109.29493333333335
+            ],
+            [
+              735.5733333333337,
+              78.57493333333332
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0650096NCAM00385M1",
+          "source_candidate_component_id": 3,
+          "source_candidate_component_ids": [
+            3
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            738,
+            102,
+            3,
+            5
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_555692594EDR_F0650096NCAM00385M1",
+          "instance_id": "NLB_555692594EDR_F0650096NCAM00385M1:rock-005",
+          "occluded": true,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0650096NCAM00385M1",
+          "source_candidate_component_id": 4,
+          "source_candidate_component_ids": [
+            4
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            744,
+            117,
+            4,
+            5
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_555692594EDR_F0650096NCAM00385M1",
+          "instance_id": "NLB_555692594EDR_F0650096NCAM00385M1:rock-006",
+          "occluded": true,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0650096NCAM00385M1",
+          "source_candidate_component_id": 5,
+          "source_candidate_component_ids": [
+            5
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            669,
+            279,
+            216,
+            83
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_555692594EDR_F0650096NCAM00385M1",
+          "instance_id": "NLB_555692594EDR_F0650096NCAM00385M1:rock-007",
+          "occluded": true,
+          "polygon": [
+            [
+              884.0533333333337,
+              285.0816
+            ],
+            [
+              737.2800000000002,
+              279.96159999999986
+            ],
+            [
+              669.0133333333338,
+              337.9882666666665
+            ],
+            [
+              769.7066666666669,
+              361.88159999999993
+            ],
+            [
+              872.106666666667,
+              314.0949333333333
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "6, 7, and 8 are apart of the same rock",
+          "sequence_id": "F0650096NCAM00385M1",
+          "source_candidate_component_id": 6,
+          "source_candidate_component_ids": [
+            6,
+            7,
+            8
+          ],
+          "truncated": false,
+          "uncertain": false
+        }
+      ],
       "candidate_component_ids": [
         1,
         2,
@@ -2604,8 +5690,8 @@
       "mask_path": "msl/ncam/labels/train/NLB_555692594EDR_F0650096NCAM00385M1.png",
       "obvious_candidate_independent_rock_observed": false,
       "pilot_rank": 68,
-      "review_status": "unreviewed",
-      "reviewer": null,
+      "review_status": "reviewed",
+      "reviewer": "single_researcher",
       "selection_strata": [
         "multiple_candidate_regions",
         "bedrock_big_rock_boundary",
@@ -2635,7 +5721,28 @@
       "split": "train"
     },
     "NLB_557297963EDR_F0652720NCAM07753M1": {
-      "annotations": [],
+      "annotations": [
+        {
+          "annotation_status": "uncertain",
+          "bbox": [
+            320,
+            378,
+            15,
+            6
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_557297963EDR_F0652720NCAM07753M1",
+          "instance_id": "NLB_557297963EDR_F0652720NCAM07753M1:rock-001",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0652720NCAM07753M1",
+          "source_candidate_component_id": 1,
+          "truncated": false,
+          "uncertain": true
+        }
+      ],
       "candidate_component_ids": [
         1
       ],
@@ -2647,8 +5754,8 @@
       "mask_path": "msl/ncam/labels/train/NLB_557297963EDR_F0652720NCAM07753M1.png",
       "obvious_candidate_independent_rock_observed": false,
       "pilot_rank": 9,
-      "review_status": "unreviewed",
-      "reviewer": null,
+      "review_status": "reviewed",
+      "reviewer": "single_researcher",
       "selection_strata": [
         "isolated_candidate",
         "tiny_component_candidate",
@@ -2719,7 +5826,150 @@
       "split": "train"
     },
     "NLB_579308863EDR_F0701538NCAM00307M1": {
-      "annotations": [],
+      "annotations": [
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            905,
+            310,
+            4,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_579308863EDR_F0701538NCAM00307M1",
+          "instance_id": "NLB_579308863EDR_F0701538NCAM00307M1:rock-001",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0701538NCAM00307M1",
+          "source_candidate_component_id": 1,
+          "source_candidate_component_ids": [
+            1
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "accepted",
+          "bbox": [
+            641,
+            331,
+            358,
+            569
+          ],
+          "discrete_rock": true,
+          "image_id": "NLB_579308863EDR_F0701538NCAM00307M1",
+          "instance_id": "NLB_579308863EDR_F0701538NCAM00307M1:rock-002",
+          "occluded": false,
+          "polygon": [
+            [
+              996.6933333333336,
+              331.1615999999999
+            ],
+            [
+              868.6933333333336,
+              332.8682666666666
+            ],
+            [
+              754.3466666666668,
+              404.5482666666667
+            ],
+            [
+              689.4933333333338,
+              431.8549333333333
+            ],
+            [
+              646.8266666666668,
+              496.70826666666653
+            ],
+            [
+              641.7066666666669,
+              593.9882666666666
+            ],
+            [
+              675.8400000000001,
+              778.3082666666667
+            ],
+            [
+              752.6400000000003,
+              798.7882666666667
+            ],
+            [
+              797.0133333333338,
+              865.3482666666666
+            ],
+            [
+              856.7466666666669,
+              899.4816
+            ],
+            [
+              940.3733333333334,
+              769.7749333333333
+            ],
+            [
+              998.4000000000001,
+              797.0816
+            ]
+          ],
+          "review_version": "pilot_v1",
+          "reviewer_notes": "2 and 4 same rock",
+          "sequence_id": "F0701538NCAM00307M1",
+          "source_candidate_component_id": 2,
+          "source_candidate_component_ids": [
+            2,
+            4
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            898,
+            317,
+            1,
+            1
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_579308863EDR_F0701538NCAM00307M1",
+          "instance_id": "NLB_579308863EDR_F0701538NCAM00307M1:rock-003",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0701538NCAM00307M1",
+          "source_candidate_component_id": 3,
+          "source_candidate_component_ids": [
+            3
+          ],
+          "truncated": false,
+          "uncertain": false
+        },
+        {
+          "annotation_status": "rejected_noise",
+          "bbox": [
+            628,
+            676,
+            1,
+            4
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_579308863EDR_F0701538NCAM00307M1",
+          "instance_id": "NLB_579308863EDR_F0701538NCAM00307M1:rock-004",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0701538NCAM00307M1",
+          "source_candidate_component_id": 5,
+          "source_candidate_component_ids": [
+            5
+          ],
+          "truncated": false,
+          "uncertain": false
+        }
+      ],
       "candidate_component_ids": [
         1,
         2,
@@ -2735,8 +5985,8 @@
       "mask_path": "msl/ncam/labels/train/NLB_579308863EDR_F0701538NCAM00307M1.png",
       "obvious_candidate_independent_rock_observed": false,
       "pilot_rank": 134,
-      "review_status": "unreviewed",
-      "reviewer": null,
+      "review_status": "reviewed",
+      "reviewer": "single_researcher",
       "selection_strata": [
         "multiple_candidate_regions",
         "very_large_component_candidate",
@@ -2965,7 +6215,48 @@
       "split": "train"
     },
     "NLB_605858363EDR_F0750000NCAM00289M1": {
-      "annotations": [],
+      "annotations": [
+        {
+          "annotation_status": "uncertain",
+          "bbox": [
+            10,
+            727,
+            1,
+            2
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_605858363EDR_F0750000NCAM00289M1",
+          "instance_id": "NLB_605858363EDR_F0750000NCAM00289M1:rock-001",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0750000NCAM00289M1",
+          "source_candidate_component_id": 1,
+          "truncated": false,
+          "uncertain": true
+        },
+        {
+          "annotation_status": "uncertain",
+          "bbox": [
+            10,
+            727,
+            1,
+            2
+          ],
+          "discrete_rock": false,
+          "image_id": "NLB_605858363EDR_F0750000NCAM00289M1",
+          "instance_id": "NLB_605858363EDR_F0750000NCAM00289M1:rock-002",
+          "occluded": false,
+          "polygon": null,
+          "review_version": "pilot_v1",
+          "reviewer_notes": "",
+          "sequence_id": "F0750000NCAM00289M1",
+          "source_candidate_component_id": 1,
+          "truncated": true,
+          "uncertain": true
+        }
+      ],
       "candidate_component_ids": [
         1
       ],
@@ -2977,8 +6268,8 @@
       "mask_path": "msl/ncam/labels/train/NLB_605858363EDR_F0750000NCAM00289M1.png",
       "obvious_candidate_independent_rock_observed": false,
       "pilot_rank": 7,
-      "review_status": "unreviewed",
-      "reviewer": null,
+      "review_status": "reviewed",
+      "reviewer": "single_researcher",
       "selection_strata": [
         "isolated_candidate",
         "tiny_component_candidate",
@@ -3216,7 +6507,128 @@
     "sha256": "8c8d9d264c19aaa9f85b2ce804fe411e9f8840eed95dc26a63596ed3242afebc",
     "version": "v2.0-calibration-resolved"
   },
-  "resolution_records": [],
+  "resolution_records": [
+    {
+      "image_id": "NLB_467991018EDR_F0440568NCAM00298M1",
+      "initial_decision_instance_ids": [
+        "NLB_467991018EDR_F0440568NCAM00298M1:rock-001"
+      ],
+      "resolution_id": "NLB_467991018EDR_F0440568NCAM00298M1:merge-001",
+      "resolution_type": "merge",
+      "resolved_annotation_instance_ids": [
+        "NLB_467991018EDR_F0440568NCAM00298M1:rock-006"
+      ],
+      "reviewer_notes": "5 & 9 same rock",
+      "sequence_id": "F0440568NCAM00298M1",
+      "source_candidate_component_ids": [
+        5,
+        9
+      ]
+    },
+    {
+      "image_id": "NLB_467991018EDR_F0440568NCAM00298M1",
+      "initial_decision_instance_ids": [
+        "NLB_467991018EDR_F0440568NCAM00298M1:rock-001"
+      ],
+      "resolution_id": "NLB_467991018EDR_F0440568NCAM00298M1:merge-002",
+      "resolution_type": "merge",
+      "resolved_annotation_instance_ids": [
+        "NLB_467991018EDR_F0440568NCAM00298M1:rock-008"
+      ],
+      "reviewer_notes": "same rock\\",
+      "sequence_id": "F0440568NCAM00298M1",
+      "source_candidate_component_ids": [
+        8,
+        11
+      ]
+    },
+    {
+      "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+      "initial_decision_instance_ids": [
+        "NLB_528261206EDR_F0580738NCAM00385M1:rock-001"
+      ],
+      "resolution_id": "NLB_528261206EDR_F0580738NCAM00385M1:merge-001",
+      "resolution_type": "merge",
+      "resolved_annotation_instance_ids": [
+        "NLB_528261206EDR_F0580738NCAM00385M1:rock-004"
+      ],
+      "reviewer_notes": "3 and 4 same rock",
+      "sequence_id": "F0580738NCAM00385M1",
+      "source_candidate_component_ids": [
+        3,
+        4
+      ]
+    },
+    {
+      "image_id": "NLB_547800871EDR_F0630346NCAM00354M1",
+      "initial_decision_instance_ids": [
+        "NLB_547800871EDR_F0630346NCAM00354M1:rock-001"
+      ],
+      "resolution_id": "NLB_547800871EDR_F0630346NCAM00354M1:merge-001",
+      "resolution_type": "merge",
+      "resolved_annotation_instance_ids": [
+        "NLB_547800871EDR_F0630346NCAM00354M1:rock-001"
+      ],
+      "reviewer_notes": "1 and 8 same rock",
+      "sequence_id": "F0630346NCAM00354M1",
+      "source_candidate_component_ids": [
+        1,
+        8
+      ]
+    },
+    {
+      "image_id": "NLB_547800871EDR_F0630346NCAM00354M1",
+      "initial_decision_instance_ids": [
+        "NLB_547800871EDR_F0630346NCAM00354M1:rock-001"
+      ],
+      "resolution_id": "NLB_547800871EDR_F0630346NCAM00354M1:merge-002",
+      "resolution_type": "merge",
+      "resolved_annotation_instance_ids": [
+        "NLB_547800871EDR_F0630346NCAM00354M1:rock-011"
+      ],
+      "reviewer_notes": "12, 14 samr rock",
+      "sequence_id": "F0630346NCAM00354M1",
+      "source_candidate_component_ids": [
+        12,
+        14
+      ]
+    },
+    {
+      "image_id": "NLB_555692594EDR_F0650096NCAM00385M1",
+      "initial_decision_instance_ids": [
+        "NLB_555692594EDR_F0650096NCAM00385M1:rock-001"
+      ],
+      "resolution_id": "NLB_555692594EDR_F0650096NCAM00385M1:merge-001",
+      "resolution_type": "merge",
+      "resolved_annotation_instance_ids": [
+        "NLB_555692594EDR_F0650096NCAM00385M1:rock-007"
+      ],
+      "reviewer_notes": "6, 7, and 8 are apart of the same rock",
+      "sequence_id": "F0650096NCAM00385M1",
+      "source_candidate_component_ids": [
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "image_id": "NLB_579308863EDR_F0701538NCAM00307M1",
+      "initial_decision_instance_ids": [
+        "NLB_579308863EDR_F0701538NCAM00307M1:rock-001"
+      ],
+      "resolution_id": "NLB_579308863EDR_F0701538NCAM00307M1:merge-001",
+      "resolution_type": "merge",
+      "resolved_annotation_instance_ids": [
+        "NLB_579308863EDR_F0701538NCAM00307M1:rock-002"
+      ],
+      "reviewer_notes": "2 and 4 same rock",
+      "sequence_id": "F0701538NCAM00307M1",
+      "source_candidate_component_ids": [
+        2,
+        4
+      ]
+    }
+  ],
   "review_scope": {
     "image_ids": [
       "NLB_460794047EDR_F0400660NCAM00262M1",
