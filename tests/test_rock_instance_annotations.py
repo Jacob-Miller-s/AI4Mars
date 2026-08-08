@@ -7,6 +7,8 @@ import torch
 from PIL import Image
 
 from src.rock_instance.annotations import (
+    BOUNDARY_INDETERMINATE_STATUS,
+    CALIBRATION_FINALIZATION_SCHEMA_VERSION,
     REVIEW_VERSION,
     component_coverage_for_image,
     configure_component_review,
@@ -16,12 +18,14 @@ from src.rock_instance.annotations import (
     initialize_review_state,
     load_review_state,
     maskrcnn_target_for_image,
+    ordinary_maskrcnn_target_eligibility,
     record_annotation,
     record_resolution,
     save_review_state,
     set_candidate_independent_observation,
     sha256_file,
     unresolved_candidate_component_ids,
+    validate_boundary_indeterminate_record,
 )
 from src.rock_instance.review_tool import (
     _bbox_from_polygon,
@@ -199,6 +203,53 @@ class AnnotationFixture(unittest.TestCase):
         finish_image_review(state, "source-a", reviewer="researcher")
         with self.assertRaisesRegex(ValueError, "excluded from ordinary Mask R-CNN targets"):
             maskrcnn_target_for_image(state, "source-a", numeric_image_id=1)
+
+    def test_boundary_indeterminate_preserves_accepted_identity_and_excludes_whole_image_target(self) -> None:
+        record_annotation(self.state, self._annotation(), reviewer="researcher")
+        historic_polygon = list(self.state["images"]["source-a"]["annotations"][0]["polygon"])
+        record = {
+            "record_id": "source-a:component-1:boundary-indeterminate-v1",
+            "image_id": "source-a",
+            "sequence_id": "sequence-a",
+            "source_candidate_component_ids": [1],
+            "object_identity": "accepted",
+            "boundary_status": "indeterminate",
+            "accepted_identity_reference": "source-a:1",
+            "final_clarification_target_id": "source-a:component-1",
+            "final_clarification_state_sha256": "a" * 64,
+            "final_analysis_sha256": "b" * 64,
+            "reason_evidence": "RGB supports an object but not a reproducible mask boundary.",
+        }
+        validated = validate_boundary_indeterminate_record(self.state, record)
+        ledger = {
+            "schema_version": CALIBRATION_FINALIZATION_SCHEMA_VERSION,
+            "boundary_indeterminate_records": [validated],
+            "ordinary_maskrcnn_target_policy": {
+                "boundary_indeterminate_status": BOUNDARY_INDETERMINATE_STATUS,
+                "exclude_whole_image": True,
+                "positive_mask_target": False,
+                "implicit_background": False,
+            },
+        }
+        eligibility = ordinary_maskrcnn_target_eligibility(self.state, "source-a", finalization_ledger=ledger)
+        self.assertEqual(eligibility["reason"], BOUNDARY_INDETERMINATE_STATUS)
+        self.assertFalse(eligibility["eligible"])
+        self.assertEqual(self.state["images"]["source-a"]["annotations"][0]["polygon"], historic_polygon)
+        with self.assertRaisesRegex(ValueError, "boundary-indeterminate accepted objects"):
+            maskrcnn_target_for_image(self.state, "source-a", numeric_image_id=1, finalization_ledger=ledger)
+
+    def test_boundary_indeterminate_is_not_uncertain(self) -> None:
+        uncertain = self._terminal_annotation("source-a:uncertain", [1], status="uncertain")
+        record_annotation(self.state, uncertain, reviewer="researcher")
+        self.assertEqual(ordinary_maskrcnn_target_eligibility(self.state, "source-a")["reason"], "uncertain")
+        invalid = {
+            "record_id": "source-a:invalid", "image_id": "source-a", "sequence_id": "sequence-a",
+            "source_candidate_component_ids": [1], "object_identity": "uncertain", "boundary_status": "indeterminate",
+            "accepted_identity_reference": "source-a:uncertain", "final_clarification_target_id": "source-a:component-1",
+            "final_clarification_state_sha256": "a" * 64, "final_analysis_sha256": "b" * 64, "reason_evidence": "invalid",
+        }
+        with self.assertRaisesRegex(ValueError, "accepted identity"):
+            validate_boundary_indeterminate_record(self.state, invalid)
 
     def test_merge_resolution_preserves_plural_components_and_initial_links(self) -> None:
         state, snapshot_path = self._corrected_calibration_state([1, 2])

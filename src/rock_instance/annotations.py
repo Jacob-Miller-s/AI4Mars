@@ -29,6 +29,8 @@ ANNOTATION_STATUSES = frozenset(
 IMAGE_REVIEW_STATUSES = frozenset({"unreviewed", "in_progress", "reviewed", "deferred"})
 TERMINAL_ANNOTATION_STATUSES = frozenset({"accepted", "rejected_bedrock", "rejected_noise", "uncertain"})
 RESOLUTION_TYPES = frozenset({"split", "merge"})
+BOUNDARY_INDETERMINATE_STATUS = "boundary_indeterminate"
+CALIBRATION_FINALIZATION_SCHEMA_VERSION = "rock_instance_calibration_finalization_v1"
 
 
 def sha256_file(path: Path) -> str:
@@ -435,14 +437,111 @@ def polygon_to_mask(polygon: list[list[float]], *, image_width: int, image_heigh
     return torch.from_numpy(np.asarray(canvas, dtype=np.uint8).copy()).to(dtype=torch.bool)
 
 
-def maskrcnn_target_for_image(state: dict[str, Any], image_id: str, *, numeric_image_id: int) -> dict[str, torch.Tensor]:
+def maskrcnn_target_for_image(
+    state: dict[str, Any], image_id: str, *, numeric_image_id: int,
+    boundary_indeterminate_records: Iterable[dict[str, Any]] = (),
+    finalization_ledger: dict[str, Any] | None = None,
+) -> dict[str, torch.Tensor]:
     """Format accepted reviewed polygons as a future torchvision Mask R-CNN target."""
+    return maskrcnn_target_for_image_with_exclusions(
+        state,
+        image_id,
+        numeric_image_id=numeric_image_id,
+        boundary_indeterminate_records=boundary_indeterminate_records,
+        finalization_ledger=finalization_ledger,
+    )
+
+
+def validate_boundary_indeterminate_record(state: dict[str, Any], record: dict[str, Any]) -> dict[str, Any]:
+    """Validate an external terminal exclusion without rewriting an accepted historic annotation."""
+    required = {
+        "record_id", "image_id", "sequence_id", "source_candidate_component_ids", "object_identity",
+        "boundary_status", "accepted_identity_reference", "final_clarification_target_id",
+        "final_clarification_state_sha256", "final_analysis_sha256", "reason_evidence",
+    }
+    if required - set(record):
+        raise ValueError("Boundary-indeterminate record is missing required fields.")
+    image = state.get("images", {}).get(record["image_id"])
+    if image is None or record["sequence_id"] != image["sequence_id"]:
+        raise ValueError("Boundary-indeterminate record image or sequence provenance is invalid.")
+    if not isinstance(record["record_id"], str) or not record["record_id"]:
+        raise ValueError("Boundary-indeterminate record_id must be non-empty.")
+    component_ids = _normalize_component_ids(record["source_candidate_component_ids"], field_name="source_candidate_component_ids")
+    candidate_ids = set(image.get("candidate_component_ids", []))
+    if candidate_ids and not set(component_ids) <= candidate_ids:
+        raise ValueError("Boundary-indeterminate record references a component outside the candidate manifest.")
+    if record["object_identity"] != "accepted" or record["boundary_status"] != "indeterminate":
+        raise ValueError("Boundary-indeterminate records require accepted identity and indeterminate boundary status.")
+    for field_name in ("accepted_identity_reference", "final_clarification_target_id", "reason_evidence"):
+        if not isinstance(record[field_name], str) or not record[field_name].strip():
+            raise ValueError(f"Boundary-indeterminate {field_name} must be a non-empty string.")
+    for field_name in ("final_clarification_state_sha256", "final_analysis_sha256"):
+        if not isinstance(record[field_name], str) or len(record[field_name]) != 64:
+            raise ValueError(f"Boundary-indeterminate {field_name} must be a SHA-256 string.")
+    normalized = dict(record)
+    normalized["source_candidate_component_ids"] = component_ids
+    return normalized
+
+
+def boundary_indeterminate_records_from_ledger(state: dict[str, Any], ledger: dict[str, Any]) -> list[dict[str, Any]]:
+    """Validate and extract terminal boundary exclusions from a v2.3 finalization ledger."""
+    if ledger.get("schema_version") != CALIBRATION_FINALIZATION_SCHEMA_VERSION:
+        raise ValueError("Unsupported calibration finalization ledger schema.")
+    policy = ledger.get("ordinary_maskrcnn_target_policy")
+    if not isinstance(policy, dict) or policy.get("boundary_indeterminate_status") != BOUNDARY_INDETERMINATE_STATUS:
+        raise ValueError("Finalization ledger lacks boundary-indeterminate target policy.")
+    if policy.get("exclude_whole_image") is not True or policy.get("positive_mask_target") is not False or policy.get("implicit_background") is not False:
+        raise ValueError("Finalization ledger does not enforce conservative whole-image target exclusion.")
+    records = ledger.get("boundary_indeterminate_records")
+    if not isinstance(records, list):
+        raise ValueError("Finalization ledger boundary-indeterminate records must be a list.")
+    validated = [validate_boundary_indeterminate_record(state, record) for record in records]
+    record_ids = [record["record_id"] for record in validated]
+    if len(record_ids) != len(set(record_ids)):
+        raise ValueError("Finalization ledger contains duplicate boundary-indeterminate record IDs.")
+    return validated
+
+
+def ordinary_maskrcnn_target_eligibility(
+    state: dict[str, Any], image_id: str, *, boundary_indeterminate_records: Iterable[dict[str, Any]] = (),
+    finalization_ledger: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Return a conservative whole-image eligibility decision for ordinary instance-mask generation."""
     validate_review_state(state)
     image = state["images"].get(image_id)
     if image is None:
         raise ValueError(f"Unknown image_id: {image_id!r}")
+    if finalization_ledger is not None:
+        if tuple(boundary_indeterminate_records):
+            raise ValueError("Supply boundary-indeterminate records or a finalization ledger, not both.")
+        boundary_indeterminate_records = boundary_indeterminate_records_from_ledger(state, finalization_ledger)
+    records = [
+        validate_boundary_indeterminate_record(state, record)
+        for record in boundary_indeterminate_records
+        if record.get("image_id") == image_id
+    ]
+    if records:
+        return {"eligible": False, "reason": BOUNDARY_INDETERMINATE_STATUS, "record_ids": sorted(record["record_id"] for record in records)}
     if any(item["annotation_status"] == "uncertain" for item in image["annotations"]):
-        raise ValueError("Images containing terminal uncertain annotations are excluded from ordinary Mask R-CNN targets.")
+        return {"eligible": False, "reason": "uncertain"}
+    return {"eligible": True, "reason": None}
+
+
+def maskrcnn_target_for_image_with_exclusions(
+    state: dict[str, Any], image_id: str, *, numeric_image_id: int,
+    boundary_indeterminate_records: Iterable[dict[str, Any]] = (),
+    finalization_ledger: dict[str, Any] | None = None,
+) -> dict[str, torch.Tensor]:
+    """Format accepted masks only when the image is eligible under conservative exclusion policy."""
+    eligibility = ordinary_maskrcnn_target_eligibility(
+        state, image_id, boundary_indeterminate_records=boundary_indeterminate_records,
+        finalization_ledger=finalization_ledger,
+    )
+    if not eligibility["eligible"]:
+        if eligibility["reason"] == "uncertain":
+            raise ValueError("Images containing terminal uncertain annotations are excluded from ordinary Mask R-CNN targets.")
+        raise ValueError("Images containing boundary-indeterminate accepted objects are excluded from ordinary Mask R-CNN targets.")
+    image = state["images"][image_id]
     accepted = [item for item in image["annotations"] if item["annotation_status"] == "accepted"]
     masks = [
         polygon_to_mask(item["polygon"], image_width=image["image_width"], image_height=image["image_height"])

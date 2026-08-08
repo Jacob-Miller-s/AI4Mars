@@ -1,0 +1,41 @@
+{
+  "boundary_indeterminate_records": [
+    {
+      "accepted_identity_reference": "NLB_483955685EDR_F0470598NCAM00320M1:rock-008",
+      "boundary_status": "indeterminate",
+      "final_analysis_sha256": "f83ce303060e629f5cd22bf0d01037028a32bdb1ca0a935b8bad2a47fe0088eb",
+      "final_clarification_state_sha256": "f503eb2c9708bd757f1afc3d21f906c205d313ed57763c81cf990529a64364f7",
+      "final_clarification_target_id": "NLB_483955685EDR_F0470598NCAM00320M1:component-8",
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "object_identity": "accepted",
+      "reason_evidence": "Multiple independent hidden-prior redraws retained accepted object identity but produced materially incompatible visible extents under explicit whole-object rules; RGB evidence is insufficient for reproducible instance-mask ground truth.",
+      "record_id": "NLB_483955685EDR_F0470598NCAM00320M1:component-8:boundary-indeterminate-v1",
+      "sequence_id": "F0470598NCAM00320M1",
+      "source_candidate_component_ids": [
+        8
+      ]
+    }
+  ],
+  "ordinary_maskrcnn_target_policy": {
+    "boundary_indeterminate_status": "boundary_indeterminate",
+    "exclude_whole_image": true,
+    "ignore_region_mechanism": "not introduced",
+    "implicit_background": false,
+    "positive_mask_target": false
+  },
+  "protocol": {
+    "path": "artifacts\\rock_instance\\calibration_finalization_v2.3\\annotation_protocol_v2.3-calibration-final.md",
+    "sha256": "5db68378e52bfc9e32fa1fea3c10338606a92ea785da3a5ebf8eb4a190495fc4",
+    "version": "v2.3-calibration-final"
+  },
+  "provenance": {
+    "final_analysis_sha256": "f83ce303060e629f5cd22bf0d01037028a32bdb1ca0a935b8bad2a47fe0088eb",
+    "final_protocol_sha256": "5db68378e52bfc9e32fa1fea3c10338606a92ea785da3a5ebf8eb4a190495fc4",
+    "primary": "4f5f71e6546312c3b0ab0dc86aacd41e2617bfa6334e1380639cbf27e488d960",
+    "repeat": "fc8b0b7a1a45532926f590e7869abd68708ee53ed2db639fd5ce59300c9e8771",
+    "v2.1": "43ad828584dded6edf4382e883338d3bf2c0bfb7c5c34d77de3980413b3bcbd7",
+    "v2.2": "ee26ec32e1ce98fbcc1075bb74766f1fc923091feb51d5860827efacf3d97f79",
+    "v2.2.1": "f503eb2c9708bd757f1afc3d21f906c205d313ed57763c81cf990529a64364f7"
+  },
+  "schema_version": "rock_instance_calibration_finalization_v1"
+}
