@@ -1,0 +1,222 @@
+{
+  "component_candidates_csv": "big_rock_component_candidates.csv",
+  "expert_splits_excluded": true,
+  "proposed_protocol": {
+    "path": "artifacts\\rock_instance\\calibration_boundary_clarification_v2\\annotation_protocol_v2.2-visible-extent-clarified-proposed.md",
+    "sha256": "fa2bb87a06e71079069a442bb204eab519bf7e27d9a4fd8960ef97048c5b7bb4",
+    "version": "v2.2-visible-extent-clarified-proposed"
+  },
+  "provenance": {
+    "component_manifest_sha256": "9c0f0934265f202e8acd138e2e73eb47ec194a8c47c57d35e1bec469fdc3b195",
+    "historic_annotations_hidden": true,
+    "primary_state_sha256": "4f5f71e6546312c3b0ab0dc86aacd41e2617bfa6334e1380639cbf27e488d960",
+    "proposed_protocol_sha256": "fa2bb87a06e71079069a442bb204eab519bf7e27d9a4fd8960ef97048c5b7bb4",
+    "repeat_state_sha256": "fc8b0b7a1a45532926f590e7869abd68708ee53ed2db639fd5ce59300c9e8771",
+    "v21_polygons_hidden": true,
+    "v21_state_sha256": "43ad828584dded6edf4382e883338d3bf2c0bfb7c5c34d77de3980413b3bcbd7"
+  },
+  "review_scope": {
+    "name": "boundary_clarification",
+    "source_manifest": "boundary_clarification_v2.2-targets.csv",
+    "source_manifest_sha256": "fb9fffa3b9713637fe46ceb2e9947c2bd34878c14b4949824bcfbfe19e26760c",
+    "target_ids": [
+      "NLB_463551084EDR_F0411534NCAM00385M1:component-4",
+      "NLB_483955685EDR_F0470598NCAM00320M1:component-8",
+      "NLB_548252623EDR_F0631150NCAM00312M1:component-3"
+    ]
+  },
+  "review_version": "v2.2-visible-extent-clarified-proposed",
+  "schema_version": "rock_instance_boundary_review_v1",
+  "targets": [
+    {
+      "bbox": [
+        198,
+        266,
+        90,
+        47
+      ],
+      "boundary_question": "What visible pixels belong to the fixed accepted rock located by proposal component 4; do not use the proposal extent as the boundary?",
+      "identity_escalation": false,
+      "identity_escalation_note": "",
+      "image_height": 1024,
+      "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+      "image_path": "msl/ncam/images/edr/NLB_463551084EDR_F0411534NCAM00385M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_463551084EDR_F0411534NCAM00385M1.png",
+      "object_identity_fixed": "accepted",
+      "polygon": [
+        [
+          198.79331148517804,
+          306.1813645166096
+        ],
+        [
+          230.82667957694025,
+          275.67339490540735
+        ],
+        [
+          258.2838522270222,
+          266.5210040220468
+        ],
+        [
+          284.21562639654394,
+          280.24959034708786
+        ],
+        [
+          287.2664233576643,
+          300.07977059436917
+        ],
+        [
+          250.65685982422156,
+          306.1813645166096
+        ],
+        [
+          220.1488902130195,
+          312.2829584388501
+        ]
+      ],
+      "review_status": "redrawn",
+      "reviewer": "single_researcher",
+      "reviewer_notes": "",
+      "sequence_id": "F0411534NCAM00385M1",
+      "source_candidate_component_id": 4,
+      "target_id": "NLB_463551084EDR_F0411534NCAM00385M1:component-4",
+      "v21_instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-004"
+    },
+    {
+      "bbox": [
+        799,
+        217,
+        59,
+        47
+      ],
+      "boundary_question": "What visible pixels belong to the fixed accepted rock located by proposal component 8; exclude rover hardware shadow and surrounding terrain?",
+      "identity_escalation": false,
+      "identity_escalation_note": "",
+      "image_height": 1024,
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "image_path": "msl/ncam/images/edr/NLB_483955685EDR_F0470598NCAM00320M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_483955685EDR_F0470598NCAM00320M1.png",
+      "object_identity_fixed": "accepted",
+      "polygon": [
+        [
+          857.7654550871443,
+          263.47020706092667
+        ],
+        [
+          818.1050945925815,
+          239.06383137196485
+        ],
+        [
+          799.8003128258601,
+          217.70825264412338
+        ],
+        [
+          830.3082824370624,
+          225.335245046924
+        ]
+      ],
+      "review_status": "redrawn",
+      "reviewer": "single_researcher",
+      "reviewer_notes": "",
+      "sequence_id": "F0470598NCAM00320M1",
+      "source_candidate_component_id": 8,
+      "target_id": "NLB_483955685EDR_F0470598NCAM00320M1:component-8",
+      "v21_instance_id": "NLB_483955685EDR_F0470598NCAM00320M1:rock-008"
+    },
+    {
+      "bbox": [
+        310,
+        72,
+        344,
+        168
+      ],
+      "boundary_question": "What visible pixels belong to the fixed accepted rock located by proposal component 3; trace the full defensible visible extent rather than only the proposal core?",
+      "identity_escalation": false,
+      "identity_escalation_note": "",
+      "image_height": 1024,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "image_path": "msl/ncam/images/edr/NLB_548252623EDR_F0631150NCAM00312M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_548252623EDR_F0631150NCAM00312M1.png",
+      "object_identity_fixed": "accepted",
+      "polygon": [
+        [
+          653.3620586920899,
+          129.23514077163713
+        ],
+        [
+          598.4477133919261,
+          91.10017875763447
+        ],
+        [
+          563.3635483390435,
+          72.7953969909131
+        ],
+        [
+          513.0253984805602,
+          80.42238939371373
+        ],
+        [
+          479.4666319082378,
+          103.30336660211537
+        ],
+        [
+          445.9078653359154,
+          121.60814836883651
+        ],
+        [
+          401.6713093996723,
+          147.5399225383585
+        ],
+        [
+          358.96015194398933,
+          174.99709518844043
+        ],
+        [
+          317.7743929688663,
+          211.60665872188292
+        ],
+        [
+          310.1474005660659,
+          231.43683896916446
+        ],
+        [
+          322.3505884105466,
+          239.06383137196485
+        ],
+        [
+          357.43475346342916,
+          232.9622374497244
+        ],
+        [
+          467.2634440637569,
+          213.1320572024431
+        ],
+        [
+          497.7714136749589,
+          196.3526739162819
+        ],
+        [
+          540.4825711306421,
+          174.99709518844043
+        ],
+        [
+          589.2953225085655,
+          158.21771190227923
+        ],
+        [
+          624.3794875614478,
+          142.9637270966782
+        ]
+      ],
+      "review_status": "redrawn",
+      "reviewer": "single_researcher",
+      "reviewer_notes": "",
+      "sequence_id": "F0631150NCAM00312M1",
+      "source_candidate_component_id": 3,
+      "target_id": "NLB_548252623EDR_F0631150NCAM00312M1:component-3",
+      "v21_instance_id": "NLB_548252623EDR_F0631150NCAM00312M1:rock-003"
+    }
+  ]
+}

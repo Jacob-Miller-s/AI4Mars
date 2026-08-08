@@ -1,0 +1,14 @@
+{
+  "component_manifest": "big_rock_component_candidates.csv",
+  "component_manifest_sha256": "9c0f0934265f202e8acd138e2e73eb47ec194a8c47c57d35e1bec469fdc3b195",
+  "historic_annotations_hidden": true,
+  "human_redraws_initialized": 0,
+  "primary_state_sha256": "4f5f71e6546312c3b0ab0dc86aacd41e2617bfa6334e1380639cbf27e488d960",
+  "proposed_protocol": "annotation_protocol_v2.2-visible-extent-clarified-proposed.md",
+  "proposed_protocol_sha256": "fa2bb87a06e71079069a442bb204eab519bf7e27d9a4fd8960ef97048c5b7bb4",
+  "repeat_state_sha256": "fc8b0b7a1a45532926f590e7869abd68708ee53ed2db639fd5ce59300c9e8771",
+  "target_manifest": "boundary_clarification_v2.2-targets.csv",
+  "target_manifest_sha256": "fb9fffa3b9713637fe46ceb2e9947c2bd34878c14b4949824bcfbfe19e26760c",
+  "v21_polygons_hidden": true,
+  "v21_state_sha256": "43ad828584dded6edf4382e883338d3bf2c0bfb7c5c34d77de3980413b3bcbd7"
+}
