@@ -1,0 +1,87 @@
+{
+  "component_candidates_csv": "big_rock_component_candidates.csv",
+  "expert_splits_excluded": true,
+  "proposed_protocol": {
+    "path": "artifacts\\rock_instance\\final_whole_object_clarification_v2.2.1\\annotation_protocol_v2.2.1-visible-object-continuity-clarified-proposed.md",
+    "sha256": "aba931988ef383b6c3a8c236d22877fd5f740ec1890023b52ef633327cc096d2",
+    "version": "v2.2.1-visible-object-continuity-clarified-proposed"
+  },
+  "provenance": {
+    "component_manifest_sha256": "9c0f0934265f202e8acd138e2e73eb47ec194a8c47c57d35e1bec469fdc3b195",
+    "historic_annotations_hidden": true,
+    "primary_state_sha256": "4f5f71e6546312c3b0ab0dc86aacd41e2617bfa6334e1380639cbf27e488d960",
+    "proposed_protocol_sha256": "aba931988ef383b6c3a8c236d22877fd5f740ec1890023b52ef633327cc096d2",
+    "repeat_state_sha256": "fc8b0b7a1a45532926f590e7869abd68708ee53ed2db639fd5ce59300c9e8771",
+    "source_boundary_state_sha256": "ee26ec32e1ce98fbcc1075bb74766f1fc923091feb51d5860827efacf3d97f79",
+    "v21_polygons_hidden": true,
+    "v21_state_sha256": "43ad828584dded6edf4382e883338d3bf2c0bfb7c5c34d77de3980413b3bcbd7",
+    "v22_polygons_hidden": true
+  },
+  "review_scope": {
+    "name": "final_whole_object_clarification",
+    "source_manifest": "final_whole_object_clarification_v2.2.1-target.csv",
+    "source_manifest_sha256": "7aa450697f5790b6e9f74a25760d3127a1d8b16e83d75cec633243795d8295d5",
+    "target_ids": [
+      "NLB_483955685EDR_F0470598NCAM00320M1:component-8"
+    ]
+  },
+  "review_version": "v2.2.1-visible-object-continuity-clarified-proposed",
+  "schema_version": "rock_instance_final_clarification_review_v1",
+  "source_v22_target": {
+    "object_identity_fixed": "accepted",
+    "review_status": "redrawn",
+    "target_id": "NLB_483955685EDR_F0470598NCAM00320M1:component-8"
+  },
+  "targets": [
+    {
+      "bbox": [
+        802,
+        220,
+        72,
+        42
+      ],
+      "boundary_question": "Trace the full defensible visible extent of this already-accepted physical rock. Include all visibly attributable faces of the same coherent object. Do not trace only a high-contrast face or proposal fragment. Stop at surrounding terrain, continuous Bedrock, another rock, rover hardware/occlusion, or genuinely indeterminate material. Exclude cast shadow and do not infer hidden geometry.",
+      "identity_escalation": false,
+      "identity_escalation_note": "",
+      "image_height": 1024,
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "image_path": "msl/ncam/images/edr/NLB_483955685EDR_F0470598NCAM00320M1.JPG",
+      "image_width": 1024,
+      "mask_path": "msl/ncam/labels/train/NLB_483955685EDR_F0470598NCAM00320M1.png",
+      "object_identity_fixed": "accepted",
+      "polygon": [
+        [
+          802.8511097869805,
+          220.7590496052435
+        ],
+        [
+          827.2574854759421,
+          246.69082377476548
+        ],
+        [
+          850.1384626843437,
+          261.9448085803665
+        ],
+        [
+          873.0194398927454,
+          252.79241769700593
+        ],
+        [
+          848.6130642037836,
+          234.48763593028457
+        ],
+        [
+          833.3590793981825,
+          228.38604200804411
+        ]
+      ],
+      "review_status": "redrawn",
+      "reviewer": "single_researcher",
+      "reviewer_notes": "",
+      "sequence_id": "F0470598NCAM00320M1",
+      "source_candidate_component_id": 8,
+      "target_id": "NLB_483955685EDR_F0470598NCAM00320M1:component-8",
+      "v21_instance_id": "NLB_483955685EDR_F0470598NCAM00320M1:rock-008"
+    }
+  ]
+}

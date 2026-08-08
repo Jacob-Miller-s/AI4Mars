@@ -1,11 +1,17 @@
 import tempfile
 import unittest
+import csv
 from pathlib import Path
 from unittest.mock import patch
 
 from src.rock_instance.boundary_review import (
     BOUNDARY_REVIEW_SCHEMA_VERSION,
     BOUNDARY_REVIEW_VERSION,
+    FINAL_CLARIFICATION_SCHEMA_VERSION,
+    FINAL_CLARIFICATION_SCOPE_NAME,
+    FINAL_CLARIFICATION_VERSION,
+    FINAL_CLARIFICATION_PROMPT,
+    _final_selection_row,
     _accepted_annotations_for_component,
     _forensic_filename,
     activate_interactive_backend,
@@ -37,7 +43,34 @@ def _state() -> dict:
     }
 
 
+def _final_state() -> dict:
+    state = _state()
+    state["schema_version"] = FINAL_CLARIFICATION_SCHEMA_VERSION
+    state["review_version"] = FINAL_CLARIFICATION_VERSION
+    state["review_scope"]["name"] = FINAL_CLARIFICATION_SCOPE_NAME
+    state["review_scope"]["target_ids"] = [state["targets"][0]["target_id"]]
+    state["targets"] = [state["targets"][0]]
+    state["provenance"].update({"source_boundary_state_sha256": "f" * 64, "v22_polygons_hidden": True})
+    return state
+
+
 class BoundaryReviewTests(unittest.TestCase):
+    def test_final_manifest_requires_the_exact_approved_prompt(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            manifest_path = Path(temporary_directory) / "target.csv"
+            with manifest_path.open("w", encoding="utf-8", newline="") as handle:
+                writer = csv.DictWriter(handle, fieldnames=["target_id", "stable_source_image_id", "source_candidate_component_id", "v21_instance_id", "boundary_question"])
+                writer.writeheader()
+                writer.writerow({"target_id": "NLB_483955685EDR_F0470598NCAM00320M1:component-8", "stable_source_image_id": "image-a", "source_candidate_component_id": 8, "v21_instance_id": "image-a:rock-008", "boundary_question": FINAL_CLARIFICATION_PROMPT})
+            self.assertEqual(_final_selection_row(manifest_path)["boundary_question"], FINAL_CLARIFICATION_PROMPT)
+
+    def test_final_clarification_schema_permits_exactly_one_target(self) -> None:
+        state = _final_state()
+        validate_boundary_review_state(state)
+        state["targets"].append(_target("target-2"))
+        with self.assertRaises(ValueError):
+            validate_boundary_review_state(state)
+
     def test_interactive_mode_selects_tk_backend_before_creating_ui(self) -> None:
         with patch("src.rock_instance.boundary_review.plt.switch_backend") as switch_backend:
             activate_interactive_backend()

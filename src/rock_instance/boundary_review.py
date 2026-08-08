@@ -35,6 +35,16 @@ from src.rock_instance.component_audit import CONNECTIVITY
 BOUNDARY_REVIEW_SCHEMA_VERSION = "rock_instance_boundary_review_v1"
 BOUNDARY_REVIEW_VERSION = "v2.2-visible-extent-clarified-proposed"
 BOUNDARY_SCOPE_NAME = "boundary_clarification"
+FINAL_CLARIFICATION_SCHEMA_VERSION = "rock_instance_final_clarification_review_v1"
+FINAL_CLARIFICATION_VERSION = "v2.2.1-visible-object-continuity-clarified-proposed"
+FINAL_CLARIFICATION_SCOPE_NAME = "final_whole_object_clarification"
+FINAL_CLARIFICATION_TARGET_ID = "NLB_483955685EDR_F0470598NCAM00320M1:component-8"
+FINAL_CLARIFICATION_PROMPT = (
+    "Trace the full defensible visible extent of this already-accepted physical rock. Include all visibly attributable faces "
+    "of the same coherent object. Do not trace only a high-contrast face or proposal fragment. Stop at surrounding terrain, "
+    "continuous Bedrock, another rock, rover hardware/occlusion, or genuinely indeterminate material. Exclude cast shadow "
+    "and do not infer hidden geometry."
+)
 TARGET_STATUSES = frozenset({"unreviewed", "in_progress", "redrawn", "identity_escalated"})
 NAV_CONTEXT_COLORS = np.array([(112, 92, 65), (158, 120, 92), (220, 190, 115), (190, 60, 55), (30, 30, 30)], dtype=np.uint8)
 
@@ -66,27 +76,53 @@ def _selection_rows(path: Path) -> list[dict[str, str]]:
     return rows
 
 
+def _final_selection_row(path: Path) -> dict[str, str]:
+    required = {"target_id", "stable_source_image_id", "source_candidate_component_id", "v21_instance_id", "boundary_question"}
+    rows = _read_csv(path)
+    if len(rows) != 1 or required - set(rows[0]) or rows[0]["target_id"] != FINAL_CLARIFICATION_TARGET_ID or rows[0]["boundary_question"] != FINAL_CLARIFICATION_PROMPT:
+        raise ValueError(f"Final clarification requires exactly {FINAL_CLARIFICATION_TARGET_ID}.")
+    return rows[0]
+
+
+def _review_config(state: dict[str, Any]) -> dict[str, Any]:
+    configurations = {
+        BOUNDARY_REVIEW_SCHEMA_VERSION: {"review_version": BOUNDARY_REVIEW_VERSION, "scope_name": BOUNDARY_SCOPE_NAME, "target_count": 3, "requires_v22_provenance": False},
+        FINAL_CLARIFICATION_SCHEMA_VERSION: {"review_version": FINAL_CLARIFICATION_VERSION, "scope_name": FINAL_CLARIFICATION_SCOPE_NAME, "target_count": 1, "requires_v22_provenance": True},
+    }
+    try:
+        return configurations[state.get("schema_version")]
+    except KeyError as error:
+        raise ValueError("Unsupported fixed-identity review schema.") from error
+
+
 def validate_boundary_review_state(state: dict[str, Any]) -> None:
     """Validate a boundary-only state that cannot alter accepted object identity."""
-    if state.get("schema_version") != BOUNDARY_REVIEW_SCHEMA_VERSION:
-        raise ValueError("Unsupported boundary-review schema.")
-    if state.get("review_version") != BOUNDARY_REVIEW_VERSION or state.get("expert_splits_excluded") is not True:
+    configuration = _review_config(state)
+    if state.get("review_version") != configuration["review_version"] or state.get("expert_splits_excluded") is not True:
         raise ValueError("Boundary review lacks required proposed-protocol provenance.")
     scope = state.get("review_scope", {})
-    if scope.get("name") != BOUNDARY_SCOPE_NAME or not isinstance(scope.get("target_ids"), list) or len(scope["target_ids"]) != 3:
-        raise ValueError("Boundary review must have exactly three scoped targets.")
+    if scope.get("name") != configuration["scope_name"] or not isinstance(scope.get("target_ids"), list) or len(scope["target_ids"]) != configuration["target_count"]:
+        raise ValueError("Boundary review has an invalid fixed target scope.")
     provenance = state.get("provenance", {})
     required_provenance = {
         "primary_state_sha256", "repeat_state_sha256", "v21_state_sha256", "proposed_protocol_sha256",
         "component_manifest_sha256", "historic_annotations_hidden", "v21_polygons_hidden",
     }
-    if required_provenance - set(provenance) or not all(isinstance(provenance[key], str) and len(provenance[key]) == 64 for key in required_provenance - {"historic_annotations_hidden", "v21_polygons_hidden"}):
+    if configuration["requires_v22_provenance"]:
+        required_provenance.update({"source_boundary_state_sha256", "v22_polygons_hidden"})
+    boolean_provenance = {"historic_annotations_hidden", "v21_polygons_hidden"}
+    if configuration["requires_v22_provenance"]:
+        boolean_provenance.add("v22_polygons_hidden")
+    if required_provenance - set(provenance) or not all(isinstance(provenance[key], str) and len(provenance[key]) == 64 for key in required_provenance - boolean_provenance):
         raise ValueError("Boundary review provenance is invalid.")
-    if provenance["historic_annotations_hidden"] is not True or provenance["v21_polygons_hidden"] is not True:
+    hidden_fields = {"historic_annotations_hidden", "v21_polygons_hidden"}
+    if configuration["requires_v22_provenance"]:
+        hidden_fields.add("v22_polygons_hidden")
+    if any(provenance[field] is not True for field in hidden_fields):
         raise ValueError("Boundary review must attest that prior polygons are hidden.")
     targets = state.get("targets")
-    if not isinstance(targets, list) or len(targets) != 3:
-        raise ValueError("Boundary review must contain exactly three targets.")
+    if not isinstance(targets, list) or len(targets) != configuration["target_count"]:
+        raise ValueError("Boundary review has an invalid target count.")
     if [target.get("target_id") for target in targets] != scope["target_ids"]:
         raise ValueError("Boundary targets must match the scoped target IDs in order.")
     for target in targets:
@@ -346,6 +382,61 @@ def prepare_boundary_review(
     return state_path
 
 
+def prepare_final_clarification_review(
+    *, primary_state_path: Path, repeat_state_path: Path, v21_state_path: Path, boundary_state_path: Path,
+    component_candidates_csv: Path, target_manifest: Path, proposed_protocol_path: Path, output_dir: Path,
+) -> Path:
+    """Create a blank, one-object whole-visible-object clarification package for the completed component-8 redraw."""
+    source_paths = {"primary": Path(primary_state_path), "repeat": Path(repeat_state_path), "v21": Path(v21_state_path), "boundary": Path(boundary_state_path)}
+    primary, repeat, v21 = (load_review_state(source_paths[label]) for label in ("primary", "repeat", "v21"))
+    for state in (primary, repeat, v21):
+        validate_review_state(state)
+    boundary = load_boundary_review_state(source_paths["boundary"])
+    if boundary["schema_version"] != BOUNDARY_REVIEW_SCHEMA_VERSION:
+        raise ValueError("Final clarification must source the completed three-object v2.2 boundary review.")
+    expected_hashes = {"primary_state_sha256": sha256_file(source_paths["primary"]), "repeat_state_sha256": sha256_file(source_paths["repeat"]), "v21_state_sha256": sha256_file(source_paths["v21"])}
+    if any(boundary["provenance"][key] != value for key, value in expected_hashes.items()):
+        raise ValueError("Completed v2.2 boundary review provenance does not match immutable source artifacts.")
+    source_target = _target_by_id(boundary, FINAL_CLARIFICATION_TARGET_ID)
+    if source_target["review_status"] != "redrawn" or source_target["object_identity_fixed"] != "accepted" or source_target["identity_escalation"]:
+        raise ValueError("Final clarification requires the completed accepted component-8 redraw without escalation.")
+    component_candidates_csv, target_manifest, proposed_protocol_path = (Path(path) for path in (component_candidates_csv, target_manifest, proposed_protocol_path))
+    if not component_candidates_csv.is_file() or not proposed_protocol_path.is_file():
+        raise FileNotFoundError("Final clarification requires a component manifest and proposed v2.2.1 protocol.")
+    if "v2.2.1-visible-object-continuity-clarified-proposed" not in proposed_protocol_path.read_text(encoding="utf-8"):
+        raise ValueError("Final clarification requires the approved proposed v2.2.1 whole-object protocol.")
+    if sha256_file(component_candidates_csv) != boundary["provenance"]["component_manifest_sha256"]:
+        raise ValueError("Final clarification component manifest does not match completed v2.2 provenance.")
+    row = _final_selection_row(target_manifest)
+    if row["stable_source_image_id"] != source_target["image_id"] or int(row["source_candidate_component_id"]) != source_target["source_candidate_component_id"] or row["v21_instance_id"] != source_target["v21_instance_id"]:
+        raise ValueError("Final clarification manifest does not match the completed component-8 source target.")
+    output_dir = Path(output_dir)
+    if output_dir.exists():
+        raise FileExistsError(f"Refusing to overwrite existing final-clarification artifacts: {output_dir}")
+    output_dir.mkdir(parents=True)
+    copied_manifest, copied_components, copied_protocol = (output_dir / path.name for path in (target_manifest, component_candidates_csv, proposed_protocol_path))
+    for source, destination in ((target_manifest, copied_manifest), (component_candidates_csv, copied_components), (proposed_protocol_path, copied_protocol)):
+        shutil.copyfile(source, destination)
+    target = {
+        **{key: source_target[key] for key in ("target_id", "image_id", "sequence_id", "image_path", "mask_path", "image_width", "image_height", "source_candidate_component_id", "v21_instance_id", "object_identity_fixed")},
+        "boundary_question": row["boundary_question"], "review_status": "unreviewed", "reviewer": None, "polygon": None, "bbox": None,
+        "reviewer_notes": "", "identity_escalation": False, "identity_escalation_note": "",
+    }
+    state = {
+        "schema_version": FINAL_CLARIFICATION_SCHEMA_VERSION, "review_version": FINAL_CLARIFICATION_VERSION, "expert_splits_excluded": True,
+        "review_scope": {"name": FINAL_CLARIFICATION_SCOPE_NAME, "target_ids": [target["target_id"]], "source_manifest": copied_manifest.name, "source_manifest_sha256": sha256_file(copied_manifest)},
+        "provenance": {**expected_hashes, "source_boundary_state_sha256": sha256_file(source_paths["boundary"]), "proposed_protocol_sha256": sha256_file(copied_protocol), "component_manifest_sha256": sha256_file(copied_components), "historic_annotations_hidden": True, "v21_polygons_hidden": True, "v22_polygons_hidden": True},
+        "component_candidates_csv": copied_components.name,
+        "proposed_protocol": {"version": FINAL_CLARIFICATION_VERSION, "path": str(copied_protocol), "sha256": sha256_file(copied_protocol)},
+        "source_v22_target": {"target_id": source_target["target_id"], "review_status": source_target["review_status"], "object_identity_fixed": source_target["object_identity_fixed"]},
+        "targets": [target],
+    }
+    state_path = output_dir / "review_state.json"
+    save_boundary_review_state(state_path, state)
+    _atomic_write_json(output_dir / "provenance.json", {**state["provenance"], "target_manifest": copied_manifest.name, "target_manifest_sha256": sha256_file(copied_manifest), "proposed_protocol": copied_protocol.name, "component_manifest": copied_components.name, "historic_annotations_hidden": True, "v21_polygons_hidden": True, "v22_polygons_hidden": True, "human_redraws_initialized": 0})
+    return state_path
+
+
 class BoundaryReviewUI:
     """Full-image, polygon-only redraw UI with optional nonbinding proposal boxes."""
 
@@ -495,6 +586,7 @@ def activate_interactive_backend() -> None:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--prepare", action="store_true")
+    parser.add_argument("--prepare-final-clarification", action="store_true")
     parser.add_argument("--refresh-forensics", action="store_true")
     parser.add_argument("--primary-state-path", type=Path)
     parser.add_argument("--repeat-state-path", type=Path)
@@ -517,6 +609,10 @@ def main() -> None:
         required = (args.primary_state_path, args.repeat_state_path, args.v21_state_path, args.component_candidates_csv, args.target_manifest, args.proposed_protocol_path, args.output_dir)
         if any(value is None for value in required): raise ValueError("--prepare requires all source paths and --output-dir.")
         print(prepare_boundary_review(primary_state_path=args.primary_state_path, repeat_state_path=args.repeat_state_path, v21_state_path=args.v21_state_path, component_candidates_csv=args.component_candidates_csv, target_manifest=args.target_manifest, proposed_protocol_path=args.proposed_protocol_path, dataset_root=args.dataset_root, output_dir=args.output_dir))
+    elif args.prepare_final_clarification:
+        required = (args.primary_state_path, args.repeat_state_path, args.v21_state_path, args.state_path, args.component_candidates_csv, args.target_manifest, args.proposed_protocol_path, args.output_dir)
+        if any(value is None for value in required): raise ValueError("--prepare-final-clarification requires source state paths, --state-path, component manifest, target manifest, protocol, and --output-dir.")
+        print(prepare_final_clarification_review(primary_state_path=args.primary_state_path, repeat_state_path=args.repeat_state_path, v21_state_path=args.v21_state_path, boundary_state_path=args.state_path, component_candidates_csv=args.component_candidates_csv, target_manifest=args.target_manifest, proposed_protocol_path=args.proposed_protocol_path, output_dir=args.output_dir))
     elif args.refresh_forensics:
         required = (args.primary_state_path, args.repeat_state_path, args.v21_state_path, args.state_path)
         if any(value is None for value in required): raise ValueError("--refresh-forensics requires source state paths and --state-path.")
