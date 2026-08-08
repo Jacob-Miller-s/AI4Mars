@@ -1,0 +1,7 @@
+clarification_rank,stable_source_image_id,inclusion_reason,human_question
+1,NLB_463551084EDR_F0411534NCAM00385M1,15-vs-6 object-count discrepancy within one large candidate component,Which visible separations support distinct objects in component 2 and is component 1 a discrete rock or noise?
+2,NLB_517255503EDR_F0541610NCAM07753M1,Child-count change within candidate components 1 and 2,Which visible boundaries justify separate children versus one coherent formation?
+3,NLB_483955685EDR_F0470598NCAM00320M1,Rock-versus-Bedrock and uncertain handling disagreement,Does component 3 show a visibly bounded discrete rock and how should component 1 receive one terminal disposition?
+4,NLB_490004046EDR_F0482122NCAM00281M1,Repeated subdivision of large component 1 and an extra component-5 object,Which visible gaps or overlap boundaries justify each child and is component 5 a separate object?
+5,NLB_548252623EDR_F0631150NCAM00312M1,Secondary component 4 switched from noise to accepted,Is component 4 a visibly separate secondary rock or a non-object feature?
+6,NLB_528261206EDR_F0580738NCAM00385M1,Explicit primary merge of components 3 and 4 was not reproduced,Do components 3 and 4 depict one visible object; if so record a merge rationale, otherwise give each one terminal disposition?

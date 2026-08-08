@@ -285,8 +285,8 @@ def validate_review_state(state: dict[str, Any]) -> None:
             or len(component_review["component_manifest_sha256"]) != 64
         ):
             raise ValueError("Corrected calibration component-review provenance is invalid.")
-        if review_scope is None or review_scope["name"] not in {"calibration", "calibration_repeat"}:
-            raise ValueError("Corrected calibration component review requires a calibration or calibration_repeat scope.")
+        if review_scope is None or review_scope["name"] not in {"calibration", "calibration_repeat", "calibration_clarification"}:
+            raise ValueError("Corrected calibration component review requires a calibration, calibration_repeat, or calibration_clarification scope.")
         protocol = state.get("protocol")
         if (
             not isinstance(protocol, dict)

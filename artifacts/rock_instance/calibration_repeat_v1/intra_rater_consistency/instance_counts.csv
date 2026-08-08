@@ -1,0 +1,9 @@
+absolute_count_difference,image_id,primary_accepted_instances,primary_uncertain_annotations,repeat_accepted_instances,repeat_uncertain_annotations,structure_changed,uncertainty_change_cooccurs_with_count_difference
+0,NLB_483340393EDR_F0470522NCAM00253M1,3,0,3,0,False,False
+1,NLB_517255503EDR_F0541610NCAM07753M1,10,0,9,0,True,False
+0,NLB_557555419EDR_F0652882NCAM00296M1,0,0,0,0,False,False
+1,NLB_483955685EDR_F0470598NCAM00320M1,5,1,6,0,True,True
+1,NLB_490004046EDR_F0482122NCAM00281M1,6,0,5,0,True,False
+1,NLB_548252623EDR_F0631150NCAM00312M1,2,0,3,0,True,False
+0,NLB_528261206EDR_F0580738NCAM00385M1,3,0,3,0,True,False
+9,NLB_463551084EDR_F0411534NCAM00385M1,15,0,6,0,True,False

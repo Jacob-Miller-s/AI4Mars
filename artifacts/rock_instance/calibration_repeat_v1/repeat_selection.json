@@ -1,0 +1,19 @@
+{
+  "component_candidate_manifest": "big_rock_component_candidates.csv",
+  "component_candidate_manifest_sha256": "9c0f0934265f202e8acd138e2e73eb47ec194a8c47c57d35e1bec469fdc3b195",
+  "image_ids": [
+    "NLB_483340393EDR_F0470522NCAM00253M1",
+    "NLB_517255503EDR_F0541610NCAM07753M1",
+    "NLB_557555419EDR_F0652882NCAM00296M1",
+    "NLB_483955685EDR_F0470598NCAM00320M1",
+    "NLB_490004046EDR_F0482122NCAM00281M1",
+    "NLB_548252623EDR_F0631150NCAM00312M1",
+    "NLB_528261206EDR_F0580738NCAM00385M1",
+    "NLB_463551084EDR_F0411534NCAM00385M1"
+  ],
+  "selection_seed": 42,
+  "selection_version": "calibration-repeat-v1",
+  "source_primary_state": "artifacts\\rock_instance\\calibration_resolved_v2\\review_state.json",
+  "source_primary_state_sha256": "4f5f71e6546312c3b0ab0dc86aacd41e2617bfa6334e1380639cbf27e488d960",
+  "target_size": 8
+}

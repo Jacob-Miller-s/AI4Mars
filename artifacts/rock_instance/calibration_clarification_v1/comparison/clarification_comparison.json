@@ -1,0 +1,2085 @@
+{
+  "CALIBRATION_PROTOCOL_RECOMMENDATION": "CLARIFY_AGAIN",
+  "accepted_object_geometry": {
+    "matching_method": "Within-image deterministic maximum mask-IoU one-to-one Hungarian assignment; zero-IoU assignments are unmatched.",
+    "per_object": [
+      {
+        "comparison": "primary_to_v2.1",
+        "historical_area_pixels": 2122,
+        "historical_instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-003",
+        "historical_source_candidate_component_ids": [
+          4
+        ],
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "mask_iou": 0.02626094205919133,
+        "v21_area_pixels": 340,
+        "v21_instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-004",
+        "v21_source_candidate_component_ids": [
+          4
+        ]
+      },
+      {
+        "comparison": "primary_to_v2.1",
+        "historical_area_pixels": 2567,
+        "historical_instance_id": "NLB_483955685EDR_F0470598NCAM00320M1:rock-012",
+        "historical_source_candidate_component_ids": [
+          8
+        ],
+        "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+        "mask_iou": 0.1701824401368301,
+        "v21_area_pixels": 1538,
+        "v21_instance_id": "NLB_483955685EDR_F0470598NCAM00320M1:rock-008",
+        "v21_source_candidate_component_ids": [
+          8
+        ]
+      },
+      {
+        "comparison": "repeat_to_v2.1",
+        "historical_area_pixels": 2133,
+        "historical_instance_id": "NLB_483955685EDR_F0470598NCAM00320M1:rock-008",
+        "historical_source_candidate_component_ids": [
+          8
+        ],
+        "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+        "mask_iou": 0.26194568580268135,
+        "v21_area_pixels": 1538,
+        "v21_instance_id": "NLB_483955685EDR_F0470598NCAM00320M1:rock-008",
+        "v21_source_candidate_component_ids": [
+          8
+        ]
+      },
+      {
+        "comparison": "primary_to_v2.1",
+        "historical_area_pixels": 33705,
+        "historical_instance_id": "NLB_548252623EDR_F0631150NCAM00312M1:rock-003",
+        "historical_source_candidate_component_ids": [
+          3
+        ],
+        "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+        "mask_iou": 0.0007837868099876833,
+        "v21_area_pixels": 2047,
+        "v21_instance_id": "NLB_548252623EDR_F0631150NCAM00312M1:rock-003",
+        "v21_source_candidate_component_ids": [
+          3
+        ]
+      },
+      {
+        "comparison": "primary_to_v2.1",
+        "historical_area_pixels": 79275,
+        "historical_instance_id": "NLB_548252623EDR_F0631150NCAM00312M1:rock-008",
+        "historical_source_candidate_component_ids": [
+          8
+        ],
+        "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+        "mask_iou": 0.7356625687411088,
+        "v21_area_pixels": 84214,
+        "v21_instance_id": "NLB_548252623EDR_F0631150NCAM00312M1:rock-008",
+        "v21_source_candidate_component_ids": [
+          8
+        ]
+      },
+      {
+        "comparison": "repeat_to_v2.1",
+        "historical_area_pixels": 24393,
+        "historical_instance_id": "NLB_548252623EDR_F0631150NCAM00312M1:rock-004",
+        "historical_source_candidate_component_ids": [
+          3
+        ],
+        "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+        "mask_iou": 0.0025024645484188974,
+        "v21_area_pixels": 2047,
+        "v21_instance_id": "NLB_548252623EDR_F0631150NCAM00312M1:rock-003",
+        "v21_source_candidate_component_ids": [
+          3
+        ]
+      },
+      {
+        "comparison": "repeat_to_v2.1",
+        "historical_area_pixels": 71343,
+        "historical_instance_id": "NLB_548252623EDR_F0631150NCAM00312M1:rock-009",
+        "historical_source_candidate_component_ids": [
+          8
+        ],
+        "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+        "mask_iou": 0.7231459429520908,
+        "v21_area_pixels": 84214,
+        "v21_instance_id": "NLB_548252623EDR_F0631150NCAM00312M1:rock-008",
+        "v21_source_candidate_component_ids": [
+          8
+        ]
+      },
+      {
+        "comparison": "primary_to_v2.1",
+        "historical_area_pixels": 6367,
+        "historical_instance_id": "NLB_528261206EDR_F0580738NCAM00385M1:rock-001",
+        "historical_source_candidate_component_ids": [
+          1
+        ],
+        "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+        "mask_iou": 0.45952768729641696,
+        "v21_area_pixels": 11556,
+        "v21_instance_id": "NLB_528261206EDR_F0580738NCAM00385M1:rock-001",
+        "v21_source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "comparison": "primary_to_v2.1",
+        "historical_area_pixels": 7228,
+        "historical_instance_id": "NLB_528261206EDR_F0580738NCAM00385M1:rock-002",
+        "historical_source_candidate_component_ids": [
+          2
+        ],
+        "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+        "mask_iou": 0.4919793966151582,
+        "v21_area_pixels": 13048,
+        "v21_instance_id": "NLB_528261206EDR_F0580738NCAM00385M1:rock-002",
+        "v21_source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "comparison": "primary_to_v2.1",
+        "historical_area_pixels": 15305,
+        "historical_instance_id": "NLB_528261206EDR_F0580738NCAM00385M1:rock-004",
+        "historical_source_candidate_component_ids": [
+          3,
+          4
+        ],
+        "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+        "mask_iou": 0.7518100202722271,
+        "v21_area_pixels": 14940,
+        "v21_instance_id": "NLB_528261206EDR_F0580738NCAM00385M1:rock-004",
+        "v21_source_candidate_component_ids": [
+          4
+        ]
+      },
+      {
+        "comparison": "repeat_to_v2.1",
+        "historical_area_pixels": 6808,
+        "historical_instance_id": "NLB_528261206EDR_F0580738NCAM00385M1:rock-001",
+        "historical_source_candidate_component_ids": [
+          1
+        ],
+        "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+        "mask_iou": 0.44348372897343186,
+        "v21_area_pixels": 11556,
+        "v21_instance_id": "NLB_528261206EDR_F0580738NCAM00385M1:rock-001",
+        "v21_source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "comparison": "repeat_to_v2.1",
+        "historical_area_pixels": 7734,
+        "historical_instance_id": "NLB_528261206EDR_F0580738NCAM00385M1:rock-002",
+        "historical_source_candidate_component_ids": [
+          2
+        ],
+        "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+        "mask_iou": 0.5470855356212313,
+        "v21_area_pixels": 13048,
+        "v21_instance_id": "NLB_528261206EDR_F0580738NCAM00385M1:rock-002",
+        "v21_source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "comparison": "repeat_to_v2.1",
+        "historical_area_pixels": 21885,
+        "historical_instance_id": "NLB_528261206EDR_F0580738NCAM00385M1:rock-004",
+        "historical_source_candidate_component_ids": [
+          4
+        ],
+        "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+        "mask_iou": 0.6740919216256762,
+        "v21_area_pixels": 14940,
+        "v21_instance_id": "NLB_528261206EDR_F0580738NCAM00385M1:rock-004",
+        "v21_source_candidate_component_ids": [
+          4
+        ]
+      }
+    ],
+    "summary_by_historical_comparison": {
+      "primary_to_v2.1": {
+        "matched_objects": 7,
+        "max_mask_iou": 0.7518100202722271,
+        "mean_mask_iou": 0.3766009774187029,
+        "median_mask_iou": 0.45952768729641696,
+        "min_mask_iou": 0.0007837868099876833
+      },
+      "repeat_to_v2.1": {
+        "matched_objects": 6,
+        "max_mask_iou": 0.7231459429520908,
+        "mean_mask_iou": 0.44204254658725506,
+        "median_mask_iou": 0.49528463229733155,
+        "min_mask_iou": 0.0025024645484188974
+      }
+    },
+    "unmatched_objects": [
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-001",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-004",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-005",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-006",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-007",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-008",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-009",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-010",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-011",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-012",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-013",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-014",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-015",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-016",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-002",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-003",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-004",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-005",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-006",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-008",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          4
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+        "instance_id": "NLB_463551084EDR_F0411534NCAM00385M1:rock-004",
+        "side": "v2.1",
+        "source_candidate_component_ids": [
+          4
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-001",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-002",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-003",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-004",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-005",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-006",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-007",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          3
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-008",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          4
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-009",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          5
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-013",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          9
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-001",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-002",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-003",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-004",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-005",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-006",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          3
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-007",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          4
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-013",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          9
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+        "instance_id": "NLB_517255503EDR_F0541610NCAM07753M1:rock-016",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          11
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+        "instance_id": "NLB_483955685EDR_F0470598NCAM00320M1:rock-002",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          9
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+        "instance_id": "NLB_483955685EDR_F0470598NCAM00320M1:rock-003",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          12
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+        "instance_id": "NLB_483955685EDR_F0470598NCAM00320M1:rock-004",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          12
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+        "instance_id": "NLB_483955685EDR_F0470598NCAM00320M1:rock-006",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+        "instance_id": "NLB_483955685EDR_F0470598NCAM00320M1:rock-002",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          2
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+        "instance_id": "NLB_483955685EDR_F0470598NCAM00320M1:rock-003",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          3
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+        "instance_id": "NLB_483955685EDR_F0470598NCAM00320M1:rock-009",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          9
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+        "instance_id": "NLB_483955685EDR_F0470598NCAM00320M1:rock-012",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          12
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+        "instance_id": "NLB_483955685EDR_F0470598NCAM00320M1:rock-013",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          12
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+        "instance_id": "NLB_490004046EDR_F0482122NCAM00281M1:rock-001",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+        "instance_id": "NLB_490004046EDR_F0482122NCAM00281M1:rock-002",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+        "instance_id": "NLB_490004046EDR_F0482122NCAM00281M1:rock-003",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+        "instance_id": "NLB_490004046EDR_F0482122NCAM00281M1:rock-004",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+        "instance_id": "NLB_490004046EDR_F0482122NCAM00281M1:rock-005",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "primary_to_v2.1",
+        "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+        "instance_id": "NLB_490004046EDR_F0482122NCAM00281M1:rock-010",
+        "side": "primary",
+        "source_candidate_component_ids": [
+          5
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+        "instance_id": "NLB_490004046EDR_F0482122NCAM00281M1:rock-001",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+        "instance_id": "NLB_490004046EDR_F0482122NCAM00281M1:rock-002",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+        "instance_id": "NLB_490004046EDR_F0482122NCAM00281M1:rock-003",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+        "instance_id": "NLB_490004046EDR_F0482122NCAM00281M1:rock-004",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+        "instance_id": "NLB_490004046EDR_F0482122NCAM00281M1:rock-005",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          1
+        ]
+      },
+      {
+        "best_iou_against_opposite": 0.0,
+        "comparison": "repeat_to_v2.1",
+        "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+        "instance_id": "NLB_548252623EDR_F0631150NCAM00312M1:rock-005",
+        "side": "repeat",
+        "source_candidate_component_ids": [
+          4
+        ]
+      }
+    ]
+  },
+  "analysis_type": "v2.1 clarification comparison",
+  "analysis_version": "clarification-comparison-v1",
+  "component_transitions": [
+    {
+      "component_id": 1,
+      "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 2,
+      "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 3,
+      "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 4,
+      "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 1,
+      "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 2,
+      "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 3,
+      "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 4,
+      "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 5,
+      "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 6,
+      "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 7,
+      "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 8,
+      "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 9,
+      "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 10,
+      "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 11,
+      "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 12,
+      "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 13,
+      "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 1,
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 2,
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 3,
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 4,
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 5,
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 6,
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 7,
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 8,
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 9,
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 10,
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 11,
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 12,
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 1,
+      "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 2,
+      "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 3,
+      "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 4,
+      "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 5,
+      "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 6,
+      "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 7,
+      "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 8,
+      "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 9,
+      "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 1,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 2,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 3,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 4,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 5,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 6,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 7,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 8,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 9,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 10,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 11,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 12,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 13,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 14,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 1,
+      "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 2,
+      "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 3,
+      "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    },
+    {
+      "component_id": 4,
+      "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+      "primary_disposition": null,
+      "primary_kind": null,
+      "primary_reason": null,
+      "repeat_disposition": null,
+      "repeat_kind": null,
+      "repeat_reason": null,
+      "v2.1_disposition": null,
+      "v2.1_kind": null,
+      "v2.1_reason": null
+    }
+  ],
+  "limitations": [
+    "This is a six-image targeted clarification recheck, not inter-rater reliability, expert agreement, model evaluation, or a dataset freeze.",
+    "The v2.1 pass is a fresh adjudication; primary and repeat are immutable evidence and neither is designated ground truth.",
+    "Object identity, terminal uncertainty, and split/merge structure are evaluated before mask IoU; no universal IoU threshold is used.",
+    "A FREEZE recommendation concerns only whether the written v2.1 rules admit coherent targeted interpretations; it does not activate, freeze, export, train, or expand review scope."
+  ],
+  "per_image": [
+    {
+      "boundary_recheck_rationale": "The retained component-4 object has primary-to-v2.1 IoU 0.0263, while the historic primary/repeat component-4 match was 0.6894; the v2.1 visible-extent rule did not reproduce a stable boundary.",
+      "boundary_recheck_status": "needs_clarification",
+      "fully_resolved_by_v21_rule": false,
+      "image_id": "NLB_463551084EDR_F0411534NCAM00385M1",
+      "ontology_resolved_by_v21_rule": true,
+      "original_discrepancy": "13-versus-5 subdivision of a continuous layered component plus a rock/noise switch.",
+      "primary_accepted_instances": 15,
+      "primary_structure": {
+        "accepted_instance_ids_by_component": {
+          "1": [
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-001"
+          ],
+          "2": [
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-004",
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-005",
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-006",
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-007",
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-008",
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-009",
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-010",
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-011",
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-012",
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-013",
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-014",
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-015",
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-016"
+          ],
+          "4": [
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-003"
+          ]
+        },
+        "resolution_records": []
+      },
+      "primary_terminal_status_counts": {
+        "accepted": 15,
+        "rejected_bedrock": 0,
+        "rejected_noise": 1,
+        "uncertain": 0
+      },
+      "primary_to_v21_structure_changed": true,
+      "repeat_accepted_instances": 6,
+      "repeat_structure": {
+        "accepted_instance_ids_by_component": {
+          "2": [
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-002",
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-003",
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-004",
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-005",
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-006"
+          ],
+          "4": [
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-008"
+          ]
+        },
+        "resolution_records": []
+      },
+      "repeat_terminal_status_counts": {
+        "accepted": 6,
+        "rejected_bedrock": 0,
+        "rejected_noise": 2,
+        "uncertain": 0
+      },
+      "repeat_to_v21_structure_changed": true,
+      "resolution_basis": "Every v2.1 candidate has one terminal direct disposition; accepted instances are limited to visibly bounded surfaces, and unresolved visual identity is terminal uncertain rather than an arbitrary split or merge.",
+      "v21_accepted_instances": 1,
+      "v21_has_structured_component": false,
+      "v21_rule_applied": "A layered band or texture variation is not a split; continuous outcrop is rejected_bedrock and only a visibly bounded isolated surface is accepted.",
+      "v21_structure": {
+        "accepted_instance_ids_by_component": {
+          "4": [
+            "NLB_463551084EDR_F0411534NCAM00385M1:rock-004"
+          ]
+        },
+        "resolution_records": []
+      },
+      "v21_terminal_status_counts": {
+        "accepted": 1,
+        "rejected_bedrock": 2,
+        "rejected_noise": 1,
+        "uncertain": 0
+      }
+    },
+    {
+      "boundary_recheck_rationale": "v2.1 records no accepted object: the rule resolves the prior child-count dispute as terminal uncertainty rather than a polygon-boundary comparison.",
+      "boundary_recheck_status": "not_applicable",
+      "fully_resolved_by_v21_rule": true,
+      "image_id": "NLB_517255503EDR_F0541610NCAM07753M1",
+      "ontology_resolved_by_v21_rule": true,
+      "original_discrepancy": "Different child counts within components 1 and 2 plus secondary-feature disposition switches.",
+      "primary_accepted_instances": 10,
+      "primary_structure": {
+        "accepted_instance_ids_by_component": {
+          "1": [
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-001",
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-002",
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-003"
+          ],
+          "2": [
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-004",
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-005",
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-006"
+          ],
+          "3": [
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-007"
+          ],
+          "4": [
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-008"
+          ],
+          "5": [
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-009"
+          ],
+          "9": [
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-013"
+          ]
+        },
+        "resolution_records": []
+      },
+      "primary_terminal_status_counts": {
+        "accepted": 10,
+        "rejected_bedrock": 0,
+        "rejected_noise": 7,
+        "uncertain": 0
+      },
+      "primary_to_v21_structure_changed": true,
+      "repeat_accepted_instances": 9,
+      "repeat_structure": {
+        "accepted_instance_ids_by_component": {
+          "1": [
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-001",
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-002",
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-003"
+          ],
+          "11": [
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-016"
+          ],
+          "2": [
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-004",
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-005"
+          ],
+          "3": [
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-006"
+          ],
+          "4": [
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-007"
+          ],
+          "9": [
+            "NLB_517255503EDR_F0541610NCAM07753M1:rock-013"
+          ]
+        },
+        "resolution_records": []
+      },
+      "repeat_terminal_status_counts": {
+        "accepted": 9,
+        "rejected_bedrock": 0,
+        "rejected_noise": 9,
+        "uncertain": 0
+      },
+      "repeat_to_v21_structure_changed": true,
+      "resolution_basis": "Every v2.1 candidate has one terminal direct disposition; accepted instances are limited to visibly bounded surfaces, and unresolved visual identity is terminal uncertain rather than an arbitrary split or merge.",
+      "v21_accepted_instances": 0,
+      "v21_has_structured_component": false,
+      "v21_rule_applied": "Split only at a terrain gap, overlap/occlusion edge, or stable separative contour; otherwise use uncertain when no outer identity is defensible.",
+      "v21_structure": {
+        "accepted_instance_ids_by_component": {},
+        "resolution_records": []
+      },
+      "v21_terminal_status_counts": {
+        "accepted": 0,
+        "rejected_bedrock": 0,
+        "rejected_noise": 9,
+        "uncertain": 4
+      }
+    },
+    {
+      "boundary_recheck_rationale": "The retained component-8 object matches v2.1 at IoU 0.1702 against primary and 0.2619 against repeat; the visible extent remains materially divergent.",
+      "boundary_recheck_status": "needs_clarification",
+      "fully_resolved_by_v21_rule": false,
+      "image_id": "NLB_483955685EDR_F0470598NCAM00320M1",
+      "ontology_resolved_by_v21_rule": true,
+      "original_discrepancy": "Bedrock-versus-accepted switch for component 3 and incompatible component-1 terminal history.",
+      "primary_accepted_instances": 5,
+      "primary_structure": {
+        "accepted_instance_ids_by_component": {
+          "12": [
+            "NLB_483955685EDR_F0470598NCAM00320M1:rock-003",
+            "NLB_483955685EDR_F0470598NCAM00320M1:rock-004"
+          ],
+          "2": [
+            "NLB_483955685EDR_F0470598NCAM00320M1:rock-006"
+          ],
+          "8": [
+            "NLB_483955685EDR_F0470598NCAM00320M1:rock-012"
+          ],
+          "9": [
+            "NLB_483955685EDR_F0470598NCAM00320M1:rock-002"
+          ]
+        },
+        "resolution_records": []
+      },
+      "primary_terminal_status_counts": {
+        "accepted": 5,
+        "rejected_bedrock": 2,
+        "rejected_noise": 6,
+        "uncertain": 1
+      },
+      "primary_to_v21_structure_changed": true,
+      "repeat_accepted_instances": 6,
+      "repeat_structure": {
+        "accepted_instance_ids_by_component": {
+          "12": [
+            "NLB_483955685EDR_F0470598NCAM00320M1:rock-012",
+            "NLB_483955685EDR_F0470598NCAM00320M1:rock-013"
+          ],
+          "2": [
+            "NLB_483955685EDR_F0470598NCAM00320M1:rock-002"
+          ],
+          "3": [
+            "NLB_483955685EDR_F0470598NCAM00320M1:rock-003"
+          ],
+          "8": [
+            "NLB_483955685EDR_F0470598NCAM00320M1:rock-008"
+          ],
+          "9": [
+            "NLB_483955685EDR_F0470598NCAM00320M1:rock-009"
+          ]
+        },
+        "resolution_records": []
+      },
+      "repeat_terminal_status_counts": {
+        "accepted": 6,
+        "rejected_bedrock": 1,
+        "rejected_noise": 6,
+        "uncertain": 0
+      },
+      "repeat_to_v21_structure_changed": true,
+      "resolution_basis": "Every v2.1 candidate has one terminal direct disposition; accepted instances are limited to visibly bounded surfaces, and unresolved visual identity is terminal uncertain rather than an arbitrary split or merge.",
+      "v21_accepted_instances": 1,
+      "v21_has_structured_component": false,
+      "v21_rule_applied": "Accept only a visibly bounded discrete surface; use rejected_bedrock for continuous terrain and uncertain when the visible identity remains indeterminate.",
+      "v21_structure": {
+        "accepted_instance_ids_by_component": {
+          "8": [
+            "NLB_483955685EDR_F0470598NCAM00320M1:rock-008"
+          ]
+        },
+        "resolution_records": []
+      },
+      "v21_terminal_status_counts": {
+        "accepted": 1,
+        "rejected_bedrock": 1,
+        "rejected_noise": 8,
+        "uncertain": 2
+      }
+    },
+    {
+      "boundary_recheck_rationale": "v2.1 records no accepted object: the broad shelf is rejected_bedrock and fragments are noise.",
+      "boundary_recheck_status": "not_applicable",
+      "fully_resolved_by_v21_rule": true,
+      "image_id": "NLB_490004046EDR_F0482122NCAM00281M1",
+      "ontology_resolved_by_v21_rule": true,
+      "original_discrepancy": "Multiple incompatible subdivisions of a broad component and a secondary-object switch.",
+      "primary_accepted_instances": 6,
+      "primary_structure": {
+        "accepted_instance_ids_by_component": {
+          "1": [
+            "NLB_490004046EDR_F0482122NCAM00281M1:rock-001",
+            "NLB_490004046EDR_F0482122NCAM00281M1:rock-002",
+            "NLB_490004046EDR_F0482122NCAM00281M1:rock-003",
+            "NLB_490004046EDR_F0482122NCAM00281M1:rock-004",
+            "NLB_490004046EDR_F0482122NCAM00281M1:rock-005"
+          ],
+          "5": [
+            "NLB_490004046EDR_F0482122NCAM00281M1:rock-010"
+          ]
+        },
+        "resolution_records": []
+      },
+      "primary_terminal_status_counts": {
+        "accepted": 6,
+        "rejected_bedrock": 0,
+        "rejected_noise": 8,
+        "uncertain": 0
+      },
+      "primary_to_v21_structure_changed": true,
+      "repeat_accepted_instances": 5,
+      "repeat_structure": {
+        "accepted_instance_ids_by_component": {
+          "1": [
+            "NLB_490004046EDR_F0482122NCAM00281M1:rock-001",
+            "NLB_490004046EDR_F0482122NCAM00281M1:rock-002",
+            "NLB_490004046EDR_F0482122NCAM00281M1:rock-003",
+            "NLB_490004046EDR_F0482122NCAM00281M1:rock-004",
+            "NLB_490004046EDR_F0482122NCAM00281M1:rock-005"
+          ]
+        },
+        "resolution_records": []
+      },
+      "repeat_terminal_status_counts": {
+        "accepted": 5,
+        "rejected_bedrock": 0,
+        "rejected_noise": 8,
+        "uncertain": 0
+      },
+      "repeat_to_v21_structure_changed": true,
+      "resolution_basis": "Every v2.1 candidate has one terminal direct disposition; accepted instances are limited to visibly bounded surfaces, and unresolved visual identity is terminal uncertain rather than an arbitrary split or merge.",
+      "v21_accepted_instances": 0,
+      "v21_has_structured_component": false,
+      "v21_rule_applied": "A broad continuous shelf is rejected_bedrock; thin semantic fragments do not establish separate object identity.",
+      "v21_structure": {
+        "accepted_instance_ids_by_component": {},
+        "resolution_records": []
+      },
+      "v21_terminal_status_counts": {
+        "accepted": 0,
+        "rejected_bedrock": 1,
+        "rejected_noise": 8,
+        "uncertain": 0
+      }
+    },
+    {
+      "boundary_recheck_rationale": "Component 3 remains accepted but has IoU 0.0008 against primary and 0.0025 against repeat, even though component 8 is comparatively stable; the boundary rule needs a clearer operational treatment for this retained object.",
+      "boundary_recheck_status": "needs_clarification",
+      "fully_resolved_by_v21_rule": false,
+      "image_id": "NLB_548252623EDR_F0631150NCAM00312M1",
+      "ontology_resolved_by_v21_rule": true,
+      "original_discrepancy": "Component 4 changed from noise to an accepted secondary object.",
+      "primary_accepted_instances": 2,
+      "primary_structure": {
+        "accepted_instance_ids_by_component": {
+          "3": [
+            "NLB_548252623EDR_F0631150NCAM00312M1:rock-003"
+          ],
+          "8": [
+            "NLB_548252623EDR_F0631150NCAM00312M1:rock-008"
+          ]
+        },
+        "resolution_records": []
+      },
+      "primary_terminal_status_counts": {
+        "accepted": 2,
+        "rejected_bedrock": 0,
+        "rejected_noise": 12,
+        "uncertain": 0
+      },
+      "primary_to_v21_structure_changed": false,
+      "repeat_accepted_instances": 3,
+      "repeat_structure": {
+        "accepted_instance_ids_by_component": {
+          "3": [
+            "NLB_548252623EDR_F0631150NCAM00312M1:rock-004"
+          ],
+          "4": [
+            "NLB_548252623EDR_F0631150NCAM00312M1:rock-005"
+          ],
+          "8": [
+            "NLB_548252623EDR_F0631150NCAM00312M1:rock-009"
+          ]
+        },
+        "resolution_records": []
+      },
+      "repeat_terminal_status_counts": {
+        "accepted": 3,
+        "rejected_bedrock": 0,
+        "rejected_noise": 12,
+        "uncertain": 0
+      },
+      "repeat_to_v21_structure_changed": true,
+      "resolution_basis": "Every v2.1 candidate has one terminal direct disposition; accepted instances are limited to visibly bounded surfaces, and unresolved visual identity is terminal uncertain rather than an arbitrary split or merge.",
+      "v21_accepted_instances": 2,
+      "v21_has_structured_component": false,
+      "v21_rule_applied": "A small feature is accepted only with a complete terrain-separated visible contour; otherwise it is noise or uncertain.",
+      "v21_structure": {
+        "accepted_instance_ids_by_component": {
+          "3": [
+            "NLB_548252623EDR_F0631150NCAM00312M1:rock-003"
+          ],
+          "8": [
+            "NLB_548252623EDR_F0631150NCAM00312M1:rock-008"
+          ]
+        },
+        "resolution_records": []
+      },
+      "v21_terminal_status_counts": {
+        "accepted": 2,
+        "rejected_bedrock": 0,
+        "rejected_noise": 11,
+        "uncertain": 1
+      }
+    },
+    {
+      "boundary_recheck_rationale": "All three retained v2.1 objects have nontrivial one-to-one overlap with both historic passes, and the component-3/4 merge ambiguity is resolved without an inferred merge.",
+      "boundary_recheck_status": "consistent",
+      "fully_resolved_by_v21_rule": true,
+      "image_id": "NLB_528261206EDR_F0580738NCAM00385M1",
+      "ontology_resolved_by_v21_rule": true,
+      "original_discrepancy": "Primary merged components 3 and 4 while repeat rejected 3 and accepted 4 directly.",
+      "primary_accepted_instances": 3,
+      "primary_structure": {
+        "accepted_instance_ids_by_component": {
+          "1": [
+            "NLB_528261206EDR_F0580738NCAM00385M1:rock-001"
+          ],
+          "2": [
+            "NLB_528261206EDR_F0580738NCAM00385M1:rock-002"
+          ],
+          "3": [
+            "NLB_528261206EDR_F0580738NCAM00385M1:rock-004"
+          ],
+          "4": [
+            "NLB_528261206EDR_F0580738NCAM00385M1:rock-004"
+          ]
+        },
+        "resolution_records": [
+          {
+            "resolution_type": "merge",
+            "resolved_annotation_instance_ids": [
+              "NLB_528261206EDR_F0580738NCAM00385M1:rock-004"
+            ],
+            "reviewer_notes": "3 and 4 same rock",
+            "source_candidate_component_ids": [
+              3,
+              4
+            ]
+          }
+        ]
+      },
+      "primary_terminal_status_counts": {
+        "accepted": 3,
+        "rejected_bedrock": 0,
+        "rejected_noise": 1,
+        "uncertain": 0
+      },
+      "primary_to_v21_structure_changed": true,
+      "repeat_accepted_instances": 3,
+      "repeat_structure": {
+        "accepted_instance_ids_by_component": {
+          "1": [
+            "NLB_528261206EDR_F0580738NCAM00385M1:rock-001"
+          ],
+          "2": [
+            "NLB_528261206EDR_F0580738NCAM00385M1:rock-002"
+          ],
+          "4": [
+            "NLB_528261206EDR_F0580738NCAM00385M1:rock-004"
+          ]
+        },
+        "resolution_records": []
+      },
+      "repeat_terminal_status_counts": {
+        "accepted": 3,
+        "rejected_bedrock": 0,
+        "rejected_noise": 1,
+        "uncertain": 0
+      },
+      "repeat_to_v21_structure_changed": false,
+      "resolution_basis": "Every v2.1 candidate has one terminal direct disposition; accepted instances are limited to visibly bounded surfaces, and unresolved visual identity is terminal uncertain rather than an arbitrary split or merge.",
+      "v21_accepted_instances": 3,
+      "v21_has_structured_component": false,
+      "v21_rule_applied": "Merge only when the visible surface is continuous across contributors; adjacency and semantic connectivity are insufficient.",
+      "v21_structure": {
+        "accepted_instance_ids_by_component": {
+          "1": [
+            "NLB_528261206EDR_F0580738NCAM00385M1:rock-001"
+          ],
+          "2": [
+            "NLB_528261206EDR_F0580738NCAM00385M1:rock-002"
+          ],
+          "4": [
+            "NLB_528261206EDR_F0580738NCAM00385M1:rock-004"
+          ]
+        },
+        "resolution_records": []
+      },
+      "v21_terminal_status_counts": {
+        "accepted": 3,
+        "rejected_bedrock": 0,
+        "rejected_noise": 1,
+        "uncertain": 0
+      }
+    }
+  ],
+  "provenance": {
+    "artifacts_distinct": true,
+    "clarification_scope_size": 6,
+    "clarification_state_path": "artifacts\\rock_instance\\calibration_clarification_v1\\review_state.json",
+    "clarification_state_sha256": "43ad828584dded6edf4382e883338d3bf2c0bfb7c5c34d77de3980413b3bcbd7",
+    "image_ids": [
+      "NLB_463551084EDR_F0411534NCAM00385M1",
+      "NLB_517255503EDR_F0541610NCAM07753M1",
+      "NLB_483955685EDR_F0470598NCAM00320M1",
+      "NLB_490004046EDR_F0482122NCAM00281M1",
+      "NLB_548252623EDR_F0631150NCAM00312M1",
+      "NLB_528261206EDR_F0580738NCAM00385M1"
+    ],
+    "primary_state_path": "artifacts\\rock_instance\\calibration_resolved_v2\\review_state.json",
+    "primary_state_sha256": "4f5f71e6546312c3b0ab0dc86aacd41e2617bfa6334e1380639cbf27e488d960",
+    "prior_decisions_hidden": true,
+    "proposed_protocol_sha256": "35ef00b3ccc65b3bbb230fe5cc513942faa68293f84be786d4f65271b4c00730",
+    "proposed_protocol_version": "v2.1-object-identity-clarified-proposed",
+    "repeat_state_path": "artifacts\\rock_instance\\calibration_repeat_v1\\review_state.json",
+    "repeat_state_sha256": "fc8b0b7a1a45532926f590e7869abd68708ee53ed2db639fd5ce59300c9e8771"
+  },
+  "resolution_summary": {
+    "fully_resolved_by_v21_rule": 3,
+    "interpretation": "The clarification pass is compared symmetrically with both historical passes; agreement with either historic pass is evidence of transition, not correctness.",
+    "ontology_resolved_by_v21_rule": 6,
+    "targeted_discrepancies": 6,
+    "unresolved_image_ids": [
+      "NLB_463551084EDR_F0411534NCAM00385M1",
+      "NLB_483955685EDR_F0470598NCAM00320M1",
+      "NLB_548252623EDR_F0631150NCAM00312M1"
+    ]
+  }
+}

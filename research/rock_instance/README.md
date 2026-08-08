@@ -116,6 +116,40 @@ python -m src.rock_instance.review_report \
 
 The report remains intentionally empty until a reviewer records decisions. Once calibration review begins, it reports actual decision counts, sequence coverage, visible-instance area statistics, and a clearly labelled preliminary extrapolation only when calibration images have been reviewed.
 
+## Calibration Closure Gate
+
+After all 24 primary calibration images have terminal component coverage, create the deterministic eight-image isolated intra-rater repeat state and write the pre-repeat closure report:
+
+```bash
+python -m src.rock_instance.calibration_closure \
+  --primary-state-path artifacts/rock_instance/calibration_resolved_v2/review_state.json \
+  --component-candidates-csv artifacts/rock_instance/calibration_resolved_v2/big_rock_component_candidates.csv \
+  --prepare-repeat-output-dir artifacts/rock_instance/calibration_repeat_v1 \
+  --repeat-target-size 8 \
+  --closure-output-json artifacts/rock_instance/calibration_resolved_v2/calibration_closure_pre_repeat.json
+```
+
+The closure report records primary decision counts, unresolved-state status, repeat selection provenance, and the freeze gate. It remains blocked until the isolated repeat review is complete and its agreement analysis is documented. It does not authorize the remaining 126 pilot images, protocol freeze, target export, or any model training.
+
+After the isolated repeat is complete, analyze intra-rater consistency without changing either annotation state, then bind the hash-validated result into the closure gate:
+
+```bash
+python -m src.rock_instance.intra_rater_consistency \
+  --primary-state-path artifacts/rock_instance/calibration_resolved_v2/review_state.json \
+  --repeat-state-path artifacts/rock_instance/calibration_repeat_v1/review_state.json \
+  --repeat-selection-path artifacts/rock_instance/calibration_repeat_v1/repeat_selection.json \
+  --output-dir artifacts/rock_instance/calibration_repeat_v1/intra_rater_consistency \
+  --markdown-path docs/research/rock_instance/intra_rater_consistency.md
+
+python -m src.rock_instance.calibration_closure \
+  --primary-state-path artifacts/rock_instance/calibration_resolved_v2/review_state.json \
+  --repeat-state-path artifacts/rock_instance/calibration_repeat_v1/review_state.json \
+  --agreement-report-path artifacts/rock_instance/calibration_repeat_v1/intra_rater_consistency/intra_rater_consistency.json \
+  --closure-output-json artifacts/rock_instance/calibration_resolved_v2/calibration_closure_post_repeat.json
+```
+
+The analysis compares direct component dispositions separately from accepted-instance counts and polygon mask IoU. It keeps split/merge and multi-annotation structures out of categorical agreement, records them as discrepancies, and never chooses either pass as correct. A `CLARIFY` recommendation keeps the gate blocked pending protocol language changes; a `FREEZE` recommendation still requires explicit human approval before any protocol freeze or pilot expansion.
+
 ## Future Comparison
 
 mIoU and AP are not directly comparable. Once reviewed annotations exist, report object-centric rock recall, precision, missed-rock rate, false rock detections per image, localization/mask quality, errors overlapping semantic Bedrock, and performance by apparent size. A semantic-to-object connected-component adapter can only be used as a separately documented controlled comparison, with connectivity and filtering assumptions made explicit. Later geometry work should add physical width, height, distance, and uncertainty only after calibrated stereo/range products are verified.
