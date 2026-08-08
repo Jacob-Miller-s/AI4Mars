@@ -51,6 +51,34 @@ def _strata(record: dict[str, str], geometry: dict[str, str]) -> list[str]:
     return labels
 
 
+def source_compatible_records(
+    records: list[dict[str, str]], dataset_root: Path
+) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
+    """Partition source rows by the image/mask files available in an extraction."""
+    compatible: list[dict[str, str]] = []
+    unavailable: list[dict[str, str]] = []
+    for record in records:
+        image_path = Path(dataset_root) / record["image_path"]
+        mask_path = Path(dataset_root) / record["mask_path"]
+        missing_sources = [
+            source_name
+            for source_name, source_path in (("image", image_path), ("mask", mask_path))
+            if not source_path.is_file()
+        ]
+        if missing_sources:
+            unavailable.append(
+                {
+                    "stable_source_image_id": record["stable_source_image_id"],
+                    "image_path": record["image_path"],
+                    "mask_path": record["mask_path"],
+                    "missing_sources": "|".join(missing_sources),
+                }
+            )
+        else:
+            compatible.append(record)
+    return compatible, unavailable
+
+
 def select_pilot_records(
     image_records: list[dict[str, str]],
     geometry_records: list[dict[str, str]],
@@ -154,6 +182,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--component-images-csv", required=True, type=Path)
     parser.add_argument("--stereo-inventory-csv", required=True, type=Path)
+    parser.add_argument("--dataset-root", required=True, type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--target-size", type=int, default=150)
     parser.add_argument("--seed", type=int, default=42)
@@ -163,17 +192,29 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    source_compatible, unavailable = source_compatible_records(
+        _read_csv(args.component_images_csv), args.dataset_root
+    )
     records = select_pilot_records(
-        _read_csv(args.component_images_csv),
+        source_compatible,
         _read_csv(args.stereo_inventory_csv),
         target_size=args.target_size,
         seed=args.seed,
         max_per_sequence=args.max_per_sequence,
     )
     summary = summarize_pilot(records, target_size=args.target_size, seed=args.seed)
+    compatibility = {
+        "dataset_root": str(args.dataset_root),
+        "dataset_root_resolved": str(args.dataset_root.resolve()),
+        "source_rows_checked": len(source_compatible) + len(unavailable),
+        "source_rows_compatible": len(source_compatible),
+        "source_rows_excluded": len(unavailable),
+        "excluded_rows": unavailable,
+    }
     write_csv(args.output_dir / "rock_instance_pilot_candidates.csv", records, PILOT_FIELDS)
     write_json(args.output_dir / "rock_instance_pilot_summary.json", summary)
-    print(summary)
+    write_json(args.output_dir / "rock_instance_source_compatibility.json", compatibility)
+    print({**summary, "source_rows_excluded": len(unavailable)})
 
 
 if __name__ == "__main__":

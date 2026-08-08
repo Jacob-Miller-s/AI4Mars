@@ -1,0 +1,22 @@
+{
+  "active_scope_name": "calibration",
+  "artifact_type": "immutable_initial_calibration_review_snapshot",
+  "artifact_version": "calibration_initial_v1",
+  "created_at_utc": "2026-08-07T22:03:08.436278Z",
+  "git_commit": "8d93a115b05127a1b417f7efaee818d014d375ca",
+  "image_count": 24,
+  "preservation_note": "Initial human calibration decisions are preserved before protocol revision or resolution work; this snapshot must not be modified.",
+  "protocol_version": "unversioned_initial_protocol",
+  "review_version": "pilot_v1",
+  "schema_version": "rock_instance_pilot_annotation_v1",
+  "snapshot_sha256": "8a56450a9722352a78e3dc11eed657ce460ad092a570cb683e747a3a91d4c65c",
+  "source_review_state": "artifacts/rock_instance/pilot_v1_reviewed/review_state.json",
+  "source_review_state_sha256": "8a56450a9722352a78e3dc11eed657ce460ad092a570cb683e747a3a91d4c65c",
+  "status_counts": {
+    "accepted": 3,
+    "merge_required": 9,
+    "rejected_noise": 1,
+    "split_required": 4,
+    "uncertain": 7
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "annotation_statement": "All rows are candidate_unreviewed; this manifest contains no instance ground truth.",
+  "expert_splits_excluded": true,
+  "selected_size": 150,
+  "selection_seed": 42,
+  "split_counts": {
+    "train": 119,
+    "val": 31
+  },
+  "strata_counts": {
+    "bedrock_big_rock_boundary": 44,
+    "border_truncation_candidate": 3,
+    "isolated_candidate": 30,
+    "multiple_candidate_regions": 120,
+    "rgb_only_or_geometry_unresolved": 150,
+    "tiny_component_candidate": 137,
+    "very_large_component_candidate": 93
+  },
+  "target_size": 150,
+  "unique_sequences": 150
+}

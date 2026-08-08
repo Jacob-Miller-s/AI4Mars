@@ -1,0 +1,16 @@
+{
+  "expert_splits_excluded": true,
+  "selected_size": 24,
+  "selection_seed": 42,
+  "strata_counts": {
+    "bedrock_big_rock_boundary": 5,
+    "border_truncation_candidate": 3,
+    "fragmented_looking": 19,
+    "isolated_candidate": 5,
+    "multiple_candidate_regions": 19,
+    "tiny_component_candidate": 24,
+    "very_large_component_candidate": 16
+  },
+  "target_size": 24,
+  "unique_sequences": 24
+}

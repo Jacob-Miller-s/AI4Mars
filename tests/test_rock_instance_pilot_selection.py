@@ -1,6 +1,8 @@
+import tempfile
 import unittest
+from pathlib import Path
 
-from src.rock_instance.pilot_selection import select_pilot_records, summarize_pilot
+from src.rock_instance.pilot_selection import select_pilot_records, source_compatible_records, summarize_pilot
 
 
 class PilotSelectionTests(unittest.TestCase):
@@ -38,6 +40,28 @@ class PilotSelectionTests(unittest.TestCase):
         geometry = [self._geometry_record(index) for index in range(220)]
         with self.assertRaisesRegex(ValueError, "between 100 and 200"):
             select_pilot_records(images, geometry, target_size=99, seed=42)
+
+    def test_partitions_source_rows_without_silently_dropping_them(self) -> None:
+        records = [self._image_record(1), self._image_record(2)]
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            dataset_root = Path(temporary_directory)
+            for relative_path in (records[0]["image_path"], records[0]["mask_path"]):
+                source_path = dataset_root / relative_path
+                source_path.parent.mkdir(parents=True, exist_ok=True)
+                source_path.touch()
+
+            compatible, unavailable = source_compatible_records(records, dataset_root)
+
+        self.assertEqual(compatible, [records[0]])
+        self.assertEqual(
+            unavailable,
+            [{
+                "stable_source_image_id": "source-2",
+                "image_path": "images/2.JPG",
+                "mask_path": "masks/2.png",
+                "missing_sources": "image|mask",
+            }],
+        )
 
 
 if __name__ == "__main__":

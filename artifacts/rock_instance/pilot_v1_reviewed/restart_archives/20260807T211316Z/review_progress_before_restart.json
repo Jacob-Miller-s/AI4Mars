@@ -1,0 +1,33 @@
+{
+  "accepted_instance_area_pixels": {
+    "count": 0,
+    "max": null,
+    "median": null,
+    "min": null
+  },
+  "accepted_instances_per_reviewed_image": null,
+  "accepted_rock_instances": 0,
+  "calibration": {
+    "annotation_burden_estimate": null,
+    "images_reviewed": 0,
+    "images_total": 24,
+    "note": "No burden estimate is produced until at least one calibration image has been reviewed."
+  },
+  "images_deferred": 0,
+  "images_remaining": 150,
+  "images_reviewed": 0,
+  "images_total": 150,
+  "merge_required_cases": 0,
+  "occluded_instances": 0,
+  "pilot_id": "rock_instance_pilot_v0_candidates",
+  "rejected_bedrock_candidates": 0,
+  "rejected_noise_candidates": 0,
+  "schema_version": "rock_instance_pilot_annotation_v1",
+  "sequence_coverage": {
+    "reviewed_sequences": 0,
+    "total_sequences": 150
+  },
+  "split_required_cases": 0,
+  "truncated_instances": 0,
+  "uncertain_objects": 0
+}
