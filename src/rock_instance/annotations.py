@@ -23,11 +23,18 @@ OBJECT_CLASS_NAME = "rock"
 OBJECT_CLASS_ID = 1
 PROTOCOL_V1_INITIAL = "v1.0-initial"
 PROTOCOL_V2_CALIBRATION_RESOLVED = "v2.0-calibration-resolved"
+PROTOCOL_V2_3_CALIBRATION_FINAL = "v2.3-calibration-final"
+PRODUCTION_REVIEW_SCOPE_NAME = "production_review_v2.3"
 ANNOTATION_STATUSES = frozenset(
-    {"accepted", "rejected_bedrock", "rejected_noise", "split_required", "merge_required", "uncertain", "deferred"}
+    {
+        "accepted", "boundary_indeterminate", "rejected_bedrock", "rejected_noise", "split_required",
+        "merge_required", "uncertain", "deferred",
+    }
 )
 IMAGE_REVIEW_STATUSES = frozenset({"unreviewed", "in_progress", "reviewed", "deferred"})
-TERMINAL_ANNOTATION_STATUSES = frozenset({"accepted", "rejected_bedrock", "rejected_noise", "uncertain"})
+TERMINAL_ANNOTATION_STATUSES = frozenset(
+    {"accepted", "boundary_indeterminate", "rejected_bedrock", "rejected_noise", "uncertain"}
+)
 RESOLUTION_TYPES = frozenset({"split", "merge"})
 BOUNDARY_INDETERMINATE_STATUS = "boundary_indeterminate"
 CALIBRATION_FINALIZATION_SCHEMA_VERSION = "rock_instance_calibration_finalization_v1"
@@ -155,8 +162,15 @@ def validate_annotation(annotation: dict[str, Any], *, image_id: str, image_widt
         normalized["polygon"] = validate_polygon(
             annotation.get("polygon"), image_width=image_width, image_height=image_height
         )
+    elif annotation["annotation_status"] == BOUNDARY_INDETERMINATE_STATUS:
+        if not annotation["discrete_rock"] or annotation["uncertain"]:
+            raise ValueError("Boundary-indeterminate annotations require accepted identity and uncertain=false.")
+        if annotation.get("polygon") is not None:
+            raise ValueError("Boundary-indeterminate annotations cannot contain an arbitrary polygon.")
+        if not annotation["reviewer_notes"].strip():
+            raise ValueError("Boundary-indeterminate annotations require reviewer evidence.")
     elif annotation["discrete_rock"]:
-        raise ValueError("Only accepted annotations may set discrete_rock=true.")
+        raise ValueError("Only accepted or boundary-indeterminate annotations may set discrete_rock=true.")
     if annotation["annotation_status"] == "uncertain" and not annotation["uncertain"]:
         raise ValueError("Uncertain annotations must set uncertain=true.")
     return normalized
@@ -287,28 +301,51 @@ def validate_review_state(state: dict[str, Any]) -> None:
             or len(component_review["component_manifest_sha256"]) != 64
         ):
             raise ValueError("Corrected calibration component-review provenance is invalid.")
-        if review_scope is None or review_scope["name"] not in {"calibration", "calibration_repeat", "calibration_clarification"}:
-            raise ValueError("Corrected calibration component review requires a calibration, calibration_repeat, or calibration_clarification scope.")
+        if review_scope is None or review_scope["name"] not in {"calibration", "calibration_repeat", "calibration_clarification", PRODUCTION_REVIEW_SCOPE_NAME}:
+            raise ValueError("Strict component review requires a calibration or frozen production-review scope.")
         protocol = state.get("protocol")
+        expected_protocol_version = (
+            PROTOCOL_V2_3_CALIBRATION_FINAL
+            if review_scope["name"] == PRODUCTION_REVIEW_SCOPE_NAME
+            else PROTOCOL_V2_CALIBRATION_RESOLVED
+        )
         if (
             not isinstance(protocol, dict)
-            or protocol.get("version") != PROTOCOL_V2_CALIBRATION_RESOLVED
+            or protocol.get("version") != expected_protocol_version
             or not isinstance(protocol.get("path"), str)
             or not protocol["path"]
             or not isinstance(protocol.get("sha256"), str)
             or len(protocol["sha256"]) != 64
         ):
-            raise ValueError("Corrected calibration state requires v2.0 protocol provenance.")
-        initial_reference = state.get("initial_calibration_reference")
-        if (
-            not isinstance(initial_reference, dict)
-            or not isinstance(initial_reference.get("snapshot_path"), str)
-            or not initial_reference["snapshot_path"]
-            or not isinstance(initial_reference.get("snapshot_sha256"), str)
-            or len(initial_reference["snapshot_sha256"]) != 64
-            or not isinstance(initial_reference.get("decisions"), list)
-        ):
-            raise ValueError("Corrected calibration state requires immutable initial-calibration provenance.")
+            raise ValueError("Strict component review requires immutable protocol provenance.")
+        if review_scope["name"] == PRODUCTION_REVIEW_SCOPE_NAME:
+            production_review = state.get("production_review")
+            required_production_fields = {
+                "protocol_freeze_path", "protocol_freeze_sha256", "calibration_scope_sha256",
+                "source_pilot_manifest_sha256", "calibration_manifest_sha256", "boundary_ledger_sha256",
+            }
+            if (
+                not isinstance(production_review, dict)
+                or required_production_fields - set(production_review)
+                or any(
+                    not isinstance(production_review[field], str) or len(production_review[field]) != 64
+                    for field in required_production_fields - {"protocol_freeze_path"}
+                )
+                or not isinstance(production_review["protocol_freeze_path"], str)
+                or not production_review["protocol_freeze_path"]
+            ):
+                raise ValueError("Frozen production review lacks required v2.3 provenance.")
+        else:
+            initial_reference = state.get("initial_calibration_reference")
+            if (
+                not isinstance(initial_reference, dict)
+                or not isinstance(initial_reference.get("snapshot_path"), str)
+                or not initial_reference["snapshot_path"]
+                or not isinstance(initial_reference.get("snapshot_sha256"), str)
+                or len(initial_reference["snapshot_sha256"]) != 64
+                or not isinstance(initial_reference.get("decisions"), list)
+            ):
+                raise ValueError("Corrected calibration state requires immutable initial-calibration provenance.")
         resolution_records = state.get("resolution_records")
         if not isinstance(resolution_records, list):
             raise ValueError("Corrected calibration state requires a resolution_records list.")
@@ -522,6 +559,8 @@ def ordinary_maskrcnn_target_eligibility(
     ]
     if records:
         return {"eligible": False, "reason": BOUNDARY_INDETERMINATE_STATUS, "record_ids": sorted(record["record_id"] for record in records)}
+    if any(item["annotation_status"] == BOUNDARY_INDETERMINATE_STATUS for item in image["annotations"]):
+        return {"eligible": False, "reason": BOUNDARY_INDETERMINATE_STATUS}
     if any(item["annotation_status"] == "uncertain" for item in image["annotations"]):
         return {"eligible": False, "reason": "uncertain"}
     return {"eligible": True, "reason": None}
@@ -600,6 +639,55 @@ def configure_component_review(
     state["resolution_records"] = []
 
 
+def configure_frozen_production_review(
+    state: dict[str, Any],
+    *,
+    component_manifest: Path,
+    component_ids_by_image: dict[str, Iterable[int]],
+    frozen_protocol_path: Path,
+    protocol_freeze_path: Path,
+    calibration_state_path: Path,
+    source_pilot_manifest: Path,
+    calibration_manifest: Path,
+    boundary_ledger_path: Path,
+) -> None:
+    """Bind an empty remaining-pilot scope to frozen v2.3 and strict component coverage."""
+    if any(image["annotations"] for image in state.get("images", {}).values()):
+        raise ValueError("Frozen production review must be configured before human decisions exist.")
+    if state.get("review_scope", {}).get("name") != PRODUCTION_REVIEW_SCOPE_NAME:
+        raise ValueError("Frozen production review requires the v2.3 production scope.")
+    scope_image_ids = state["review_scope"]["image_ids"]
+    unknown_image_ids = sorted(set(component_ids_by_image) - set(state["images"]))
+    if unknown_image_ids:
+        raise ValueError(f"Component manifest includes unknown production-review images: {unknown_image_ids}")
+    for image_id in scope_image_ids:
+        component_ids = _normalize_component_ids(
+            list(component_ids_by_image.get(image_id, [])), field_name="candidate_component_ids"
+        )
+        state["images"][image_id]["candidate_component_ids"] = component_ids
+        state["images"][image_id]["obvious_candidate_independent_rock_observed"] = False
+        state["images"][image_id]["candidate_independent_observation_note"] = ""
+    state["component_review"] = {
+        "strict_completion": True,
+        "component_manifest": Path(component_manifest).name,
+        "component_manifest_sha256": sha256_file(component_manifest),
+    }
+    state["protocol"] = {
+        "version": PROTOCOL_V2_3_CALIBRATION_FINAL,
+        "path": str(Path(frozen_protocol_path)),
+        "sha256": sha256_file(frozen_protocol_path),
+    }
+    state["production_review"] = {
+        "protocol_freeze_path": str(Path(protocol_freeze_path)),
+        "protocol_freeze_sha256": sha256_file(protocol_freeze_path),
+        "calibration_scope_sha256": sha256_file(calibration_state_path),
+        "source_pilot_manifest_sha256": sha256_file(source_pilot_manifest),
+        "calibration_manifest_sha256": sha256_file(calibration_manifest),
+        "boundary_ledger_sha256": sha256_file(boundary_ledger_path),
+    }
+    state["resolution_records"] = []
+
+
 def _initial_decisions_for_image(state: dict[str, Any], image_id: str) -> set[str]:
     reference = state.get("initial_calibration_reference", {})
     decisions = reference.get("decisions", [])
@@ -608,6 +696,16 @@ def _initial_decisions_for_image(state: dict[str, Any], image_id: str) -> set[st
         for decision in decisions
         if decision.get("image_id") == image_id
     }
+
+
+def resolution_reference_ids_for_image(state: dict[str, Any], image_id: str) -> set[str]:
+    """Return immutable source references required when recording a split or merge decision."""
+    if state.get("review_scope", {}).get("name") == PRODUCTION_REVIEW_SCOPE_NAME:
+        image = state.get("images", {}).get(image_id)
+        if image is None:
+            raise ValueError(f"Unknown review-state image_id: {image_id!r}")
+        return {f"{image_id}:component-{component_id}" for component_id in image.get("candidate_component_ids", [])}
+    return _initial_decisions_for_image(state, image_id)
 
 
 def initial_calibration_reference(snapshot_path: Path) -> dict[str, Any]:
@@ -650,8 +748,8 @@ def _validate_resolution_record(state: dict[str, Any], record: dict[str, Any]) -
     initial_ids = record["initial_decision_instance_ids"]
     if not isinstance(initial_ids, list) or not initial_ids or any(not isinstance(item, str) or not item for item in initial_ids):
         raise ValueError("Resolution record must reference at least one initial decision ID.")
-    if len(set(initial_ids)) != len(initial_ids) or not set(initial_ids) <= _initial_decisions_for_image(state, record["image_id"]):
-        raise ValueError("Resolution record initial decision references are invalid.")
+    if len(set(initial_ids)) != len(initial_ids) or not set(initial_ids) <= resolution_reference_ids_for_image(state, record["image_id"]):
+        raise ValueError("Resolution record source decision references are invalid.")
     resolved_ids = record["resolved_annotation_instance_ids"]
     if not isinstance(resolved_ids, list) or not resolved_ids or any(not isinstance(item, str) or not item for item in resolved_ids):
         raise ValueError("Resolution record must reference at least one resolved annotation ID.")

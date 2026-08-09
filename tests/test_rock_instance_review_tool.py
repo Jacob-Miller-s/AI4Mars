@@ -184,6 +184,28 @@ class RockInstanceReviewUITests(unittest.TestCase):
         self.assertEqual(saved_annotation["annotation_status"], "accepted")
         self.assertEqual(saved_annotation["polygon"], [[1.0, 1.0], [4.0, 1.0], [2.0, 4.0]])
 
+    def test_boundary_indeterminate_save_preserves_identity_without_polygon(self) -> None:
+        ui = RockInstanceReviewUI(
+            state_path=self.state_path,
+            component_candidates_csv=self.component_manifest,
+            dataset_root=self.dataset_root,
+            image_id="source-a",
+            reviewer="researcher",
+        )
+        try:
+            ui._on_status_changed("boundary_indeterminate")
+            ui.notes = "The physical rock is present, but RGB does not support a reproducible visible boundary."
+            ui._save_decision(None)
+        finally:
+            matplotlib.pyplot.close(ui.figure)
+
+        saved_state = load_review_state(self.state_path)
+        saved_annotation = saved_state["images"]["source-a"]["annotations"][0]
+        self.assertEqual(saved_annotation["annotation_status"], "boundary_indeterminate")
+        self.assertTrue(saved_annotation["discrete_rock"])
+        self.assertIsNone(saved_annotation["polygon"])
+        self.assertEqual(unresolved_candidate_component_ids(saved_state, "source-a"), [2])
+
     def test_accepted_merge_uses_one_polygon_from_the_selected_source(self) -> None:
         ui = RockInstanceReviewUI(
             state_path=self.state_path,

@@ -21,6 +21,7 @@ from PIL import Image
 from src.dataset import normalize_ai4mars_mask
 from src.rock_instance.annotations import (
     ANNOTATION_STATUSES,
+    BOUNDARY_INDETERMINATE_STATUS,
     REVIEW_VERSION,
     TERMINAL_ANNOTATION_STATUSES,
     component_coverage_for_image,
@@ -32,6 +33,7 @@ from src.rock_instance.annotations import (
     load_review_state,
     record_annotation,
     record_resolution,
+    resolution_reference_ids_for_image,
     save_review_state,
     set_candidate_independent_observation,
     sha256_file,
@@ -40,7 +42,7 @@ from src.rock_instance.annotations import (
 
 
 NAV_CONTEXT_COLORS = np.array([[120, 86, 53], [115, 128, 132], [218, 179, 74], [201, 67, 45], [0, 0, 0]], dtype=np.uint8)
-MAX_DISPLAY_DIMENSION = 640
+MAX_DISPLAY_DIMENSION: int | None = None
 
 
 def _read_csv(path: Path) -> list[dict[str, str]]:
@@ -267,6 +269,8 @@ def _next_instance_id(state: dict[str, Any], image_id: str) -> str:
 def _downsample_for_display(array: np.ndarray, *, resample: Image.Resampling) -> np.ndarray:
     """Bound display work while keeping plot coordinates in source-image pixels."""
     height, width = array.shape[:2]
+    if MAX_DISPLAY_DIMENSION is None:
+        return array
     scale = min(1.0, MAX_DISPLAY_DIMENSION / max(height, width))
     if scale == 1.0:
         return array
@@ -304,6 +308,7 @@ class RockInstanceReviewUI:
         self.selected_component_id = int(self.components[0]["component_id"])
         self.selected_source_component_ids = {self.selected_component_id}
         self.merge_mode = False
+        self.split_mode = False
         self.status = "uncertain"
         self.polygon: list[list[float]] = []
         self.polygon_source_component_id: int | None = None
@@ -565,16 +570,17 @@ class RockInstanceReviewUI:
             )
             is_merge = self.merge_mode
             if self.status not in TERMINAL_ANNOTATION_STATUSES:
-                raise ValueError("Select a terminal disposition before saving a corrected-calibration decision.")
+                raise ValueError("Select a terminal disposition before saving a component decision.")
             if is_merge and len(source_component_ids) < 2:
                 raise ValueError("Select at least two component boxes for a merge, or turn merge mode off.")
             if is_merge and not self.notes.strip():
                 raise ValueError("A merge resolution requires reviewer notes explaining the physical-rock decision.")
-            initial_decision_ids = [
-                decision["instance_id"]
-                for decision in self.state.get("initial_calibration_reference", {}).get("decisions", [])
-                if decision.get("image_id") == self.image_id
-            ]
+            initial_decision_ids = sorted(
+                reference_id
+                for reference_id in resolution_reference_ids_for_image(self.state, self.image_id)
+                if not reference_id.startswith(f"{self.image_id}:component-")
+                or int(reference_id.rsplit("-", 1)[1]) in source_component_ids
+            )
             if is_merge and not initial_decision_ids:
                 raise ValueError("A merge resolution requires at least one linked initial-review decision.")
             component_id = (
@@ -590,6 +596,8 @@ class RockInstanceReviewUI:
                 if len(self.polygon) < 3:
                     raise ValueError("Accepted rocks require at least three reviewer-drawn polygon points.")
                 bbox = _bbox_from_polygon(self.polygon)
+            if self.status == BOUNDARY_INDETERMINATE_STATUS and not self.notes.strip():
+                raise ValueError("Boundary-indeterminate decisions require notes describing the RGB boundary limitation.")
             annotation = {
                 "instance_id": instance_id,
                 "image_id": self.image_id,
@@ -599,7 +607,7 @@ class RockInstanceReviewUI:
                 "bbox": bbox,
                 "polygon": self.polygon if self.status == "accepted" else None,
                 "annotation_status": self.status,
-                "discrete_rock": self.status == "accepted",
+                "discrete_rock": self.status in {"accepted", BOUNDARY_INDETERMINATE_STATUS},
                 "truncated": self.flags_control.get_status()[0],
                 "occluded": self.flags_control.get_status()[1],
                 "uncertain": self.status == "uncertain",
@@ -874,7 +882,7 @@ def main() -> None:
         "bbox": bbox,
         "polygon": json.loads(args.polygon_json) if args.polygon_json else None,
         "annotation_status": args.action,
-        "discrete_rock": args.action == "accepted",
+        "discrete_rock": args.action in {"accepted", BOUNDARY_INDETERMINATE_STATUS},
         "truncated": args.truncated,
         "occluded": args.occluded,
         "uncertain": args.action == "uncertain",

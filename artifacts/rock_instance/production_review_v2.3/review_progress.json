@@ -1,0 +1,27 @@
+{
+  "accepted_instances": 52,
+  "boundary_indeterminate": 4,
+  "candidate_components_total": 814,
+  "candidate_components_unresolved": 740,
+  "deferred": 0,
+  "final_dataset_statistics_ready": false,
+  "production_images_remaining": 97,
+  "production_images_reviewed": 29,
+  "production_images_total": 126,
+  "production_review_complete": false,
+  "protocol_version": "v2.3-calibration-final",
+  "rejected_bedrock": 13,
+  "rejected_noise": 19,
+  "resolved_merges": 0,
+  "resolved_splits": 0,
+  "reviewed_candidate_components": 74,
+  "schema_version": "rock_instance_production_review_progress_v1",
+  "target_eligible_images": 25,
+  "target_excluded_images": 4,
+  "target_excluded_reasons": {
+    "boundary_indeterminate": 4
+  },
+  "training_status": "blocked_until_all_150_images_are_reviewed_and_human_approval_is_granted",
+  "uncertain": 0,
+  "unresolved_split_merge": 0
+}
