@@ -5,7 +5,7 @@ from pathlib import Path
 
 from PIL import Image
 
-from src.dataset import AI4MarsDataset, find_shape_mismatches, load_pairs_from_manifest
+from ai4mars.dataset import AI4MarsDataset, find_shape_mismatches, load_pairs_from_manifest
 
 
 class DatasetManifestTests(unittest.TestCase):

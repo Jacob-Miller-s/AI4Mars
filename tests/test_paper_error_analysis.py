@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from src.paper_error_analysis import regenerate_artifacts, summarize_bedrock_big_rock
+from ai4mars.paper_error_analysis import regenerate_artifacts, summarize_bedrock_big_rock
 
 
 class PaperErrorAnalysisTests(unittest.TestCase):

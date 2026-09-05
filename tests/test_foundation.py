@@ -5,8 +5,8 @@ from pathlib import Path
 
 from PIL import Image
 
-from src.dataset import load_pairs_from_manifest
-from src.foundation import build_split_manifests, write_dataset_manifest, write_run_record, _row_matches_scope
+from ai4mars.dataset import load_pairs_from_manifest
+from ai4mars.foundation import build_split_manifests, write_dataset_manifest, write_run_record, _row_matches_scope
 
 
 class DatasetScopeFilterTests(unittest.TestCase):

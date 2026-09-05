@@ -1,0 +1,3 @@
+# Center the repository on semantic reproduction
+
+The active repository is a Semantic Reproduction MVP with three thin notebooks over one installed `ai4mars` interface: CPU onboarding, full Kaggle reproduction, and separately sealed expert evaluation. Historical discovery, U-Net, dashboard, research-agent, and rock-instance work remains recoverable from tag `pre-semantic-reproduction-mvp-2026-09-05` but is excluded from the active tree so researchers learn one reproducible path; minimal scientific records remain because configuration, provenance, completed-epoch metrics, checkpoint selection, and expert results are evidence rather than operational telemetry.

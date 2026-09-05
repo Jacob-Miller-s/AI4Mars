@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "dataset_name": "AI4Mars",
+  "dataset_version": "ai4mars-dataset-merged-0.6",
+  "dataset_doi": "10.5281/zenodo.15995036",
+  "license": "CC BY 4.0",
+  "source_split": "val",
+  "source_manifest": "artifacts/manifests/splits/msl_navcam_v1/val_nav.csv",
+  "source_manifest_sha256": "8000de430defd21aa19f043c17c979d648a567995344cc84f60880fb4b32bc23",
+  "purpose": "Setup validation and visual inspection only; not evaluation evidence.",
+  "samples": [
+    {
+      "source_id": "NLB_461147286EDR_F0401240NCAM00385M1",
+      "sequence_id": "F0401240NCAM00385M1",
+      "emphasis_class": "soil",
+      "original_image_path": "msl/ncam/images/edr/NLB_461147286EDR_F0401240NCAM00385M1.JPG",
+      "original_mask_path": "msl/ncam/labels/train/NLB_461147286EDR_F0401240NCAM00385M1.png",
+      "image_file": "images/NLB_461147286EDR_F0401240NCAM00385M1.JPG",
+      "mask_file": "masks/NLB_461147286EDR_F0401240NCAM00385M1.png",
+      "image_sha256": "9d564c55a3e7728b0cdb3f64e7fc3005d137c048356e93fba6e88680b1b9783f",
+      "mask_sha256": "b7d6395e8d36757f029cb89262a4f93cc225d3021fd015e52877a660b11019fd",
+      "class_counts": {"0": 946048, "2": 50208, "255": 52320}
+    },
+    {
+      "source_id": "NLB_471807024EDR_F0442414NCAM00262M1",
+      "sequence_id": "F0442414NCAM00262M1",
+      "emphasis_class": "big_rock",
+      "original_image_path": "msl/ncam/images/edr/NLB_471807024EDR_F0442414NCAM00262M1.JPG",
+      "original_mask_path": "msl/ncam/labels/train/NLB_471807024EDR_F0442414NCAM00262M1.png",
+      "image_file": "images/NLB_471807024EDR_F0442414NCAM00262M1.JPG",
+      "mask_file": "masks/NLB_471807024EDR_F0442414NCAM00262M1.png",
+      "image_sha256": "539fb23f574633ff2e76cf842d764e3ddc1bc98961eb0e17c2db76079665d62d",
+      "mask_sha256": "29321b67c4e33944911e4a02dbcf23da304814a2b21a0f05bb5f8cb3f78c8e1a",
+      "class_counts": {"0": 82051, "1": 94107, "3": 440073, "255": 432345}
+    },
+    {
+      "source_id": "NLB_486372898EDR_F0481570NCAM00322M1",
+      "sequence_id": "F0481570NCAM00322M1",
+      "emphasis_class": "big_rock",
+      "original_image_path": "msl/ncam/images/edr/NLB_486372898EDR_F0481570NCAM00322M1.JPG",
+      "original_mask_path": "msl/ncam/labels/train/NLB_486372898EDR_F0481570NCAM00322M1.png",
+      "image_file": "images/NLB_486372898EDR_F0481570NCAM00322M1.JPG",
+      "mask_file": "masks/NLB_486372898EDR_F0481570NCAM00322M1.png",
+      "image_sha256": "5fbf33d9c2d549fe361240d0fc532f9ac4665f28f5279de24dbc543cba8711fd",
+      "mask_sha256": "6b7bda2d2009191bc443d2757a2d648c0b56ae46d46f1f247fad1a378eddb4b3",
+      "class_counts": {"1": 536970, "2": 27530, "3": 353374, "255": 130702}
+    },
+    {
+      "source_id": "NLB_511303974EDR_F0531470NCAM00252M1",
+      "sequence_id": "F0531470NCAM00252M1",
+      "emphasis_class": "bedrock",
+      "original_image_path": "msl/ncam/images/edr/NLB_511303974EDR_F0531470NCAM00252M1.JPG",
+      "original_mask_path": "msl/ncam/labels/train/NLB_511303974EDR_F0531470NCAM00252M1.png",
+      "image_file": "images/NLB_511303974EDR_F0531470NCAM00252M1.JPG",
+      "mask_file": "masks/NLB_511303974EDR_F0531470NCAM00252M1.png",
+      "image_sha256": "3e52c235294024ca99a93bc562dbb16b1ccb88e58c55136786f09b3a3fda31ae",
+      "mask_sha256": "68a89d63762bb00d1643444989a7d397cda7031efacc55e265e44dcea1e486ff",
+      "class_counts": {"1": 776778, "3": 41091, "255": 230707}
+    },
+    {
+      "source_id": "NLB_519836570EDR_F0550264NCAM00386M1",
+      "sequence_id": "F0550264NCAM00386M1",
+      "emphasis_class": "bedrock",
+      "original_image_path": "msl/ncam/images/edr/NLB_519836570EDR_F0550264NCAM00386M1.JPG",
+      "original_mask_path": "msl/ncam/labels/train/NLB_519836570EDR_F0550264NCAM00386M1.png",
+      "image_file": "images/NLB_519836570EDR_F0550264NCAM00386M1.JPG",
+      "mask_file": "masks/NLB_519836570EDR_F0550264NCAM00386M1.png",
+      "image_sha256": "77b0a9aa6931e9a0103c6b0164159d288c05f9e9ced944ccede3bffa1d9cb64a",
+      "mask_sha256": "9bd74b533408d1a8764954d725c71f7eb86713f1acf3c0a4281222a0eee3f264",
+      "class_counts": {"1": 955386, "2": 50578, "255": 42612}
+    },
+    {
+      "source_id": "NLB_542921313EDR_F0612232NCAM00320M1",
+      "sequence_id": "F0612232NCAM00320M1",
+      "emphasis_class": "sand",
+      "original_image_path": "msl/ncam/images/edr/NLB_542921313EDR_F0612232NCAM00320M1.JPG",
+      "original_mask_path": "msl/ncam/labels/train/NLB_542921313EDR_F0612232NCAM00320M1.png",
+      "image_file": "images/NLB_542921313EDR_F0612232NCAM00320M1.JPG",
+      "mask_file": "masks/NLB_542921313EDR_F0612232NCAM00320M1.png",
+      "image_sha256": "0cd10345a3f7d03ea153998346da2f3b51b06ce3cd502c4460a2541c3a3691f7",
+      "mask_sha256": "f0a9b9bfa58cb4e3cb93b4de7fdb50288a383da93909e1ac324f1d392d7d9494",
+      "class_counts": {"1": 36698, "2": 635203, "255": 376675}
+    },
+    {
+      "source_id": "NLB_553209131EDR_F0642790NCAM00312M1",
+      "sequence_id": "F0642790NCAM00312M1",
+      "emphasis_class": "sand",
+      "original_image_path": "msl/ncam/images/edr/NLB_553209131EDR_F0642790NCAM00312M1.JPG",
+      "original_mask_path": "msl/ncam/labels/train/NLB_553209131EDR_F0642790NCAM00312M1.png",
+      "image_file": "images/NLB_553209131EDR_F0642790NCAM00312M1.JPG",
+      "mask_file": "masks/NLB_553209131EDR_F0642790NCAM00312M1.png",
+      "image_sha256": "be9a737b4cb0c584b73d4c574cd404b0dc445a7004ab66974362609e9bc38b21",
+      "mask_sha256": "ba00de8bad09df0ca27ce29650495f67f7ebabfdd56a38b3366208dee9e6a466",
+      "class_counts": {"1": 40431, "2": 685954, "255": 322191}
+    },
+    {
+      "source_id": "NLB_584285889EDR_F0712350NCAM00363M1",
+      "sequence_id": "F0712350NCAM00363M1",
+      "emphasis_class": "soil",
+      "original_image_path": "msl/ncam/images/edr/NLB_584285889EDR_F0712350NCAM00363M1.JPG",
+      "original_mask_path": "msl/ncam/labels/train/NLB_584285889EDR_F0712350NCAM00363M1.png",
+      "image_file": "images/NLB_584285889EDR_F0712350NCAM00363M1.JPG",
+      "mask_file": "masks/NLB_584285889EDR_F0712350NCAM00363M1.png",
+      "image_sha256": "553dded0c3d9ee009e4474b6a7a0ba9bd537684ea6e5e9eca4554b5ed3d1c72f",
+      "mask_sha256": "be5fc047f123f133ee54d90ed6f5903ed54fd4bbefd2d104ef31340797b442fe",
+      "class_counts": {"0": 652561, "1": 35294, "255": 360721}
+    }
+  ]
+}

@@ -1,4 +1,0 @@
-python=3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]
-platform=Windows-11-10.0.26200-SP0
-git_commit=0f733bd8056b8eb3aee03a512ae736590677fff9
-requirements_sha256=64ed667e3c0798209d8ca4e17206db726450d05dd3ab6fd722f0452e258fb265

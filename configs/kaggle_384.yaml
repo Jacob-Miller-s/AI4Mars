@@ -1,6 +1,0 @@
-experiment_name: MSL NavCam 384px Kaggle experiment
-runtime: {accelerator: cuda, run_id: msl_navcam_kaggle_384}
-data: {dataset_manifest: ai4mars_dataset_manifest.csv, train_manifest: splits/msl_navcam_v1/train_nav.csv, val_manifest: splits/msl_navcam_v1/val_nav.csv, label_scheme: NAV}
-model: {encoder: resnet34, pretrained_encoder: imagenet}
-training: {seed: 42, image_size: 384, batch_size: 2, epochs: 20, learning_rate: 0.001, class_weights: [1.0, 1.0, 1.0, 1.0], num_workers: 2, pin_memory: true, mixed_precision: true, checkpoint_interval: 1}
-logging: {batch_log_interval: 100}

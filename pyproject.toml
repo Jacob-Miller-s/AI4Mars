@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai4mars-reproduction"
+version = "0.1.0"
+description = "Reproducible DeepLabV3+ semantic segmentation for AI4Mars"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "matplotlib",
+    "numpy",
+    "pillow",
+    "pydantic",
+    "PyYAML",
+    "segmentation-models-pytorch",
+    "torch",
+    "torchvision",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ai4mars*"]

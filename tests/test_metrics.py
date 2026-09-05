@@ -2,7 +2,7 @@ import unittest
 
 import torch
 
-from src.metrics import segmentation_confusion_matrix
+from ai4mars.metrics import segmentation_confusion_matrix
 
 
 class SegmentationConfusionMatrixTests(unittest.TestCase):

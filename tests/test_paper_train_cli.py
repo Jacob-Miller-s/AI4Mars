@@ -1,8 +1,8 @@
-"""End-to-end tests for src/paper_train.py's --validate-only workflow.
+"""End-to-end tests for ai4mars/paper_train.py's --validate-only workflow.
 
 These tests exercise the real ``main()`` entry point through the validate-only
 path only, which returns before any model is constructed (see
-``src/paper_train.py``: the ``if args.validate_only: ... return`` check runs
+``ai4mars/paper_train.py``: the ``if args.validate_only: ... return`` check runs
 before ``build_deeplabv3plus``). This keeps the tests CPU-fast while still
 proving the --validation-level flag and the audit-only handling of expert
 manifests actually work end-to-end, not just in isolated unit calls.
@@ -23,7 +23,7 @@ import numpy as np
 import torch
 from PIL import Image
 
-from src import paper_train
+from ai4mars import paper_train
 
 
 class _ManifestFixtureMixin:
@@ -110,7 +110,6 @@ class _ManifestFixtureMixin:
             "  checkpoint_interval: 1\n"
             "  validation_interval: 1\n"
             "  early_stopping_patience: null\n"
-            "  batch_log_interval: 1\n"
             "logging: {}\n",
             encoding="utf-8",
         )
@@ -170,7 +169,7 @@ class ValidateOnlyWorkflowTests(_ManifestFixtureMixin, unittest.TestCase):
 
 class ExpertManifestDecouplingRegressionTest(unittest.TestCase):
     def test_training_pairs_are_built_only_from_train_and_val_manifests(self) -> None:
-        source = inspect.getsource(paper_train.main)
+        source = inspect.getsource(paper_train.run_training)
         self.assertIn("train_pairs_all = load_pairs_from_manifest(", source)
         self.assertIn("manifests[\"train\"]", source)
         self.assertIn("val_pairs = load_pairs_from_manifest(", source)
@@ -251,7 +250,6 @@ class CheckpointSelectionTests(_ManifestFixtureMixin, unittest.TestCase):
             "  checkpoint_interval: 1\n"
             "  validation_interval: 1\n"
             "  early_stopping_patience: null\n"
-            "  batch_log_interval: 1\n"
             "logging: {}\n",
             encoding="utf-8",
         )

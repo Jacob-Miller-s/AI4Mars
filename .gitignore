@@ -7,10 +7,25 @@
 # Local research-agent conversation state
 .research_agent/
 
+# Personal AI assistant configuration — keep local, never require for researchers
+/AGENTS.md
+/HEARTBEAT.md
+/IDENTITY.md
+/SOUL.md
+/TOOLS.md
+/USER.md
+/.agents/
+/.claude/
+/data/skills/
+/openclaw-workspace-state.json
+/skills-lock.json
+
 # Data directories — not committed (download manually)
 data/raw/
 data/processed/
-data/samples/
+data/samples/*
+!data/samples/onboarding/
+!data/samples/onboarding/**
 
 # Model checkpoints — not committed
 models/
@@ -19,6 +34,8 @@ models/
 outputs/predictions/
 outputs/logs/
 outputs/sprint0/
+outputs/figures/*
+!outputs/figures/.gitkeep
 
 # Archive / model files
 *.zip

@@ -1,0 +1,16 @@
+{
+  "selection_source": "checkpoint payload",
+  "per_class_iou_source": "docs/research/semantic_baseline_closure.md",
+  "selection_split": "val",
+  "selection_metric": "mean_iou",
+  "selected_epoch": 25,
+  "global_step": 160065,
+  "pixel_accuracy": null,
+  "mean_iou": 0.8328454614546958,
+  "per_class_iou": {
+    "soil": 0.935420,
+    "bedrock": 0.944884,
+    "sand": 0.906688,
+    "big_rock": 0.544389
+  }
+}

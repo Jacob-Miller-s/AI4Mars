@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "release_tag": "semantic-reproduction-v1",
+  "published": false,
+  "asset_name": "deeplabv3plus-tesla-p100-seed42-best-val-miou.pth",
+  "local_source": "artifacts/ai4mars-paper-reproduction/frozen/deeplabv3plus-tesla-p100-seed42-best-val-miou.pth",
+  "size_bytes": 549040346,
+  "sha256": "90e74a9071d9bfb180d80ab2bb1927f1ea83a74d7e0601750873c2547a5ddaa3",
+  "epoch": 25,
+  "global_step": 160065,
+  "intended_url": "https://github.com/mandevautospa/AI4Mars/releases/download/semantic-reproduction-v1/deeplabv3plus-tesla-p100-seed42-best-val-miou.pth"
+}

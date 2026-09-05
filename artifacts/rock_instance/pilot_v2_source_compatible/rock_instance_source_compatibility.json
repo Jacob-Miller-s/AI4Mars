@@ -1,8 +1,0 @@
-{
-  "dataset_root": "data\\raw\\ai4mars\\ai4mars-dataset-merged-0.6",
-  "dataset_root_resolved": "C:\\Users\\Jacob\\AI4Mars\\data\\raw\\ai4mars\\ai4mars-dataset-merged-0.6",
-  "excluded_rows": [],
-  "source_rows_checked": 16055,
-  "source_rows_compatible": 16055,
-  "source_rows_excluded": 0
-}

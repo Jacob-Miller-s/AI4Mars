@@ -1,0 +1,45 @@
+{
+  "source": "docs/research/semantic_baseline_closure.md",
+  "checkpoint_frozen_before_evaluation": true,
+  "splits": {
+    "expert_min1": {
+      "mean_iou": 0.676079,
+      "big_rock_iou": 0.111871,
+      "big_rock_recall": 0.500998,
+      "ground_truth_bedrock_predicted_big_rock": {
+        "fraction": 0.020048,
+        "pixels": 301448
+      },
+      "ground_truth_big_rock_predicted_bedrock": {
+        "fraction": 0.241374,
+        "pixels": 23107
+      }
+    },
+    "expert_min2": {
+      "mean_iou": 0.726952,
+      "big_rock_iou": 0.113898,
+      "big_rock_recall": 0.821594,
+      "ground_truth_bedrock_predicted_big_rock": {
+        "fraction": 0.017448,
+        "pixels": 195489
+      },
+      "ground_truth_big_rock_predicted_bedrock": {
+        "fraction": 0.072617,
+        "pixels": 2362
+      }
+    },
+    "expert_min3": {
+      "mean_iou": 0.833381,
+      "big_rock_iou": 0.418272,
+      "big_rock_recall": 0.980598,
+      "ground_truth_bedrock_predicted_big_rock": {
+        "fraction": 0.003591,
+        "pixels": 23563
+      },
+      "ground_truth_big_rock_predicted_bedrock": {
+        "fraction": 0.0,
+        "pixels": 0
+      }
+    }
+  }
+}

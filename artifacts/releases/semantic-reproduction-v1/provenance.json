@@ -1,0 +1,33 @@
+{
+  "source": "checkpoint metadata",
+  "repository": "mandevautospa/AI4Mars",
+  "git_commit_sha": "87db493e4152efc9d83e947f082b7f3feaab7215",
+  "python_version": "3.12.13",
+  "platform": "linux | posix",
+  "dataset": {
+    "name": "AI4Mars merged 0.6",
+    "doi": "10.5281/zenodo.15995036",
+    "scope": "MSL Curiosity NavCam NAV labels",
+    "dataset_manifest_sha256": "ad5c0130c992b6e9888ec1ddc38b1d66a57d142d9bac098931864459d1bd16be"
+  },
+  "manifest_sha256": {
+    "train": "c4acdc69d72c2022779b78ac9a6de2129da371870eb3f0222e109ce71d1a3328",
+    "val": "ab451aec7ca0d74ced12a9eaf6654b45ca3dc0069db790953f6b7908441d7767",
+    "expert_min1_100agree": "6c1094b06055a9db9f595a6d0b649e7117397bea777999a6f826c9d6d38d2ab1",
+    "expert_min2_100agree": "5df47edc243b46032984253a09b03ff928ea8183c9a071b65ada6d9595e7a274",
+    "expert_min3_100agree": "9abb2266664dae6c3b8a579e952a19b06993f714efcb0cba51aaa4ec331ed838"
+  },
+  "canonical_source_config_sha256": "ace43f4580c5de08d56f60531c9ac9202f6b16b46a99202a735a2fabb2788e4a",
+  "bundled_config_sha256": "45348d7a020bed28cd9fd7906b70e51f563e1d868a0efcb95236c65b0425d5f9",
+  "checkpoint_dependency_lock_sha256": "01d8cf886af536fa3d84aac5d922030ad991adb766b1119ccb1cee79dd7ac165",
+  "model": {
+    "architecture": "DeepLabV3Plus",
+    "backbone": "resnet101",
+    "pretrained_weights": "imagenet",
+    "output_stride": 16,
+    "input_size": [513, 513],
+    "internal_padded_size": [528, 528],
+    "num_classes": 4,
+    "ignore_index": 255
+  }
+}

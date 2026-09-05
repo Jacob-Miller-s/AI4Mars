@@ -8,14 +8,8 @@
 # requirements.txt only for local development environments that manage their
 # own PyTorch install.
 numpy
-pandas
 matplotlib
 pillow
-requests
-tqdm
-opencv-python
-scikit-learn
 segmentation-models-pytorch
 PyYAML
 pydantic
-psutil

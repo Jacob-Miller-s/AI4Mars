@@ -1,178 +1,79 @@
-# AI4Mars Rock Perception
+# AI4Mars Semantic Reproduction
 
-Martian terrain segmentation and instance-level rock detection from rover imagery.
+This repository reproduces the four-class MSL Curiosity NavCam semantic-segmentation result using DeepLabV3+ with a ResNet-101 encoder. It has one active research path: validate the frozen result locally, reproduce training on Kaggle, and evaluate the frozen checkpoint separately against sealed expert masks.
 
-## Introduction
+## Baseline Evidence
 
-The objective of this work is to develop an instance-level perception method for identifying discrete
-rover-scale rocks in Martian surface imagery. A semantic segmentation baseline is first established
-using the AI4Mars dataset as a necessary reference for understanding the limitations of pixel-wise
-terrain classification. In particular, the baseline is used to measure the degree to which Big Rock
-is confused with Bedrock and other terrain classes. These observations guide the subsequent
-development of a separate rock instance classifier intended to identify individual rock objects,
-preserve their boundaries, and eventually incorporate stereo-derived estimates of physical size.
-## Dataset
+- Dataset: AI4Mars merged 0.6, DOI `10.5281/zenodo.15995036`, CC BY 4.0
+- Scope: MSL Curiosity NavCam with NAV labels
+- Classes: soil, bedrock, sand, big rock; ignore index `255`
+- Model: DeepLabV3+, ResNet-101, ImageNet initialization, 513 x 513 input, output stride 16
+- Frozen checkpoint: epoch 25
+- Checkpoint SHA-256: `90e74a9071d9bfb180d80ab2bb1927f1ea83a74d7e0601750873c2547a5ddaa3`
+- Development validation mIoU: `0.8328454614546958`
 
-Experiments use the merged AI4Mars 0.6 release and are currently restricted to the Mars Science Laboratory NAVCAM subset.
-The dataset is compromised of ~35K images from NASA's Planetary Data System (PDS), including grey-scale navigation camera
-(NAVCAM) and color mast camera (Mastcam) from the Curiosity, Opportunity, and Spirit Mars rovers.
+The checkpoint is an external artifact and is not stored in Git. Until the prepared `semantic-reproduction-v1` release is published, place it at `artifacts/ai4mars-paper-reproduction/frozen/deeplabv3plus-tesla-p100-seed42-best-val-miou.pth`. The onboarding workflow verifies its hash before loading it; after publication, it can also acquire the same file from the release URL.
 
-| Value | Class |
-|---:|---|
-| 0 | Soil |
-| 1 | Bedrock |
-| 2 | Sand |
-| 3 | Big Rock |
-| 255 | Ignore |
+## First-Hour Onboarding
 
-Dataset files are not included in this repository.
-
-
-## Semantic Baseline
-
-| Component | Configuration |
-|---|---|
-| Model | DeepLabV3+ |
-| Encoder | ResNet-101 |
-| Initialization | ImageNet |
-| Input | `513 × 513` |
-| Output stride | 16 |
-| Optimizer | AdamW |
-| Learning rate | `1e-4` |
-| Batch size | 2 |
-| Schedule | Cosine annealing |
-| Precision | Automatic mixed precision |
-| Epochs | 40 |
-| Seed | 42 |
-
-Inputs are padded internally to satisfy encoder stride requirements and cropped back to `513 × 513` before loss and metric computation.
-
-## Preliminary Results
-
-A three-epoch development run reached a mean IoU of `0.7837`.
-
-| Class | IoU |
-|---|---:|
-| Soil | 0.9256 |
-| Bedrock | 0.9359 |
-| Sand | 0.8822 |
-| Big Rock | 0.3911 |
-
-Big Rock remains the principal failure mode and is predominantly confused with Bedrock. These are development-validation results, not final expert-test results.
-
-### Reference
-
-R. M. Swan et al., “AI4MARS: A Dataset for Terrain-Aware Autonomous Driving on Mars,” CVPR Workshops, 2021.
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/mandevautospa/AI4Mars.git
-cd AI4Mars
-```
-
-### 2. Create and Activate a Virtual Environment (Windows PowerShell)
+Python 3.11 or newer is required. Full training is not part of onboarding and does not require a local GPU.
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -e .
 ```
 
-> If you get a script execution error, run:
-> ```powershell
-> Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
-> ```
+Open [notebooks/01_onboarding.ipynb](notebooks/01_onboarding.ipynb), select the `.venv` kernel, and run all cells. It will:
 
-### 3. Install Dependencies
+1. Acquire and verify the epoch-25 checkpoint.
+2. Verify all hashes in the fixed eight-example Onboarding Sample.
+3. Run inference on CPU.
+4. Check output shapes, finite values, class IDs, and hardware-tolerant metric ranges.
+5. Display image, ground truth, prediction, and per-example mIoU.
+6. Print an explicit `PASS`.
+
+A verified local run produced pixel accuracy `0.8751` and mIoU `0.7507`. The Onboarding Sample is for setup validation and visual inspection only; it is not evaluation evidence.
+
+## Canonical Notebooks
+
+| Notebook | Environment | Purpose |
+| --- | --- | --- |
+| [01_onboarding.ipynb](notebooks/01_onboarding.ipynb) | Local CPU | Validate setup, checkpoint identity, fixed samples, inference, and predictions |
+| [02_full_reproduction.ipynb](notebooks/02_full_reproduction.ipynb) | Kaggle GPU | Validate manifests, train or resume, preserve checkpoints, and plot completed epochs |
+| [03_sealed_expert_evaluation.ipynb](notebooks/03_sealed_expert_evaluation.ipynb) | Kaggle GPU | Evaluate one already-frozen checkpoint on expert min1/min2/min3 splits |
+
+The notebooks are thin adapters. The installed `ai4mars` package owns the workflow, and tests exercise the same interface.
+
+## Full Reproduction
+
+Attach the extracted AI4Mars merged 0.6 dataset to Kaggle and set `DATASET_ROOT` in the notebook. Generated files must stay under `/kaggle/working`; `/kaggle/input` is read-only.
+
+The canonical configuration is [configs/reproduction/paper_deeplabv3plus_kaggle_p100.yaml](configs/reproduction/paper_deeplabv3plus_kaggle_p100.yaml). It records 40 epochs, physical batch size 2, AdamW at `1e-4`, cosine scheduling, AMP, seed 42, and validation-mIoU checkpoint selection. Resume preserves optimizer, scheduler, AMP scaler, global step, and random-number-generator state.
+
+Training writes minimal scientific records under `runs/<run-id>/`: frozen configuration, provenance and manifest hashes, completed-epoch metrics, `last.pth`, `best_val_miou.pth`, and a final summary. It does not collect live system telemetry or maintain a dashboard.
+
+Sealed expert evaluation is a separate invocation and never participates in checkpoint selection or tuning. See [docs/research/ai4mars_paper_reproduction.md](docs/research/ai4mars_paper_reproduction.md) for the protocol and command-line equivalents.
+
+## Tests
 
 ```powershell
-pip install --upgrade pip
-pip install -r requirements.txt
+python -m unittest discover -s tests -v
 ```
 
-### 4. Register the Kernel with Jupyter
+The regular suite uses lightweight fixtures. The real 549 MB checkpoint is exercised for release validation and by the onboarding notebook rather than downloaded on every test run.
 
-```powershell
-python -m ipykernel install --user --name mars-seg --display-name "Python (mars-seg)"
+## Repository Map
+
+```text
+ai4mars/                 Installed implementation and notebook-facing interface
+artifacts/manifests/     Fixed dataset and split manifests
+configs/reproduction/    Reproduction, calibration, and smoke configurations
+data/samples/onboarding/ Eight attributed, hash-verified development examples
+docs/research/           Scientific protocol and frozen-result record
+notebooks/               The three active researcher workflows
+tests/                   Interface, training, evaluation, and provenance tests
 ```
 
-### 5. Open in VS Code
-
-Open the repository folder in VS Code, then open any notebook. Select the **Python (mars-seg)** kernel when prompted.
-
----
-
-## Notebook Workflow
-
-| # | Notebook | Goal |
-|---|----------|------|
-| 00 | `00_nasa_api_discovery.ipynb` | Use NASA CKAN and Zenodo APIs to locate the correct terrain-segmentation record and download links |
-| 01 | `01_dataset_inspection.ipynb` | Inspect extracted files, count images/masks, verify pairing logic |
-| 02 | `02_dataset_viewer.ipynb` | Visualise NAV and M2020_GEO pairs, overlays, and class distributions |
-| 03 | `03_baseline_training.ipynb` | Train a baseline pretrained U-Net and record reproducible settings |
-| 04 | `04_evaluation_error_analysis.ipynb` | Evaluate predictions with pixel accuracy, per-class IoU, and error analysis |
-
----
-
-## Current Milestone
-
-> **Load Mars rover image/mask pairs, visualise overlays, verify class labels, and benchmark pretrained segmentation models under local hardware constraints.**
-
-Start with `00_nasa_api_discovery.ipynb` to find the correct Zenodo record and download links, then manually download and extract the AI4Mars dataset into `data/raw/`. Then run `01_dataset_inspection.ipynb` to verify the structure before proceeding.
-
----
-
-## Kaggle GPU Training
-
-Attach the existing AI4Mars Kaggle dataset as an input. Kaggle mounts inputs read-only under `/kaggle/input/<dataset-slug>/`; set `AI4MARS_DATASET_ROOT` to either that mount or directly to its extracted `ai4mars-dataset-merged-0.6` directory. Do not guess the slug: inspect `/kaggle/input` in the notebook first.
-
-Clone this repository into `/kaggle/working/AI4Mars` and run:
-
-```bash
-python -m src.train --config configs/kaggle_baseline.yaml \
-	--dataset-root "$AI4MARS_DATASET_ROOT" \
-	--output-root /kaggle/working/ai4mars \
-	--run-id msl_navcam_kaggle_baseline
-```
-
-Outputs are written under `/kaggle/working/ai4mars/runs/<run-id>/`, including `metadata.json`, sampled `metrics.jsonl`, `system_metrics.jsonl`, `summary.json`, and `checkpoints/`. Save notebook outputs as a Kaggle version or create an output dataset to preserve them between sessions. Resume from a copied checkpoint with the same experiment-defining configuration and manifests:
-
-```bash
-python -m src.train --config configs/kaggle_baseline.yaml \
-	--dataset-root "$AI4MARS_DATASET_ROOT" \
-	--output-root /kaggle/working/ai4mars \
-	--run-id msl_navcam_kaggle_baseline_resume \
-	--resume /kaggle/input/<previous-output-dataset>/best.pth
-```
-
-The baseline retains the committed MSL NavCam NAV manifests, $256 \times 256$ resolution, U-Net/resnet34 ImageNet encoder, Adam at $10^{-3}$, `ignore_index=255`, and the configured class-weight vector. `configs/kaggle_384.yaml` is an explicit non-baseline resolution experiment. Start with batch size 4; after a CUDA OOM, lower only `batch_size` and record that change. GPU is supported first because TPU would require `torch-xla`, process spawning, XLA data loading and metric synchronization, device-specific checkpoints, and performance validation.
-
----
-
-## Future Work
-
-- **Per-class IoU reporting** — detailed breakdown by terrain class and failure mode
-- **Uncertainty-aware segmentation** — predict confidence alongside class labels for safer navigation
-- **Rover-to-rover generalisation** — transfer between Curiosity, Opportunity, and Spirit data
-- **Hazard / traversability maps** — convert class predictions into actionable navigation masks
-- **Cleaner experiment series** — compare pretrained U-Net, EfficientNet encoders, DeepLabV3+, and Dice/Focal/CE hybrids
-
----
-
-## AI4Mars Senior Research Agent
-
-The repository includes a persistent, read-only research advisor in `research_agent/`. It can inspect project files and notebooks, check segmentation metrics, estimate tensor memory, search current literature, critique experimental reasoning, and explain the mathematics behind recommendations.
-
-After installing the requirements, start an ongoing conversation with:
-
-```powershell
-python -m research_agent
-```
-
-Ask one question non-interactively with:
-
-```powershell
-python -m research_agent --ask "What is the highest-value experiment to run next?"
-```
-
-Conversation history is stored locally under `.research_agent/` and is not committed.
+Historical discovery notebooks, U-Net baselines, dashboard experiments, the research agent, and rock-instance feasibility work are preserved in Git history at tag `pre-semantic-reproduction-mvp-2026-09-05`, not in the active workflow.

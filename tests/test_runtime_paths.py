@@ -5,8 +5,8 @@ from pathlib import Path
 
 from PIL import Image
 
-from src.dataset import load_pairs_from_manifest
-from src.runtime import is_kaggle_input_path, resolve_runtime_paths
+from ai4mars.dataset import load_pairs_from_manifest
+from ai4mars.runtime import is_kaggle_input_path, resolve_runtime_paths
 
 
 class RuntimePathTests(unittest.TestCase):

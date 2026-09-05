@@ -15,9 +15,9 @@ import torch.nn.functional as F
 from PIL import Image
 from torch.utils.data import DataLoader, TensorDataset
 
-from src import paper_train
-from src.paper_train import _build_dataloaders
-from src.train_utils import evaluate, train_one_epoch
+from ai4mars import paper_train
+from ai4mars.paper_train import _build_dataloaders
+from ai4mars.train_utils import evaluate, train_one_epoch
 
 
 class TinyAsppLikeBatchNormNet(nn.Module):
@@ -80,7 +80,6 @@ class BatchNormPolicyValidationTests(unittest.TestCase):
             "  checkpoint_interval: 1\n"
             "  validation_interval: 1\n"
             "  early_stopping_patience: null\n"
-            "  batch_log_interval: 1\n"
             "logging: {}\n",
             encoding="utf-8",
         )
@@ -260,7 +259,6 @@ class BatchSizeMetadataRecordingTests(unittest.TestCase):
             "  checkpoint_interval: 1\n"
             "  validation_interval: 1\n"
             "  early_stopping_patience: null\n"
-            "  batch_log_interval: 1\n"
             "logging: {}\n",
             encoding="utf-8",
         )

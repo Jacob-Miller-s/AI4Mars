@@ -7,7 +7,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-from src.paper_train import _preflight_zero_valid_training_rows
+from ai4mars.paper_train import _preflight_zero_valid_training_rows
 
 
 class PreflightZeroValidFilterTests(unittest.TestCase):

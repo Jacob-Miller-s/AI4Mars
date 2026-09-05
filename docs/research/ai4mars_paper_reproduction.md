@@ -1,78 +1,59 @@
 # AI4Mars Paper-Aligned Reproduction
 
-## Scope And Claim
+## Scope
 
-This work is a reproduction: an independently implemented experiment designed to align with the reported AI4Mars semantic baseline. It is not an exact replication because the publication does not specify all training details. An extension changes the question or method; the planned rock-instance system is an extension and is deliberately excluded.
+This is an independently implemented reproduction of the reported AI4Mars semantic baseline, not an exact replication. The publication establishes DeepLabV3+ with a ResNet-101 ImageNet encoder, 513 x 513 inputs, MSL NavCam terrain labels, complement-composition class weighting, pixel accuracy, mIoU, and confusion matrices. Optimizer, schedule, seed, batch size, augmentation, output stride, epoch count, and checkpoint policy are recorded implementation choices where the paper is silent.
 
-The paper supports these claims: DeepLabv3+ with a ResNet-101 backbone initialized from ImageNet; 1024x1024 images resized to 513x513; MSL experiments and MSL NAVCAM baseline tables; merged crowdsourced training labels; expert test masks at min1/min2/min3 agreement; overall pixel accuracy, random-validation mIoU, and row-normalized confusion matrices; and class weights `weight[c] = 1 - class_composition[c]`.
+The active scope is MSL Curiosity NavCam with NAV labels only: soil, bedrock, sand, and big rock, with ignore index 255. Training and development validation use merged crowdsourced labels. Expert min1, min2, and min3 masks are sealed final evidence.
 
-## Implementation Choices
+## Model Contract
 
-The paper omits optimizer, learning rate, schedule, weight decay, epochs, augmentation, exact batch size, seed, output stride, framework versions, early stopping, and checkpoint policy. This implementation records those values as configuration choices, not paper facts. Defaults are AdamW, 1e-4 learning rate, cosine schedule, 1e-4 weight decay, seed 42, output stride 16, no augmentation, 40 epochs, and validation-mIoU checkpoint selection. These choices may be changed only through a saved configuration.
+The canonical configuration uses DeepLabV3+, ResNet-101, ImageNet initialization, output stride 16, and 513 x 513 inputs. `segmentation_models_pytorch` requires dimensions divisible by the output stride, so `PaperAlignedDeepLabV3Plus` pads normalized inputs on the right and bottom from 513 to 528, forwards through the unchanged network, and crops logits back to 513 x 513. Masks, loss, confusion matrices, and metrics never include the padded border.
 
-For a P100, begin with physical training batch size two, run a short validation or one-epoch smoke command, and increase only after observing stable memory headroom. Record both physical batch size and accumulation steps explicitly; never silently change the effective batch size between runs.
+Canonical training uses physical batch size 2 because train-mode BatchNorm in the ASPP pooled branch cannot train with tensors shaped `[1, C, 1, 1]`. Gradient accumulation changes effective optimizer batch size but does not solve that per-forward BatchNorm constraint. Validation and expert evaluation may use batch size 1 in eval mode.
 
-Canonical DeepLabv3+ training keeps train-mode BatchNorm enabled. In SMP's ASPP pooled branch, BatchNorm receives tensors shaped `[N, C, 1, 1]`, so physical `N=1` is invalid (`Expected more than 1 value per channel when training`). Gradient accumulation does not fix this because it changes effective optimizer batch size, not per-forward BatchNorm statistics. Therefore `src.paper_train` rejects `training.batch_size < 2` for training runs.
+## Protocol Boundary
 
-Validation and final expert evaluation may still use batch size 1 because eval mode uses stored BatchNorm running statistics. To prevent accidental singleton tail batches when train-set size is not divisible by physical batch size, the training DataLoader uses `drop_last=True`; validation and expert evaluation loaders keep `drop_last=False` so every sample is scored.
+Training may read only the train and crowdsourced validation splits. Expert manifests are included in leakage and provenance checks but their pixels are scored only by the separate expert-evaluation workflow. A frozen checkpoint cannot be selected, stopped, or tuned using expert results.
 
-The current U-Net baseline uses a different architecture, 256x256 inputs, inverse-frequency normalized weighting, and notebook-led execution. The reproduction uses SMP DeepLabV3Plus, ResNet-101/ImageNet, 513x513 inputs, ImageNet normalization, and the paper complement-composition weighting. Both weighting strategies remain separately selectable.
+Rows of every confusion matrix are ground-truth classes and columns are predictions. The diagonal of a row-normalized confusion matrix is recall, not IoU. Per-class IoU is reported separately.
 
-### Why A Padding Adapter Wraps The SMP Network
+## Workflows
 
-The paper reports images resized to 513x513, and `src.paper_model.build_deeplabv3plus` always builds and evaluates at that resolution -- this has not changed. However, `segmentation_models_pytorch`'s maintained `DeepLabV3Plus` implementation requires spatial dimensions divisible by its `encoder_output_stride` (16 by default), and 513 is not divisible by 16. Rather than weaken paper alignment by moving the canonical resolution to 512 or 528, `build_deeplabv3plus` returns the unmodified SMP network wrapped in `PaperAlignedDeepLabV3Plus` (`src/paper_model.py`): it pads the already-normalized input with constant value 0.0 (the ImageNet mean in normalized space) on the right/bottom edges only, up to the next multiple of `output_stride` (513 -> 528 at stride 16), forwards through the unmodified network, and crops the returned logits back to the original 513x513 before they are ever compared against a mask. Masks are never padded, and no loss, confusion matrix, or metric ever sees the padded border. The 528x528 shape is purely an internal implementation/compatibility detail recorded under `requested_input_size`/`internal_padding_multiple`/`internal_padded_size_for_513`/etc. in checkpoint and run metadata; it must never be read or reported as the experimental input resolution, which remains 513x513 in `ModelRecord.input_resolution` and everywhere else results are described.
+The three canonical notebooks are the researcher-facing adapters:
 
-## Dataset And Evaluation Protocol
+1. `notebooks/01_onboarding.ipynb` validates the installed package, frozen checkpoint, fixed development samples, CPU inference, and prediction inspection.
+2. `notebooks/02_full_reproduction.ipynb` performs manifest validation, full Kaggle training or resume, checkpoint creation, and static plots from completed epoch records.
+3. `notebooks/03_sealed_expert_evaluation.ipynb` evaluates one frozen checkpoint against expert min1/min2/min3 and writes final artifacts.
 
-The reproduction scope is MSL Curiosity NAVCAM with NAV labels only. MSL Mastcam, MER, M2020, M2020_GEO, and unrelated subsets are rejected by manifest validation. Train and development validation require merged crowdsourced labels. Expert min1, min2, and min3 masks are never touched by `src.train`/`src.paper_train` -- they are configured only for leakage checking and provenance hashing during training. They are evaluated exclusively by the separate `src.paper_evaluate` entry point, which loads one frozen checkpoint and reports each expert split independently. This separation is intentional and architectural (`RunLogger`'s best-epoch tracking is gated to the crowdsourced validation split role and never fires for expert-evaluation runs), so expert masks can never influence checkpoint selection, early stopping, or any other training decision.
+Equivalent command-line entry points are:
 
-Manifests must use dataset-relative POSIX paths, source and acquisition identifiers, deterministic ordering, matching original geometry, valid NAV IDs, and fingerprints. Train/development/test source and sequence leakage is rejected. The committed scoped manifests currently report 12,945 train rows, 3,112 validation rows, and 322 rows for each expert threshold, each with 322 unique source images. This does not explain the paper's stated 526-record expert set and is a known comparability limitation requiring source-archive verification before numerical comparison.
+```text
+python -m ai4mars.paper_train --config configs/reproduction/paper_deeplabv3plus_kaggle_p100.yaml --dataset-root <DATASET_ROOT> --validate-only --validation-level metadata
+python -m ai4mars.paper_train --config configs/reproduction/paper_deeplabv3plus_kaggle_p100.yaml --dataset-root <DATASET_ROOT> --validate-only --validation-level full
+python -m ai4mars.paper_train --config configs/reproduction/paper_deeplabv3plus_kaggle_smoke.yaml --dataset-root <DATASET_ROOT> --output-root <OUTPUT_ROOT>
+python -m ai4mars.paper_train --config configs/reproduction/paper_deeplabv3plus_kaggle_calibration.yaml --dataset-root <DATASET_ROOT> --output-root <OUTPUT_ROOT>
+python -m ai4mars.paper_train --config configs/reproduction/paper_deeplabv3plus_kaggle_p100.yaml --dataset-root <DATASET_ROOT> --output-root <OUTPUT_ROOT>
+python -m ai4mars.paper_evaluate --config configs/reproduction/paper_deeplabv3plus_kaggle_p100.yaml --checkpoint <FROZEN_CHECKPOINT> --dataset-root <DATASET_ROOT> --splits expert_min1 expert_min2 expert_min3
+```
 
-Rows of confusion matrices are ground truth and columns are predictions. Their diagonal values are class recall/class accuracy, not IoU. The runner records weighted and unweighted validation loss, pixel accuracy, mIoU, per-class IoU/precision/recall/support/predicted counts, raw confusion matrices, and row-normalized confusion matrices. `src.paper_evaluate` reports the identical set of statistics per expert split, plus per-split CSV per-class tables and labeled PNG confusion-matrix figures, and states explicitly in its JSON output that the normalized-confusion-matrix diagonal is recall, not IoU.
+## Scientific Records
 
-## Exact Commands For All Six Workflows
+Training writes `metadata.json`, `config.json`, `metrics.jsonl`, `summary.json`, manifest audits, and `checkpoints/last.pth` plus `checkpoints/best_val_miou.pth`. Resume restores optimizer, scheduler, AMP scaler, global step, best validation metric, and RNG state.
 
-Every command below assumes execution from the repository root with the paper-reproduction Python environment active (the project `.venv` locally, or Kaggle's own interpreter after installing `requirements-kaggle.txt`). Substitute `--dataset-root`/`--manifest-root`/`--output-root` as needed; on Kaggle, `--dataset-root` is the mounted input directory and `--output-root` must stay beneath `/kaggle/working/ai4mars-paper-reproduction`.
+Expert evaluation writes one report and per-split class metrics and confusion artifacts. Existing evaluation JSON can be re-rendered without inference:
 
-1. Metadata-only manifest audit (cheap, no file I/O -- checks manifest schema, scope, leakage, and ordering only):
-   ```
-   python -m src.train --config configs/reproduction/paper_deeplabv3plus_kaggle_p100.yaml --dataset-root <DATASET_ROOT> --validate-only --validation-level metadata
-   ```
-2. Full manifest audit (expensive -- additionally opens every image/mask file to check geometry and label IDs):
-   ```
-   python -m src.train --config configs/reproduction/paper_deeplabv3plus_kaggle_p100.yaml --dataset-root <DATASET_ROOT> --validate-only --validation-level full
-   ```
-3. Bounded GPU pipeline smoke test (one epoch, four samples per split, proves wiring only):
-   ```
-   python -m src.train --config configs/reproduction/paper_deeplabv3plus_kaggle_smoke.yaml --dataset-root <DATASET_ROOT> --output-root /kaggle/working/ai4mars-paper-reproduction/smoke
-   ```
-4. Short full-data calibration run (three epochs over the complete train/val split, sanity-checks the training curve before committing to the full run):
-   ```
-   python -m src.train --config configs/reproduction/paper_deeplabv3plus_kaggle_calibration.yaml --dataset-root <DATASET_ROOT> --output-root /kaggle/working/ai4mars-paper-reproduction/calibration
-   ```
-5. Fixed full reproduction run (40 epochs, physical batch size 2, no early stopping -- the run whose checkpoints are candidates for expert evaluation):
-   ```
-   python -m src.train --config configs/reproduction/paper_deeplabv3plus_kaggle_p100.yaml --dataset-root <DATASET_ROOT> --output-root /kaggle/working/ai4mars-paper-reproduction
-   ```
-6. Separate final expert evaluation (loads a frozen checkpoint from workflow 5 and reports min1/min2/min3 splits independently; never run automatically by any of the workflows above):
-   ```
-   python -m src.paper_evaluate --config configs/reproduction/paper_deeplabv3plus_kaggle_p100.yaml --checkpoint /kaggle/working/ai4mars-paper-reproduction/runs/paper-deeplabv3plus-kaggle-p100/checkpoints/best_val_miou.pth --dataset-root <DATASET_ROOT> --splits expert_min1 expert_min2 expert_min3
-   ```
+```text
+python -m ai4mars.paper_error_analysis --evaluation-artifact <expert_evaluation.json> --output-dir <OUTPUT_DIR>
+```
 
-Expected output locations (all beneath the run's `--output-root`, under `runs/<run_id>/`): `metadata.json` and `summary.json` (run-level), `config.json` (frozen configuration snapshot), `metrics.jsonl` (per-epoch/per-split metrics), `checkpoints/last.pth` and `checkpoints/best_val_miou.pth` (training runs only), and `artifacts/` (manifest audit JSON for training runs; per-split `*_per_class_metrics.csv`, `*_confusion_matrix_raw.csv`, `*_confusion_matrix_normalized.csv`, `*_confusion_matrix.png`, and the combined `expert_evaluation.json` for `src.paper_evaluate` runs).
+The frozen result and expert numbers are recorded in [semantic_baseline_closure.md](semantic_baseline_closure.md). The release evidence bundle pairs that record with the exact checkpoint SHA-256, frozen configuration, and checkpoint provenance.
 
-## Reproducibility Checklist
+## Reproducibility Rules
 
-- Record Git commit, complete configuration, environment, GPU, model metadata, normalization, class mapping, output stride, and manifest hashes.
-- Persist raw class counts, proportions, ignore pixels, weights, and the training-manifest fingerprint.
-- Preserve optimizer, scheduler, AMP scaler, global step, RNG state, and best validation metric in checkpoints.
-- Select checkpoints on crowdsourced validation only; do not tune repeatedly on expert masks. Expert masks are scored exactly once per checkpoint, only via `src.paper_evaluate`, never by `src.train`/`src.paper_train`.
-- Write generated artifacts only beneath the configured output root.
-
-Comparability is threatened by the unresolved expert-count discrepancy, unreported original hyperparameters, dataset archive/version differences, preprocessing-library behavior, hardware scale, and any difference in split construction. A local smoke run proves wiring only, never paper performance.
-
-The local smoke configuration (`paper_deeplabv3plus_local_smoke.yaml`) caps every split at two samples and runs on CPU only; it is intentionally not paper-comparable and exists only to test paths, preprocessing, logging, checkpointing, and evaluation serialization. Its Kaggle counterpart, `paper_deeplabv3plus_kaggle_smoke.yaml`, caps every split at four samples, runs one epoch on GPU, and proves the full CUDA pipeline (AMP, checkpointing, validation) without touching paper-comparable performance. `paper_deeplabv3plus_kaggle_calibration.yaml` is a third, distinct tier: it runs the complete train/validation data (no sample cap) for three epochs so the loss/mIoU trend can be sanity-checked before committing to the full 40-epoch run.
-
-## Remote Workflows
-
-For local VS Code plus Kaggle: edit and run CPU checks locally, push the approved branch, update the Kaggle notebook with the API or browser, version its `/kaggle/working` outputs, then import the resulting run directory into the local dashboard. On Kaggle, install dependencies from `requirements-kaggle.txt`, never from `requirements.txt` -- the Kaggle image already ships a GPU-matched CUDA build of `torch`/`torchvision`, and `requirements.txt` (used for local development) would reinstall or downgrade it. `requirements-kaggle.txt` deliberately omits `torch`, `torchvision`, and `torchaudio` for this reason. For Remote-SSH: provision an SSH-accessible Linux GPU host, clone the repository, create the environment, configure dataset/output roots, open the host in VS Code Remote-SSH, and run the same command. A remote Jupyter server may be reached through a secure SSH tunnel; no provider credentials belong in this repository.
+- Use the committed manifests without row reordering or split substitution.
+- Keep 513 x 513 as the reported scientific resolution; 528 x 528 is internal padding only.
+- Select checkpoints on crowdsourced validation mIoU only.
+- Evaluate expert masks only after the checkpoint is frozen.
+- Treat the fixed Onboarding Sample as setup evidence, never as a benchmark.
+- Preserve configuration, manifest hashes, source revision, environment, epoch metrics, and final summaries with every run.

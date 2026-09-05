@@ -7,7 +7,7 @@ from unittest.mock import patch
 import torch
 import torch.nn as nn
 
-from src.train_utils import load_training_checkpoint, restore_rng_state, save_checkpoint
+from ai4mars.train_utils import load_training_checkpoint, restore_rng_state, save_checkpoint
 
 
 class CheckpointResumeTests(unittest.TestCase):
@@ -84,9 +84,9 @@ class CheckpointResumeTests(unittest.TestCase):
         torch_state = torch.arange(16, dtype=torch.int64)[::2]
         cuda_state = torch.arange(12, dtype=torch.int16)[::2]
         with (
-            patch("src.train_utils.torch.set_rng_state") as set_torch_state,
-            patch("src.train_utils.torch.cuda.is_available", return_value=True),
-            patch("src.train_utils.torch.cuda.set_rng_state_all") as set_cuda_states,
+            patch("ai4mars.train_utils.torch.set_rng_state") as set_torch_state,
+            patch("ai4mars.train_utils.torch.cuda.is_available", return_value=True),
+            patch("ai4mars.train_utils.torch.cuda.set_rng_state_all") as set_cuda_states,
         ):
             restore_rng_state({"torch": torch_state, "cuda": [cuda_state]})
 
@@ -97,7 +97,7 @@ class CheckpointResumeTests(unittest.TestCase):
 
     def test_amp_is_rejected_on_cpu(self) -> None:
         from torch.utils.data import DataLoader, TensorDataset
-        from src.train_utils import train_one_epoch
+        from ai4mars.train_utils import train_one_epoch
 
         model = nn.Conv2d(3, 4, kernel_size=1)
         loader = DataLoader(TensorDataset(torch.zeros(1, 3, 2, 2), torch.zeros(1, 2, 2, dtype=torch.long)))

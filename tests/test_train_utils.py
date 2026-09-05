@@ -6,8 +6,8 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 
-from src.paper_train import _IndexedDataset
-from src.train_utils import evaluate, train_one_epoch
+from ai4mars.paper_train import _IndexedDataset
+from ai4mars.train_utils import evaluate, train_one_epoch
 
 
 class FixedClassZeroModel(nn.Module):
@@ -471,7 +471,7 @@ class TrainAmpOverflowBehaviorTests(unittest.TestCase):
         masks = torch.zeros((1, 4, 4), dtype=torch.long)
         loader = DataLoader(TensorDataset(images, masks), batch_size=1, shuffle=False)
 
-        with patch("src.train_utils._gradients_are_finite", return_value=False):
+        with patch("ai4mars.train_utils._gradients_are_finite", return_value=False):
             with self.assertRaisesRegex(RuntimeError, "Training gradients became non-finite"):
                 train_one_epoch(model, loader, optimizer, loss_fn, torch.device("cpu"))
 

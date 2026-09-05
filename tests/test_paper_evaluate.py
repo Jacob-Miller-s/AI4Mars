@@ -1,4 +1,4 @@
-"""Tests for src/paper_evaluate.py: the sole entry point that scores expert splits."""
+"""Tests for ai4mars/paper_evaluate.py: the sole entry point that scores expert splits."""
 
 import csv
 import tempfile
@@ -9,14 +9,14 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, Dataset
 
-from src.paper_evaluate import (
+from ai4mars.paper_evaluate import (
     _write_confusion_matrix_csv,
     _write_confusion_matrix_figure,
     _write_per_class_csv,
     evaluate_split,
     load_frozen_checkpoint,
 )
-from src.train_utils import save_checkpoint
+from ai4mars.train_utils import save_checkpoint
 
 
 class TinySegmentationModel(nn.Module):

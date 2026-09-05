@@ -10,7 +10,7 @@ The controlled semantic-segmentation phase is closed. The frozen DeepLabV3+ chec
 - selection metric: validation mIoU `0.8328454614546958`
 - validation IoU: soil `0.935420`, bedrock `0.944884`, sand `0.906688`, big_rock `0.544389`
 
-The multi-GB checkpoint is an external run artifact and is intentionally not committed. Its hash and expected relative location are the artifact contract.
+The 549 MB checkpoint is an external run artifact and is intentionally not committed. Its hash and expected relative location are the artifact contract.
 
 ## Configuration And Provenance
 
@@ -45,6 +45,6 @@ The checkpoint was frozen before expert evaluation. `expert_min1`, `expert_min2`
 
 The semantic baseline is strong for continuous terrain classes. Big Rock remains the outlier: recall can be high while IoU remains low because predicted Big Rock pixels include extensive false positives, predominantly from Bedrock. This motivates, but does not establish, the hypothesis that a physically discrete obstacle may be better represented as a reviewed object instance.
 
-`python -m src.paper_error_analysis --evaluation-artifact <expert_evaluation.json> --output-dir <output-dir>` regenerates raw and row-normalized confusion CSVs, 300-dpi figures, and Bedrock/Big Rock summaries from an existing evaluation artifact only. It never loads a model or reruns inference.
+`python -m ai4mars.paper_error_analysis --evaluation-artifact <expert_evaluation.json> --output-dir <output-dir>` regenerates raw and row-normalized confusion CSVs, 300-dpi figures, and Bedrock/Big Rock summaries from an existing evaluation artifact only. It never loads a model or reruns inference.
 
-The next research phase is Sprint 0 feasibility work in `research/rock_instance/`; no detector was trained in this closure.
+Historical rock-instance feasibility work is outside the active Semantic Reproduction MVP and remains available from tag `pre-semantic-reproduction-mvp-2026-09-05`; no detector was trained as part of this closure.

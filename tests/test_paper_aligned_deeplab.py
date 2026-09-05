@@ -15,7 +15,7 @@ from unittest.mock import patch
 import torch
 import torch.nn as nn
 
-from src.paper_model import DeepLabV3PlusSpec, PaperAlignedDeepLabV3Plus, build_deeplabv3plus, paper_padding_metadata
+from ai4mars.paper_model import DeepLabV3PlusSpec, PaperAlignedDeepLabV3Plus, build_deeplabv3plus, paper_padding_metadata
 
 
 class TinySegmentationNetwork(nn.Module):

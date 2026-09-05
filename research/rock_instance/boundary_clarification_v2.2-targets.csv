@@ -1,4 +1,0 @@
-target_id,stable_source_image_id,source_candidate_component_id,v21_instance_id,boundary_question
-NLB_463551084EDR_F0411534NCAM00385M1:component-4,NLB_463551084EDR_F0411534NCAM00385M1,4,NLB_463551084EDR_F0411534NCAM00385M1:rock-004,What visible pixels belong to the fixed accepted rock located by proposal component 4; do not use the proposal extent as the boundary?
-NLB_483955685EDR_F0470598NCAM00320M1:component-8,NLB_483955685EDR_F0470598NCAM00320M1,8,NLB_483955685EDR_F0470598NCAM00320M1:rock-008,What visible pixels belong to the fixed accepted rock located by proposal component 8; exclude rover hardware shadow and surrounding terrain?
-NLB_548252623EDR_F0631150NCAM00312M1:component-3,NLB_548252623EDR_F0631150NCAM00312M1,3,NLB_548252623EDR_F0631150NCAM00312M1:rock-003,What visible pixels belong to the fixed accepted rock located by proposal component 3; trace the full defensible visible extent rather than only the proposal core?

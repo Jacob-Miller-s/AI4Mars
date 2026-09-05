@@ -33,5 +33,4 @@ training:
   checkpoint_interval: 1
   validation_interval: 1
   early_stopping_patience: null
-  batch_log_interval: 50
 logging: {}

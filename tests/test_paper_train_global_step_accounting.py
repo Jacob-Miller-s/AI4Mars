@@ -10,7 +10,7 @@ import numpy as np
 import torch
 from PIL import Image
 
-from src import paper_train
+from ai4mars import paper_train
 
 
 class TinyModel(torch.nn.Module):
@@ -132,7 +132,6 @@ class GlobalStepAccountingTests(unittest.TestCase):
             "  checkpoint_interval: 1\n"
             "  validation_interval: 1\n"
             "  early_stopping_patience: null\n"
-            "  batch_log_interval: 1\n"
             "logging: {}\n",
             encoding="utf-8",
         )
