@@ -26,6 +26,21 @@ The three canonical notebooks are the researcher-facing adapters:
 2. `notebooks/02_full_reproduction.ipynb` performs manifest validation, full Kaggle training or resume, checkpoint creation, and static plots from completed epoch records.
 3. `notebooks/03_sealed_expert_evaluation.ipynb` evaluates one frozen checkpoint against expert min1/min2/min3 and writes final artifacts.
 
+### Kaggle P100 environment contract
+
+The advertised Kaggle accelerator is an NVIDIA Tesla P100 (compute capability 6.0, `sm_60`). The validated dependency contract is the official PyTorch CUDA 12.6 wheel pair pinned in `requirements-kaggle.txt`: PyTorch 2.7.1 and torchvision 0.22.1. In a clean Kaggle GPU session, install that file before importing `torch`. Do not install `requirements.txt` in the same session because its unpinned PyTorch dependencies can replace the validated pair.
+
+Before any model construction or dataset scan, GPU training prints the GPU model, compute capability, PyTorch version, PyTorch CUDA version, and compiled architectures, then executes and synchronizes a small CUDA reduction. A missing `sm_60` kernel or failed operation stops immediately with remediation rather than failing in the first training batch.
+
+Run the smoke configuration first; its single epoch covers both training and validation on four samples per split:
+
+```text
+python -m pip install -r requirements-kaggle.txt
+python -m ai4mars.paper_train --config configs/reproduction/paper_deeplabv3plus_kaggle_smoke.yaml --dataset-root <DATASET_ROOT> --output-root <OUTPUT_ROOT>
+```
+
+Only start the full P100 configuration after this smoke run succeeds.
+
 Equivalent command-line entry points are:
 
 ```text
