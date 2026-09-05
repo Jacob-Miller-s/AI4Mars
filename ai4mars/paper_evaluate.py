@@ -21,11 +21,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-import matplotlib
-
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-import numpy as np
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
@@ -110,28 +105,6 @@ def _write_confusion_matrix_csv(path: Path, matrix: list[list[Any]]) -> None:
         writer.writerow(["ground_truth \\ predicted", *CLASS_NAMES])
         for class_name, row in zip(CLASS_NAMES, matrix):
             writer.writerow([class_name, *row])
-
-
-def _write_confusion_matrix_figure(path: Path, normalized_confusion_matrix: list[list[float]], split_name: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    matrix = np.array(normalized_confusion_matrix, dtype=float)
-    figure, axis = plt.subplots(figsize=(6, 5))
-    image = axis.imshow(matrix, vmin=0.0, vmax=1.0, cmap="Blues")
-    axis.set_xticks(range(len(CLASS_NAMES)))
-    axis.set_xticklabels(CLASS_NAMES, rotation=45, ha="right")
-    axis.set_yticks(range(len(CLASS_NAMES)))
-    axis.set_yticklabels(CLASS_NAMES)
-    axis.set_xlabel("Predicted class")
-    axis.set_ylabel("Ground-truth class")
-    axis.set_title(f"{split_name}: row-normalized confusion matrix\n(diagonal = per-class recall, not IoU)")
-    for row_index in range(matrix.shape[0]):
-        for column_index in range(matrix.shape[1]):
-            value = matrix[row_index, column_index]
-            axis.text(column_index, row_index, f"{value:.2f}", ha="center", va="center", color="white" if value >= 0.5 else "black")
-    figure.colorbar(image, ax=axis, label="Row-normalized frequency (recall on diagonal)")
-    figure.tight_layout()
-    figure.savefig(path, dpi=150)
-    plt.close(figure)
 
 
 def run_expert_evaluation(args: argparse.Namespace) -> Path:
@@ -242,7 +215,6 @@ def run_expert_evaluation(args: argparse.Namespace) -> Path:
             _write_per_class_csv(logger.run_dir / "artifacts" / f"{name}_per_class_metrics.csv", metrics["per_class"])
             _write_confusion_matrix_csv(logger.run_dir / "artifacts" / f"{name}_confusion_matrix_raw.csv", metrics["confusion_matrix"])
             _write_confusion_matrix_csv(logger.run_dir / "artifacts" / f"{name}_confusion_matrix_normalized.csv", metrics["normalized_confusion_matrix"])
-            _write_confusion_matrix_figure(logger.run_dir / "artifacts" / f"{name}_confusion_matrix.png", metrics["normalized_confusion_matrix"], name)
             per_class = {class_name: ClassMetrics(**{key: value for key, value in row.items() if key != "class_index"}) for class_name, row in zip(CLASS_NAMES, metrics["per_class"])}
             logger.log_epoch(
                 EpochMetrics(

@@ -11,7 +11,6 @@ from torch.utils.data import DataLoader, Dataset
 
 from ai4mars.paper_evaluate import (
     _write_confusion_matrix_csv,
-    _write_confusion_matrix_figure,
     _write_per_class_csv,
     evaluate_split,
     load_frozen_checkpoint,
@@ -118,15 +117,6 @@ class WriterHelperTests(unittest.TestCase):
         self.assertEqual(rows[0][1:], ["soil", "bedrock", "sand", "big_rock"])
         self.assertEqual(rows[1], ["soil", "1", "2", "3", "4"])
         self.assertEqual(rows[4], ["big_rock", "13", "14", "15", "16"])
-
-    def test_write_confusion_matrix_figure_creates_file(self):
-        normalized = [[0.7, 0.1, 0.1, 0.1], [0.2, 0.6, 0.1, 0.1], [0.1, 0.1, 0.7, 0.1], [0.1, 0.1, 0.1, 0.7]]
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            path = Path(tmp_dir) / "confusion.png"
-            _write_confusion_matrix_figure(path, normalized, "expert_min1")
-            self.assertTrue(path.exists())
-            self.assertGreater(path.stat().st_size, 0)
-
 
 class EvaluateSplitTests(unittest.TestCase):
     def test_returns_detailed_metrics_with_per_class_and_confusion_matrix(self):
