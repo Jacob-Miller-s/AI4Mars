@@ -1,12 +1,11 @@
 # Dependencies for running this repository on Kaggle.
 #
-# Kaggle's Python images already ship a working, GPU-matched torch/torchvision
-# build (CUDA wheels selected for the notebook's attached accelerator). This
-# file intentionally excludes torch, torchvision, and torchaudio so that
-# `pip install -r requirements-kaggle.txt` never reinstalls or downgrades the
-# CUDA-enabled build already present in the Kaggle runtime. Use
-# requirements.txt only for local development environments that manage their
-# own PyTorch install.
+# The official CUDA 12.6 pair below is pinned because it includes sm_60 kernels
+# for the advertised Tesla P100. Install this file before importing torch and
+# do not install requirements.txt in the same Kaggle session.
+--extra-index-url https://download.pytorch.org/whl/cu126
+torch==2.7.1+cu126
+torchvision==0.22.1+cu126
 numpy
 matplotlib
 pillow

@@ -19,6 +19,7 @@ import yaml
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 
+from ai4mars.cuda import run_cuda_preflight
 from ai4mars.dataset import AI4MarsDataset, load_pairs_from_manifest, normalize_ai4mars_mask
 from ai4mars.foundation import build_checkpoint_metadata, current_git_commit, sha256_file
 from ai4mars.paper_model import DeepLabV3PlusSpec, build_deeplabv3plus, paper_padding_metadata, validate_deeplabv3plus_spec
@@ -420,17 +421,15 @@ def run_training(args: argparse.Namespace) -> Path | dict[str, dict[str, int]]:
         run_id=runtime.get("run_id"),
         accelerator=runtime.get("accelerator"),
     )
-    paths.ensure_writable_roots()
-
-    device = torch.device(
-        "cuda"
-        if paths.accelerator == "cuda" or (paths.accelerator == "auto" and torch.cuda.is_available())
-        else "cpu"
+    cuda_selected = paths.accelerator == "cuda" or (
+        paths.accelerator == "auto" and torch.cuda.is_available()
     )
-    if paths.accelerator == "cuda" and device.type != "cuda":
-        raise RuntimeError("CUDA was requested but is unavailable.")
+    if cuda_selected:
+        run_cuda_preflight()
+    device = torch.device("cuda" if cuda_selected else "cpu")
     if training["mixed_precision"] and device.type != "cuda":
         raise ValueError("mixed_precision requires CUDA.")
+    paths.ensure_writable_roots()
 
     manifests = {
         "train": paths.manifest_root / data["train_manifest"],
