@@ -164,6 +164,15 @@ def validate_production_review_provenance(state: dict[str, Any]) -> None:
     for key, actual_hash in state_hashes.items():
         if actual_hash != APPROVED_PRODUCTION_HASHES[key]:
             raise ValueError(f"Frozen production review state {key} is not approved.")
+    if (
+        Path(state.get("source_candidate_manifest", "")).name
+        != paths["source_pilot_manifest_path"].name
+        or Path(state["component_review"]["component_manifest"]).name
+        != paths["component_manifest_path"].name
+        or Path(state["review_scope"]["source_manifest"]).name
+        != paths["remaining_scope_manifest_path"].name
+    ):
+        raise ValueError("Frozen production review artifact identities are inconsistent.")
 
     artifact_hashes = {
         "protocol_freeze_path": "protocol_freeze_sha256",
@@ -208,6 +217,12 @@ def validate_production_review_provenance(state: dict[str, Any]) -> None:
         or ledger.get("protocol", {}).get("sha256") != APPROVED_PRODUCTION_HASHES["frozen_protocol_sha256"]
     ):
         raise ValueError("Frozen production review exclusion ledger protocol is inconsistent.")
+    ledger_protocol_path = _resolve_provenance_path(
+        ledger["protocol"].get("path"), description="exclusion ledger protocol path"
+    )
+    _require_approved_hash(
+        ledger_protocol_path, "frozen_protocol_sha256", description="exclusion ledger protocol"
+    )
     ledger_records = boundary_indeterminate_records_from_ledger(state, ledger)
 
     pilot_rows = _read_provenance_csv(paths["source_pilot_manifest_path"], description="source pilot manifest")
@@ -727,12 +742,14 @@ def replace_annotation(
         raise ValueError("Annotation editing cannot change the recorded decision semantics.")
     if annotation_component_ids(normalized) != annotation_component_ids(existing):
         raise ValueError("Annotation editing cannot change source-component provenance.")
+    existing_reviewer = image.get("reviewer")
     image["annotations"][index] = normalized
     image["reviewer"] = reviewer
     try:
         validate_review_state(state)
     except ValueError:
         image["annotations"][index] = existing
+        image["reviewer"] = existing_reviewer
         raise
 
 

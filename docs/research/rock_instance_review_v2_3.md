@@ -13,11 +13,8 @@ Every load, save, and review mutation fails closed unless the protocol freeze, c
 Launch the production reviewer from the repository root with the separately obtained AI4Mars dataset:
 
 ```bash
-python -m src.rock_instance.review_tool \
-  --state-path artifacts/rock_instance/production_review_v2.3/review_state.json \
-  --component-candidates-csv artifacts/rock_instance/production_review_v2.3/big_rock_component_candidates.csv \
+python -m src.rock_instance.production_review review \
   --dataset-root <ai4mars-dataset-root> \
-  --interactive \
   --reviewer <reviewer-id>
 ```
 

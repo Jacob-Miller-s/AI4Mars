@@ -36,6 +36,13 @@ from src.rock_instance.annotations import (
     unresolved_candidate_component_ids,
 )
 
+DEFAULT_PRODUCTION_STATE_PATH = Path(
+    "artifacts/rock_instance/production_review_v2.3/review_state.json"
+)
+DEFAULT_COMPONENT_MANIFEST_PATH = Path(
+    "artifacts/rock_instance/production_review_v2.3/big_rock_component_candidates.csv"
+)
+
 
 def _read_csv(path: Path) -> tuple[list[dict[str, str]], list[str]]:
     with Path(path).open(encoding="utf-8", newline="") as handle:
@@ -355,6 +362,14 @@ def main() -> None:
     progress_parser = subparsers.add_parser("progress")
     progress_parser.add_argument("--state-path", required=True, type=Path)
     progress_parser.add_argument("--output-json", required=True, type=Path)
+    review_parser = subparsers.add_parser("review")
+    review_parser.add_argument("--dataset-root", required=True, type=Path)
+    review_parser.add_argument("--state-path", type=Path, default=DEFAULT_PRODUCTION_STATE_PATH)
+    review_parser.add_argument(
+        "--component-candidates-csv", type=Path, default=DEFAULT_COMPONENT_MANIFEST_PATH
+    )
+    review_parser.add_argument("--image-id")
+    review_parser.add_argument("--reviewer", default="single_researcher")
     args = parser.parse_args()
     if args.command == "freeze":
         result = freeze_v23_protocol(**{key: value for key, value in vars(args).items() if key != "command"})
@@ -362,10 +377,20 @@ def main() -> None:
     elif args.command == "prepare":
         result = prepare_production_review(**{key: value for key, value in vars(args).items() if key != "command"})
         print(json.dumps({key: str(value) for key, value in result.items()}, indent=2, sort_keys=True))
-    else:
+    elif args.command == "progress":
         report = summarize_production_review(load_review_state(args.state_path))
         args.output_json.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         print(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        from src.rock_instance.review_tool import run_interactive_review
+
+        run_interactive_review(
+            state_path=args.state_path,
+            component_candidates_csv=args.component_candidates_csv,
+            dataset_root=args.dataset_root,
+            image_id=args.image_id,
+            reviewer=args.reviewer,
+        )
 
 
 if __name__ == "__main__":

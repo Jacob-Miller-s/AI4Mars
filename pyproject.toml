@@ -21,4 +21,4 @@ dependencies = [
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["ai4mars*", "src.rock_instance*"]
+include = ["ai4mars*", "src", "src.rock_instance*"]
