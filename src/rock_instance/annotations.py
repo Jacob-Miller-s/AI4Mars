@@ -26,6 +26,7 @@ PROTOCOL_V2_CALIBRATION_RESOLVED = "v2.0-calibration-resolved"
 PROTOCOL_V2_3_CALIBRATION_FINAL = "v2.3-calibration-final"
 PRODUCTION_REVIEW_SCOPE_NAME = "production_review_v2.3"
 PRODUCTION_REVIEW_PILOT_ID = "rock_instance_pilot_v1_production_v2.3"
+PRODUCTION_REVIEW_STATE_SCHEMA_VERSION = "rock_instance_production_review_state_v1"
 PRODUCTION_REVIEW_PROVENANCE_SCHEMA_VERSION = "rock_instance_production_review_provenance_v1"
 PROTOCOL_FREEZE_SCHEMA_VERSION = "rock_instance_protocol_freeze_v1"
 PROTOCOL_FREEZE_STATUS = "FROZEN"
@@ -110,9 +111,8 @@ def _is_production_review(state: dict[str, Any]) -> bool:
     protocol = state.get("protocol")
     review_scope = state.get("review_scope")
     return (
-        state.get("pilot_id") == PRODUCTION_REVIEW_PILOT_ID
-        or state.get("source_candidate_manifest_sha256")
-        == APPROVED_PRODUCTION_HASHES["source_pilot_manifest_sha256"]
+        state.get("production_review_schema_version") == PRODUCTION_REVIEW_STATE_SCHEMA_VERSION
+        or state.get("pilot_id") == PRODUCTION_REVIEW_PILOT_ID
         or (
             isinstance(protocol, dict)
             and protocol.get("version") == PROTOCOL_V2_3_CALIBRATION_FINAL
@@ -131,6 +131,8 @@ def validate_production_review_provenance(state: dict[str, Any]) -> None:
         return
     if state.get("review_scope", {}).get("name") != PRODUCTION_REVIEW_SCOPE_NAME:
         raise ValueError("Frozen production review scope provenance is missing or invalid.")
+    if state.get("production_review_schema_version") != PRODUCTION_REVIEW_STATE_SCHEMA_VERSION:
+        raise ValueError("Frozen production review state schema provenance is missing or invalid.")
     if state.get("pilot_id") != PRODUCTION_REVIEW_PILOT_ID:
         raise ValueError("Frozen production review source pilot identity is invalid.")
 
@@ -517,6 +519,51 @@ def configure_review_scope(
     }
 
 
+def _validate_completed_component_dispositions(state: dict[str, Any], image_id: str) -> None:
+    image = state["images"][image_id]
+    annotations = [
+        annotation
+        for annotation in image["annotations"]
+        if annotation["annotation_status"] in TERMINAL_ANNOTATION_STATUSES
+    ]
+    records = [
+        record
+        for record in state.get("resolution_records", [])
+        if record["image_id"] == image_id
+    ]
+    annotations_by_component: dict[int, list[str]] = {
+        component_id: [] for component_id in image["candidate_component_ids"]
+    }
+    for annotation in annotations:
+        component_ids = annotation_component_ids(annotation)
+        for component_id in component_ids:
+            annotations_by_component[component_id].append(annotation["instance_id"])
+        if len(component_ids) > 1:
+            matching_merges = [
+                record
+                for record in records
+                if record["resolution_type"] == "merge"
+                and set(record["source_candidate_component_ids"]) == set(component_ids)
+                and record["resolved_annotation_instance_ids"] == [annotation["instance_id"]]
+            ]
+            if len(matching_merges) != 1:
+                raise ValueError("Multi-component decisions require exactly one matching merge record.")
+    for component_id, annotation_ids in annotations_by_component.items():
+        if len(annotation_ids) <= 1:
+            continue
+        matching_splits = [
+            record
+            for record in records
+            if record["resolution_type"] == "split"
+            and record["source_candidate_component_ids"] == [component_id]
+            and set(record["resolved_annotation_instance_ids"]) == set(annotation_ids)
+        ]
+        if len(matching_splits) != 1:
+            raise ValueError(
+                "Multiple decisions for one component require exactly one matching split record."
+            )
+
+
 def validate_review_state(state: dict[str, Any]) -> None:
     """Reject malformed, expert-contaminated, or internally inconsistent review state."""
     if state.get("schema_version") != SCHEMA_VERSION:
@@ -658,6 +705,8 @@ def validate_review_state(state: dict[str, Any]) -> None:
         for image_id in review_scope["image_ids"]:
             image = images[image_id]
             if image["review_status"] == "reviewed":
+                if review_scope["name"] == PRODUCTION_REVIEW_SCOPE_NAME:
+                    _validate_completed_component_dispositions(state, image_id)
                 missing_component_ids = unresolved_candidate_component_ids(state, image_id)
                 if missing_component_ids:
                     raise ValueError(
@@ -701,6 +750,8 @@ def record_annotation(
     image = state.get("images", {}).get(image_id)
     if image is None:
         raise ValueError(f"Unknown review-state image_id: {image_id!r}")
+    if image["review_status"] == "reviewed":
+        raise ValueError("Cannot add a new annotation to a completed image.")
     normalized = validate_annotation(
         annotation,
         image_id=image_id,
@@ -717,12 +768,18 @@ def record_annotation(
     }
     if normalized["instance_id"] in existing_ids:
         raise ValueError(f"Duplicate instance_id: {normalized['instance_id']!r}")
+    if (
+        image_review_status is not None
+        and image_review_status not in IMAGE_REVIEW_STATUSES - {"unreviewed"}
+    ):
+        raise ValueError("image_review_status must be in_progress, reviewed, or deferred.")
+    existing_annotations = list(image["annotations"])
+    existing_reviewer = image.get("reviewer")
+    existing_review_status = image["review_status"]
     image["annotations"].append(normalized)
     image["annotations"].sort(key=lambda item: item["instance_id"])
     image["reviewer"] = reviewer
     if image_review_status is not None:
-        if image_review_status not in IMAGE_REVIEW_STATUSES - {"unreviewed"}:
-            raise ValueError("image_review_status must be in_progress, reviewed, or deferred.")
         image["review_status"] = image_review_status
     else:
         strict_component_review = (
@@ -734,6 +791,13 @@ def record_annotation(
             if normalized["annotation_status"] == "deferred"
             else "in_progress" if strict_component_review else "reviewed"
         )
+    try:
+        validate_review_state(state)
+    except ValueError:
+        image["annotations"] = existing_annotations
+        image["reviewer"] = existing_reviewer
+        image["review_status"] = existing_review_status
+        raise
 
 
 def replace_annotation(
@@ -797,8 +861,16 @@ def finish_image_review(state: dict[str, Any], image_id: str, *, reviewer: str) 
     missing_component_ids = unresolved_candidate_component_ids(state, image_id)
     if missing_component_ids:
         raise ValueError(f"Cannot finish image; unresolved candidate component IDs: {missing_component_ids}")
+    existing_reviewer = image.get("reviewer")
+    existing_review_status = image["review_status"]
     image["reviewer"] = reviewer
     image["review_status"] = "reviewed"
+    try:
+        validate_review_state(state)
+    except ValueError:
+        image["reviewer"] = existing_reviewer
+        image["review_status"] = existing_review_status
+        raise
 
 
 def reviewed_annotations(state: dict[str, Any]) -> Iterable[dict[str, Any]]:
@@ -1057,6 +1129,7 @@ def configure_frozen_production_review(
         "boundary_ledger_path": str(Path(boundary_ledger_path)),
         "boundary_ledger_sha256": sha256_file(boundary_ledger_path),
     }
+    state["production_review_schema_version"] = PRODUCTION_REVIEW_STATE_SCHEMA_VERSION
     state["resolution_records"] = []
 
 
@@ -1114,6 +1187,10 @@ def _validate_resolution_record(state: dict[str, Any], record: dict[str, Any]) -
     component_ids = _normalize_component_ids(
         record["source_candidate_component_ids"], field_name="source_candidate_component_ids"
     )
+    if record["resolution_type"] == "merge" and len(component_ids) < 2:
+        raise ValueError("A merge resolution must reference at least two source components.")
+    if record["resolution_type"] == "split" and len(component_ids) != 1:
+        raise ValueError("A split resolution must reference exactly one source component.")
     candidate_component_ids = set(image.get("candidate_component_ids", []))
     if candidate_component_ids and not set(component_ids) <= candidate_component_ids:
         raise ValueError("Resolution record references a component outside its image candidate manifest.")
@@ -1153,6 +1230,11 @@ def _validate_resolution_record(state: dict[str, Any], record: dict[str, Any]) -
             raise ValueError("Every accepted split child must preserve its parent component ID.")
     if not accepted and len(resolved_annotations) != 1:
         raise ValueError("A non-accepted split or merge disposition must use one terminal annotation.")
+    if (
+        not accepted
+        and set(annotation_component_ids(resolved_annotations[0])) != set(component_ids)
+    ):
+        raise ValueError("A non-accepted resolution must preserve every source component ID.")
     if not isinstance(record["reviewer_notes"], str):
         raise ValueError("Resolution reviewer_notes must be a string.")
 
@@ -1163,12 +1245,21 @@ def record_resolution(state: dict[str, Any], resolution_record: dict[str, Any]) 
     if "component_review" not in state:
         raise ValueError("Resolution records are only valid for corrected calibration states.")
     record = dict(resolution_record)
+    image = state["images"].get(record.get("image_id"))
+    if image is not None and image["review_status"] == "reviewed":
+        raise ValueError("Cannot add a new resolution to a completed image.")
     existing_ids = {item.get("resolution_id") for item in state.get("resolution_records", [])}
     if record.get("resolution_id") in existing_ids:
         raise ValueError(f"Duplicate resolution_id: {record.get('resolution_id')!r}")
     _validate_resolution_record(state, record)
+    existing_records = list(state["resolution_records"])
     state["resolution_records"].append(record)
     state["resolution_records"].sort(key=lambda item: item["resolution_id"])
+    try:
+        validate_review_state(state)
+    except ValueError:
+        state["resolution_records"] = existing_records
+        raise
 
 
 def component_coverage_for_image(state: dict[str, Any], image_id: str) -> set[int]:

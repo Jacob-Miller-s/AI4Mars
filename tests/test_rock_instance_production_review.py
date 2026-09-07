@@ -125,6 +125,9 @@ class ProductionReviewTests(unittest.TestCase):
             del state["review_scope"]
             del state["component_review"]
 
+        def missing_discriminator(state: dict) -> None:
+            del state["production_review_schema_version"]
+
         def image_path_mismatch(state: dict) -> None:
             state["images"][image_id]["image_path"] = "different/source.JPG"
 
@@ -135,6 +138,7 @@ class ProductionReviewTests(unittest.TestCase):
             ("exclusion ledger", exclusion_ledger_mismatch),
             ("missing", missing_provenance),
             ("missing scope", missing_scope),
+            ("missing discriminator", missing_discriminator),
             ("image path", image_path_mismatch),
         ):
             with self.subTest(name=name):
@@ -155,6 +159,24 @@ class ProductionReviewTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary_directory:
             with self.assertRaisesRegex(ValueError, "Frozen production review"):
                 save_review_state(Path(temporary_directory) / "review_state.json", self.state)
+
+    def test_invalid_annotation_status_argument_does_not_mutate_state(self) -> None:
+        image_id = self._image_id()
+        component_id = self.state["images"][image_id]["candidate_component_ids"][0]
+        annotation = self._annotation(image_id, f"{image_id}:rock-001", [component_id])
+
+        with self.assertRaisesRegex(ValueError, "image_review_status"):
+            record_annotation(
+                self.state,
+                annotation,
+                reviewer="researcher",
+                image_review_status="invalid",
+            )
+
+        image = self.state["images"][image_id]
+        self.assertEqual(image["annotations"], [])
+        self.assertEqual(image["review_status"], "unreviewed")
+        self.assertIsNone(image["reviewer"])
 
     def test_save_resume_and_polygon_edit_preserve_geometry(self) -> None:
         image_id = self._image_id()
@@ -300,6 +322,59 @@ class ProductionReviewTests(unittest.TestCase):
         self.assertEqual(records["split"]["source_candidate_component_ids"], [split_component])
         self.assertEqual(records["split"]["resolved_annotation_instance_ids"], split_instance_ids)
 
+    def test_nonaccepted_resolution_cannot_cover_unlinked_component(self) -> None:
+        image_id = self._image_id(minimum_components=2)
+        component_ids = self.state["images"][image_id]["candidate_component_ids"][:2]
+        instance_id = f"{image_id}:rock-001"
+        record_annotation(
+            self.state,
+            self._annotation(image_id, instance_id, [component_ids[0]], status="uncertain"),
+            reviewer="researcher",
+            image_review_status="in_progress",
+        )
+
+        with self.assertRaisesRegex(ValueError, "preserve every source component"):
+            record_resolution(
+                self.state,
+                {
+                    "resolution_id": f"{image_id}:merge-invalid",
+                    "resolution_type": "merge",
+                    "image_id": image_id,
+                    "sequence_id": self.state["images"][image_id]["sequence_id"],
+                    "source_candidate_component_ids": component_ids,
+                    "initial_decision_instance_ids": [
+                        f"{image_id}:component-{component_id}"
+                        for component_id in component_ids
+                    ],
+                    "resolved_annotation_instance_ids": [instance_id],
+                    "reviewer_notes": "Invalid incomplete component linkage.",
+                },
+            )
+
+    def test_conflicting_direct_dispositions_cannot_finish_image(self) -> None:
+        image_id = next(
+            image_id
+            for image_id in self.state["review_scope"]["image_ids"]
+            if len(self.state["images"][image_id]["candidate_component_ids"]) == 1
+        )
+        component_id = self.state["images"][image_id]["candidate_component_ids"][0]
+        for index, status in enumerate(("rejected_noise", "uncertain"), start=1):
+            record_annotation(
+                self.state,
+                self._annotation(
+                    image_id,
+                    f"{image_id}:rock-{index:03d}",
+                    [component_id],
+                    status=status,
+                ),
+                reviewer="researcher",
+                image_review_status="in_progress",
+            )
+
+        with self.assertRaisesRegex(ValueError, "matching split record"):
+            finish_image_review(self.state, image_id, reviewer="researcher")
+        self.assertEqual(self.state["images"][image_id]["review_status"], "in_progress")
+
     def test_unreviewed_production_image_cannot_become_an_empty_target(self) -> None:
         image_id = self._image_id()
 
@@ -377,6 +452,13 @@ class ProductionReviewTests(unittest.TestCase):
 
         self.assertTrue(excluded_ids)
         self.assertTrue(excluded_ids.isdisjoint(self.state["review_scope"]["image_ids"]))
+
+    def test_approved_calibration_evidence_remains_loadable_as_calibration(self) -> None:
+        calibration_state = load_review_state(
+            ARTIFACT_ROOT / "calibration_resolved_v2" / "review_state.json"
+        )
+
+        self.assertEqual(calibration_state["review_scope"]["name"], "calibration")
 
     def test_reviewer_displays_frozen_population_and_uses_approved_components(self) -> None:
         image_id = self._image_id()

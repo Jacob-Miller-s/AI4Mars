@@ -4173,6 +4173,7 @@
     "source_pilot_manifest_path": "artifacts/rock_instance/production_review_v2.3/rock_instance_pilot_candidates.csv",
     "source_pilot_manifest_sha256": "c036aaf32f11a21b6b44c4f227c8ce37a560b671b524efcd01484224882c2c52"
   },
+  "production_review_schema_version": "rock_instance_production_review_state_v1",
   "protocol": {
     "path": "artifacts/rock_instance/protocol_freeze_v2.3/annotation_protocol_v2.3-calibration-final.md",
     "sha256": "5db68378e52bfc9e32fa1fea3c10338606a92ea785da3a5ebf8eb4a190495fc4",
