@@ -106,10 +106,31 @@ def _read_provenance_csv(path: Path, *, description: str) -> list[dict[str, str]
     return rows
 
 
+def _is_production_review(state: dict[str, Any]) -> bool:
+    protocol = state.get("protocol")
+    review_scope = state.get("review_scope")
+    return (
+        state.get("pilot_id") == PRODUCTION_REVIEW_PILOT_ID
+        or state.get("source_candidate_manifest_sha256")
+        == APPROVED_PRODUCTION_HASHES["source_pilot_manifest_sha256"]
+        or (
+            isinstance(protocol, dict)
+            and protocol.get("version") == PROTOCOL_V2_3_CALIBRATION_FINAL
+        )
+        or (
+            isinstance(review_scope, dict)
+            and review_scope.get("name") == PRODUCTION_REVIEW_SCOPE_NAME
+        )
+        or "production_review" in state
+    )
+
+
 def validate_production_review_provenance(state: dict[str, Any]) -> None:
     """Fail closed unless a production state matches every approved v2.3 artifact."""
-    if state.get("review_scope", {}).get("name") != PRODUCTION_REVIEW_SCOPE_NAME:
+    if not _is_production_review(state):
         return
+    if state.get("review_scope", {}).get("name") != PRODUCTION_REVIEW_SCOPE_NAME:
+        raise ValueError("Frozen production review scope provenance is missing or invalid.")
     if state.get("pilot_id") != PRODUCTION_REVIEW_PILOT_ID:
         raise ValueError("Frozen production review source pilot identity is invalid.")
 
@@ -247,6 +268,18 @@ def validate_production_review_provenance(state: dict[str, Any]) -> None:
         or set(state["images"]) != set(pilot_ids)
     ):
         raise ValueError("Frozen production review remaining-image scope is invalid.")
+    for row in pilot_rows:
+        image_id = row["stable_source_image_id"]
+        image = state["images"][image_id]
+        if (
+            image.get("pilot_rank") != _as_int(row.get("pilot_rank"), field_name="pilot_rank")
+            or image.get("split") != row.get("split")
+            or image.get("sequence_id") != row.get("sequence_id")
+            or image.get("image_path") != row.get("image_path")
+            or image.get("mask_path") != row.get("mask_path")
+            or image.get("selection_strata") != row.get("selection_strata", "").split("|")
+        ):
+            raise ValueError(f"Frozen production review image provenance is invalid for {image_id!r}.")
 
     component_ids_by_image: dict[str, list[int]] = {image_id: [] for image_id in remaining_ids}
     for row in component_rows:
@@ -649,7 +682,7 @@ def save_review_state(path: Path, state: dict[str, Any]) -> None:
 def _validate_review_mutation(state: dict[str, Any], image_id: Any) -> None:
     validate_review_state(state)
     if (
-        state.get("review_scope", {}).get("name") == PRODUCTION_REVIEW_SCOPE_NAME
+        _is_production_review(state)
         and image_id not in state["review_scope"]["image_ids"]
     ):
         raise ValueError("Production review mutations are limited to the approved remaining-image scope.")
@@ -855,6 +888,11 @@ def ordinary_maskrcnn_target_eligibility(
     image = state["images"].get(image_id)
     if image is None:
         raise ValueError(f"Unknown image_id: {image_id!r}")
+    if _is_production_review(state):
+        if image_id not in state["review_scope"]["image_ids"]:
+            raise ValueError("Production target eligibility is limited to the approved review scope.")
+        if image["review_status"] != "reviewed" or unresolved_candidate_component_ids(state, image_id):
+            return {"eligible": False, "reason": "review_incomplete"}
     if finalization_ledger is not None:
         if tuple(boundary_indeterminate_records):
             raise ValueError("Supply boundary-indeterminate records or a finalization ledger, not both.")
@@ -886,7 +924,11 @@ def maskrcnn_target_for_image_with_exclusions(
     if not eligibility["eligible"]:
         if eligibility["reason"] == "uncertain":
             raise ValueError("Images containing terminal uncertain annotations are excluded from ordinary Mask R-CNN targets.")
-        raise ValueError("Images containing boundary-indeterminate accepted objects are excluded from ordinary Mask R-CNN targets.")
+        if eligibility["reason"] == BOUNDARY_INDETERMINATE_STATUS:
+            raise ValueError("Images containing boundary-indeterminate accepted objects are excluded from ordinary Mask R-CNN targets.")
+        raise ValueError("Production images require complete review before ordinary Mask R-CNN target generation.")
+    if _is_production_review(state):
+        raise ValueError("Frozen v2.3 production review does not authorize Mask R-CNN target export.")
     image = state["images"][image_id]
     accepted = [item for item in image["annotations"] if item["annotation_status"] == "accepted"]
     masks = [
@@ -1080,6 +1122,13 @@ def _validate_resolution_record(state: dict[str, Any], record: dict[str, Any]) -
         raise ValueError("Resolution record must reference at least one initial decision ID.")
     if len(set(initial_ids)) != len(initial_ids) or not set(initial_ids) <= resolution_reference_ids_for_image(state, record["image_id"]):
         raise ValueError("Resolution record source decision references are invalid.")
+    if state.get("review_scope", {}).get("name") == PRODUCTION_REVIEW_SCOPE_NAME:
+        expected_source_ids = {
+            f"{record['image_id']}:component-{component_id}"
+            for component_id in component_ids
+        }
+        if set(initial_ids) != expected_source_ids:
+            raise ValueError("Production resolution references must exactly match their source components.")
     resolved_ids = record["resolved_annotation_instance_ids"]
     if not isinstance(resolved_ids, list) or not resolved_ids or any(not isinstance(item, str) or not item for item in resolved_ids):
         raise ValueError("Resolution record must reference at least one resolved annotation ID.")

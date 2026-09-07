@@ -73,6 +73,10 @@ def _require_hash(path: Path, expected_hash: str, *, description: str) -> None:
         raise ValueError(f"{description} does not match its frozen SHA-256 provenance.")
 
 
+def _write_crlf_text(path: Path, text: str) -> None:
+    path.write_bytes(text.replace("\r\n", "\n").replace("\n", "\r\n").encode("utf-8"))
+
+
 def _closure_markdown(freeze: dict[str, Any], closure: dict[str, Any]) -> str:
     accounting = closure["final_calibration_status_accounting"]
     return "\n".join(
@@ -166,10 +170,10 @@ def freeze_v23_protocol(
         "prohibited_actions": ["model_training", "mask_rcnn_target_export", "rock_instance_pilot_v1_freeze"],
     }
     freeze_path = output_dir / "protocol_freeze.json"
-    freeze_path.write_text(json.dumps(freeze, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    _write_crlf_text(freeze_path, json.dumps(freeze, indent=2, sort_keys=True) + "\n")
     freeze["freeze_artifact_sha256"] = sha256_file(freeze_path)
     closure_report_path = output_dir / "calibration_closure_v2.3.md"
-    closure_report_path.write_text(_closure_markdown(freeze, closure), encoding="utf-8")
+    _write_crlf_text(closure_report_path, _closure_markdown(freeze, closure))
     return {"freeze": freeze_path, "protocol": frozen_protocol_path, "closure_report": closure_report_path}
 
 

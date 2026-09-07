@@ -23,9 +23,10 @@ from src.rock_instance.annotations import (
     record_resolution,
     replace_annotation,
     save_review_state,
+    sha256_file,
     validate_production_review_provenance,
 )
-from src.rock_instance.production_review import summarize_production_review
+from src.rock_instance.production_review import freeze_v23_protocol, summarize_production_review
 from src.rock_instance.review_tool import (
     RockInstanceReviewUI,
     next_unreviewed_image_id,
@@ -120,12 +121,21 @@ class ProductionReviewTests(unittest.TestCase):
         def missing_provenance(state: dict) -> None:
             del state["production_review"]["protocol_freeze_sha256"]
 
+        def missing_scope(state: dict) -> None:
+            del state["review_scope"]
+            del state["component_review"]
+
+        def image_path_mismatch(state: dict) -> None:
+            state["images"][image_id]["image_path"] = "different/source.JPG"
+
         for name, mutate in (
             ("protocol", protocol_mismatch),
             ("calibration", calibration_mismatch),
             ("source pilot", source_pilot_mismatch),
             ("exclusion ledger", exclusion_ledger_mismatch),
             ("missing", missing_provenance),
+            ("missing scope", missing_scope),
+            ("image path", image_path_mismatch),
         ):
             with self.subTest(name=name):
                 stale_state = copy.deepcopy(self.state)
@@ -207,7 +217,7 @@ class ProductionReviewTests(unittest.TestCase):
             record_annotation(self.state, unknown_component, reviewer="researcher")
 
     def test_merge_and_split_lineage_survive_resume(self) -> None:
-        merge_image_id = self._image_id(minimum_components=2)
+        merge_image_id = self._image_id(minimum_components=3)
         merge_components = self.state["images"][merge_image_id]["candidate_component_ids"][:2]
         merge_instance_id = f"{merge_image_id}:rock-001"
         record_annotation(
@@ -216,6 +226,21 @@ class ProductionReviewTests(unittest.TestCase):
             reviewer="researcher",
             image_review_status="in_progress",
         )
+        unrelated_component = self.state["images"][merge_image_id]["candidate_component_ids"][2]
+        invalid_merge = {
+            "resolution_id": f"{merge_image_id}:merge-invalid",
+            "resolution_type": "merge",
+            "image_id": merge_image_id,
+            "sequence_id": self.state["images"][merge_image_id]["sequence_id"],
+            "source_candidate_component_ids": merge_components,
+            "initial_decision_instance_ids": [
+                f"{merge_image_id}:component-{unrelated_component}"
+            ],
+            "resolved_annotation_instance_ids": [merge_instance_id],
+            "reviewer_notes": "Invalid unrelated source.",
+        }
+        with self.assertRaisesRegex(ValueError, "exactly match"):
+            record_resolution(self.state, invalid_merge)
         record_resolution(
             self.state,
             {
@@ -275,9 +300,23 @@ class ProductionReviewTests(unittest.TestCase):
         self.assertEqual(records["split"]["source_candidate_component_ids"], [split_component])
         self.assertEqual(records["split"]["resolved_annotation_instance_ids"], split_instance_ids)
 
+    def test_unreviewed_production_image_cannot_become_an_empty_target(self) -> None:
+        image_id = self._image_id()
+
+        self.assertEqual(
+            ordinary_maskrcnn_target_eligibility(self.state, image_id)["reason"],
+            "review_incomplete",
+        )
+        with self.assertRaisesRegex(ValueError, "complete review"):
+            maskrcnn_target_for_image(self.state, image_id, numeric_image_id=1)
+
     def test_uncertainty_and_boundary_indeterminate_remain_distinct_after_resume(self) -> None:
         uncertainty_state = copy.deepcopy(self.state)
-        uncertain_image_id = self._image_id()
+        uncertain_image_id = next(
+            image_id
+            for image_id in uncertainty_state["review_scope"]["image_ids"]
+            if len(uncertainty_state["images"][image_id]["candidate_component_ids"]) == 1
+        )
         uncertain_component = uncertainty_state["images"][uncertain_image_id]["candidate_component_ids"][0]
         record_annotation(
             uncertainty_state,
@@ -290,6 +329,7 @@ class ProductionReviewTests(unittest.TestCase):
             reviewer="researcher",
             image_review_status="in_progress",
         )
+        finish_image_review(uncertainty_state, uncertain_image_id, reviewer="researcher")
 
         boundary_state = copy.deepcopy(self.state)
         boundary_image_id = next(
@@ -380,6 +420,57 @@ class ProductionReviewTests(unittest.TestCase):
             )
             with self.assertRaisesRegex(ValueError, "approved provenance"):
                 validated_candidate_components(self.state, bad_manifest, image_id)
+
+    def test_protocol_freeze_serialization_is_platform_stable(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            protocol = root / "annotation_protocol_v2.3-calibration-final.md"
+            protocol.write_text("# v2.3-calibration-final\n", encoding="utf-8")
+            ledger = root / "ledger.json"
+            ledger.write_text(
+                json.dumps({"schema_version": "rock_instance_calibration_finalization_v1"}),
+                encoding="utf-8",
+            )
+            closure = root / "closure.json"
+            closure.write_text(
+                json.dumps(
+                    {
+                        "CALIBRATION_PROTOCOL_RECOMMENDATION": "FREEZE",
+                        "protocol": {
+                            "version": "v2.3-calibration-final",
+                            "sha256": sha256_file(protocol),
+                        },
+                        "protocol_freeze_gate": {"status": "eligible_for_human_approval"},
+                        "final_calibration_status_accounting": {
+                            "calibration_images": 24,
+                            "candidate_components": 173,
+                            "uncertain_exclusions": 5,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            evidence_paths = [root / f"evidence-{index}.json" for index in range(5)]
+            for path in evidence_paths:
+                path.write_text("{}\n", encoding="utf-8")
+
+            frozen = freeze_v23_protocol(
+                protocol_path=protocol,
+                calibration_closure_path=closure,
+                boundary_ledger_path=ledger,
+                repeat_state_path=evidence_paths[0],
+                v21_state_path=evidence_paths[1],
+                v22_state_path=evidence_paths[2],
+                final_state_path=evidence_paths[3],
+                final_analysis_path=evidence_paths[4],
+                output_dir=root / "freeze",
+                repository_root=REPOSITORY_ROOT,
+            )
+
+            for path in (frozen["freeze"], frozen["closure_report"]):
+                data = path.read_bytes()
+                self.assertIn(b"\r\n", data)
+                self.assertNotIn(b"\n", data.replace(b"\r\n", b""))
 
 
 if __name__ == "__main__":

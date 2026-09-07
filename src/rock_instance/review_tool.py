@@ -351,9 +351,13 @@ class RockInstanceReviewUI:
         self.context_axis = self.figure.add_axes((0.35, 0.34, 0.30, 0.60))
         self.review_axis = self.figure.add_axes((0.68, 0.34, 0.30, 0.60))
         with Image.open(self.dataset_root / self.image["image_path"]) as image_file:
+            if image_file.size != (self.image["image_width"], self.image["image_height"]):
+                raise ValueError("Source image geometry does not match the approved review state.")
             rgb = np.asarray(image_file.convert("RGB"))
         mask_path = self.dataset_root / self.image["mask_path"]
         with Image.open(mask_path) as mask_file:
+            if mask_file.size != (self.image["image_width"], self.image["image_height"]):
+                raise ValueError("Source mask geometry does not match the approved review state.")
             mask = normalize_ai4mars_mask(np.asarray(mask_file, dtype=np.int64), mask_path)
         color_indices = np.where((mask >= 0) & (mask <= 3), mask, 4)
         image_width, image_height = self.image["image_width"], self.image["image_height"]
