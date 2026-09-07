@@ -1,0 +1,5 @@
+# Frozen v2.3 provenance hashes were approved over CRLF artifact bytes.
+/artifacts/rock_instance/production_review_v2.3/*.csv text eol=crlf
+/artifacts/rock_instance/protocol_freeze_v2.3/* text eol=crlf
+/artifacts/rock_instance/calibration_finalization_v2.3/* text eol=crlf
+/artifacts/rock_instance/calibration_resolved_v2/review_state.json text eol=crlf

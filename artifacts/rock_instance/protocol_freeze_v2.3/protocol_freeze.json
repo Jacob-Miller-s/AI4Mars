@@ -1,0 +1,48 @@
+{
+  "CALIBRATION_PROTOCOL_STATUS": "FROZEN",
+  "CALIBRATION_PROTOCOL_VERSION": "v2.3-calibration-final",
+  "boundary_indeterminate_ledger": {
+    "path": "artifacts\\rock_instance\\calibration_finalization_v2.3\\boundary_indeterminate_exclusions.json",
+    "sha256": "faf373f8a2ae3e600d9f05a0eaafb1d91f161eaaa40736a5a097aacd8ea59069"
+  },
+  "calibration_artifacts": {
+    "final_analysis": {
+      "path": "artifacts\\rock_instance\\final_whole_object_clarification_v2.2.1\\consistency\\final_clarification_consistency.json",
+      "sha256": "f83ce303060e629f5cd22bf0d01037028a32bdb1ca0a935b8bad2a47fe0088eb"
+    },
+    "final_state": {
+      "path": "artifacts\\rock_instance\\final_whole_object_clarification_v2.2.1\\review_state.json",
+      "sha256": "f503eb2c9708bd757f1afc3d21f906c205d313ed57763c81cf990529a64364f7"
+    },
+    "repeat_state": {
+      "path": "artifacts\\rock_instance\\calibration_repeat_v1\\review_state.json",
+      "sha256": "fc8b0b7a1a45532926f590e7869abd68708ee53ed2db639fd5ce59300c9e8771"
+    },
+    "v21_state": {
+      "path": "artifacts\\rock_instance\\calibration_clarification_v1\\review_state.json",
+      "sha256": "43ad828584dded6edf4382e883338d3bf2c0bfb7c5c34d77de3980413b3bcbd7"
+    },
+    "v22_state": {
+      "path": "artifacts\\rock_instance\\calibration_boundary_clarification_v2\\review_state.json",
+      "sha256": "ee26ec32e1ce98fbcc1075bb74766f1fc923091feb51d5860827efacf3d97f79"
+    }
+  },
+  "calibration_closure": {
+    "path": "artifacts\\rock_instance\\calibration_finalization_v2.3\\calibration_closure_v2.3.json",
+    "sha256": "d1ac5f02cae416128712ed32f443935269ba3c51d07ffb246aee1deaf3038f2d"
+  },
+  "final_calibration_recommendation": "FREEZE",
+  "freeze_timestamp_utc": "2026-08-08T07:56:21.530449+00:00",
+  "frozen_protocol": {
+    "path": "artifacts\\rock_instance\\protocol_freeze_v2.3\\annotation_protocol_v2.3-calibration-final.md",
+    "sha256": "5db68378e52bfc9e32fa1fea3c10338606a92ea785da3a5ebf8eb4a190495fc4"
+  },
+  "git_commit_sha": "0b2a41f2f85e31e3957a1cecc0a249f6a949ca2f",
+  "immutability": "Do not modify the frozen protocol in place. Any methodological change requires a new explicit protocol version and calibration review.",
+  "prohibited_actions": [
+    "model_training",
+    "mask_rcnn_target_export",
+    "rock_instance_pilot_v1_freeze"
+  ],
+  "schema_version": "rock_instance_protocol_freeze_v1"
+}
